@@ -91,3 +91,57 @@ Keep the doctrine portable across typical Node.js, TypeScript, Vite, and cloud-n
 - do not assume a specific framework, package manager, deployment target, or cloud layout
 - keep business logic isolated from framework glue, UI plumbing, transport adapters, and provider SDKs
 - prefer patterns that survive service extraction, frontend reuse, or platform changes without rewriting core logic
+
+## 7. Service structure
+
+For backend services and microservices:
+
+- organize code so domain logic is separate from transport, persistence, framework glue, auth, logging, and telemetry
+- prefer bounded-context-first modules over purely technical-layer-first folder trees
+- keep public HTTP, webhook, event, and SDK contracts in explicit `contracts` modules
+- keep controllers, routes, and handlers thin; they may translate transport concerns but must not own orchestration or business policy
+- keep repositories, external clients, auth, logging, and telemetry at infrastructure boundaries rather than in core domain modules
+- avoid generic catch-all folders such as `services`, `types`, `lib`, or `utils` unless they are tightly scoped and named by clear purpose
+- keep automated tests in a top-level `tests/` directory at the same level as `src/`; do not place test files inside `src/` unless the repository already explicitly requires co-location
+- do not force a large-service folder tree onto a small service; use the simplest structure that keeps ownership and invariants obvious
+
+Use a reference structure as guidance, not as a mandatory taxonomy.
+
+When a service is large enough to justify explicit layering, prefer a shape close to:
+
+```text
+src/
+  auth/
+  context/
+  contracts/
+  controllers/
+  dtos/
+  enablement/
+  events/
+  exceptions/
+  lib/
+  logging/
+  mappers/
+  repositories/
+  routes/
+  services/
+  telemetry/
+  types/
+tests/
+```
+
+Follow consistent file naming by responsibility so the role of a file is obvious from its path and name:
+
+- controllers end with `Controller`
+- contracts end with `Contract`
+- DTOs end with `Dto`, for example `StartCallSessionRequestServiceDto`
+- events end with `Event`
+- repositories end with `Repository`
+- mappers end with `Mapper`
+- middleware and telemetry helpers use explicit suffixes such as `Middleware` or `Telemetry`
+- reusable type modules end with `Type` only when they truly represent named type concepts rather than becoming a catch-all bucket
+- use `index.ts` only for intentional module entrypoints or barrel exports
+
+Use PascalCase for files that export primary classes, domain objects, DTOs, contracts, events, repositories, mappers, or named types. Keep lower-level helper modules narrowly named by purpose.
+
+When a bounded context has multiple major capabilities, slice within that context by business capability first, for example `call-session`, `transcript`, or `voice-tools`, instead of letting controllers, DTOs, or mappers become the primary organizing principle.
