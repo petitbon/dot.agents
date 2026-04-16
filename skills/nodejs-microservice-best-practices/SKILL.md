@@ -81,6 +81,16 @@ For package versions:
 - when upgrading, check changelog or release notes for breaking changes when crossing major versions
 - keep manifests and lockfiles in sync
 
+For repo-standard tooling libraries:
+
+- standardize Node and TypeScript services on the same testing and logging libraries unless a deeper `AGENTS.md` or service-local doc explicitly requires an exception
+- use `vitest` as the default test runner across services; do not mix `jest`, `mocha`, or ad hoc `node:test` usage when the service is meant to follow the repo standard
+- use `pino` for structured application logging across services; add `pino-http` for HTTP or webhook boundaries that need request-scoped logging
+- when Cloud Run or GCP structured logging is part of the service runtime, keep `@google-cloud/pino-logging-gcp-config` aligned with the `pino` stack instead of introducing a parallel logging library
+- when touching multiple service manifests, align `vitest`, `pino`, `pino-http`, and related logging adapters to the same approved version line so versions do not drift service by service
+- if the aggregator repo has no root workspace catalog or shared package manifest, inspect the sibling service manifests, identify the active repo standard, and apply it consistently in the changed scope
+- if no standard exists yet, define the standard explicitly in the task output before applying it; do not silently create one-off package choices in a single service
+
 ## Node.js Microservice Rules
 
 ### 1. Entry points and bootstrap
