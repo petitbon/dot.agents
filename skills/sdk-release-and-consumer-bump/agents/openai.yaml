@@ -1,0 +1,4 @@
+interface:
+  display_name: "SDK Release"
+  short_description: "Release SDKs and bump consumers"
+  default_prompt: "Use $sdk-release-and-consumer-bump to release an SDK and update the consumers that should move to the new version."
