@@ -1,6 +1,6 @@
 ---
 name: nodejs-microservice-best-practices
-description: Use for Node.js/TypeScript microservice runtime quality: service bootstrap, handlers, adapters, configuration, dependency handling, validation, errors, logging, metrics, tracing, Cloud Run posture, package hygiene, and tests. Do not use as the primary skill for architecture boundaries or folder structure.
+description: "Use for Node.js/TypeScript microservice runtime quality: service bootstrap, handlers, adapters, configuration, dependency handling, validation, errors, logging, metrics, tracing, Cloud Run posture, package hygiene, and tests. Do not use as the primary skill for architecture boundaries or folder structure."
 ---
 
 # Node.js Microservice Best Practices

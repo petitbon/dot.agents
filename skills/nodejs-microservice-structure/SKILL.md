@@ -1,6 +1,6 @@
 ---
 name: nodejs-microservice-structure
-description: Use when creating, reviewing, or refactoring Node.js/TypeScript microservice folder structure, file naming, capability slicing, dependency direction, and Codex-friendly organization. Pair with ThePetitbonDoctrine, ddd-eda-architecture, and nodejs-microservice-best-practices as needed.
+description: "Use when creating, reviewing, or refactoring Node.js/TypeScript microservice folder structure, file naming, capability slicing, dependency direction, and Codex-friendly organization. Pair with ThePetitbonDoctrine, ddd-eda-architecture, and nodejs-microservice-best-practices as needed."
 ---
 
 # Node.js Microservice Structure

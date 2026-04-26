@@ -1,6 +1,6 @@
 ---
 name: sdk-release-and-consumer-bump
-description: Release a shared SDK package, choose the correct semver bump, publish it, and update downstream consumers. Use for SDK repos/workspace packages, publish-version conflicts, and consumer dependency propagation.
+description: "Release a shared SDK package, choose the correct semver bump, publish it, and update downstream consumers. Use for SDK repos/workspace packages, publish-version conflicts, and consumer dependency propagation."
 ---
 
 # SDK Release And Consumer Bump

@@ -1,6 +1,6 @@
 ---
 name: ddd-eda-architecture
-description: Use for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, and maintainability optimization in modular monoliths, microservices, and event-driven systems. Use when a task affects ownership, contracts, data ownership, event flows, bounded contexts, or target-state architecture.
+description: "Use for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, and maintainability optimization in modular monoliths, microservices, and event-driven systems. Use when a task affects ownership, contracts, data ownership, event flows, bounded contexts, or target-state architecture."
 ---
 
 # DDD + EDA Architecture
