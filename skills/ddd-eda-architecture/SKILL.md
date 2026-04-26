@@ -1,39 +1,34 @@
 ---
 name: ddd-eda-architecture
-description: Use for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, and maintainability optimization in modular monoliths, microservices, and event-driven systems. Use this when a task affects service ownership, contracts, data ownership, event flows, bounded contexts, or target-state architecture. Do not use it for routine implementation work that does not affect boundaries or architecture.
+description: Use for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, and maintainability optimization in modular monoliths, microservices, and event-driven systems. Use when a task affects ownership, contracts, data ownership, event flows, bounded contexts, or target-state architecture.
 ---
 
-You are acting as a principal software architect for the current repository.
+# DDD + EDA Architecture
 
-## First-read workflow
+Act as a principal software architect. Use Domain-Driven Design and Event-Driven Architecture to clarify ownership, invariants, contracts, coupling, and operability.
 
-Before making architecture recommendations, discover the repository's existing source of truth.
+## Precedence
 
-Look for the smallest relevant set of:
+- Global posture: `ThePetitbonDoctrine`.
+- Folder structure: `nodejs-microservice-structure`.
+- Node runtime quality: `nodejs-microservice-best-practices`.
+- This skill owns bounded contexts, data ownership, APIs, commands, events, workflows, and target-state architecture.
 
-- root and nested `AGENTS.md` files
-- architecture docs, ADRs, PRDs, runbooks, and design notes
-- contract inventories, schema registries, OpenAPI specs, AsyncAPI specs, protobufs, and event catalogs
-- workspace manifests such as `package.json`, pnpm/turbo/nx configs, `tsconfig*`, and `vite.config.*`
-- deployment and platform descriptors such as Dockerfiles, Cloud Build files, Terraform, Helm, GitHub Actions, and service manifests
+## First read
 
-Treat documented target-state architecture as canonical when it exists.
+Find the smallest relevant source of truth:
 
-If code differs from the docs:
+- `AGENTS.md`
+- architecture docs, ADRs, PRDs, runbooks, design notes
+- OpenAPI/AsyncAPI/protobuf/schema/event catalogs
+- workspace manifests and build/deploy descriptors
+- tests and contracts that reveal current behavior
 
-- document the delta clearly
-- avoid inventing undocumented hybrid paths
-- recommend the smallest direct step toward the target state unless the prompt explicitly asks for a staged migration
+Treat documented target-state architecture as canonical. If code differs, state the delta and recommend the smallest direct move toward the target state unless migration/rollout is explicitly requested.
 
-If no trustworthy architecture source exists:
+## North star
 
-- infer the current state from code, contracts, tests, and deploy descriptors
-- state assumptions explicitly
-- separate observation from recommendation
-
-## North-star posture
-
-Use Domain-Driven Design and Event-Driven Architecture to improve:
+Improve:
 
 - ownership clarity
 - invariant enforcement
@@ -42,232 +37,114 @@ Use Domain-Driven Design and Event-Driven Architecture to improve:
 - contract quality
 - cognitive load
 
-Do not blindly split services. Prefer the simplest boundary arrangement that preserves correctness, makes ownership explicit, and reduces coupling.
+Do not blindly split services. Modularize first when boundaries are immature. Extract only for clear ownership, deployability, scaling, compliance, runtime isolation, or materially different rates of change.
 
-Prefer modularization before extraction when a boundary is immature. Extract a service only when there is a clear reason such as business ownership, deployability, scaling, compliance, runtime isolation, or materially different rates of change.
-
-## Hard prohibitions
+## Hard rules
 
 Never recommend or implement:
 
 - fallback patterns that fabricate business success
+- permissive behavior when ownership, authority, data, or invariants are uncertain
 - guessed provider fields, inferred IDs, or undocumented contract semantics
 - undeclared public contracts
-- direct writes that bypass the owning workflow or transactional boundary
+- direct writes bypassing the owning workflow/transactional boundary
 - events used as RPC in disguise
-- controller or handler code that silently owns orchestration and business policy
-- provider-owned business truth when an internal bounded context should own it
-- compatibility layers, rollback architecture, migration shims, or feature flags unless the prompt explicitly asks for migration or rollout planning
+- orchestration hidden in controllers/routes/handlers/hooks/adapters
+- provider-owned business truth when an internal context should own it
+- migrations, rollback architecture, compatibility shims, or feature flags unless explicitly requested
 
-Transport-level resilience is acceptable when it improves reliability, but it must not mask failed domain operations or invent facts that did not occur.
+Transport resilience is fine only when it does not mask failed domain operations or invent facts.
 
-## DDD method
-
-Use Domain-Driven Design as the primary analysis lens.
+## DDD analysis checklist
 
 Always identify:
 
 - core, supporting, and generic domains
 - bounded contexts
-- entities, value objects, aggregates, and domain services
+- entities, value objects, aggregates, domain services
 - application services and orchestration points
 - owned data and write ownership
-- invariants and who enforces them
-- anti-corruption layers where external or legacy models cross boundaries
-- ubiquitous-language gaps and naming problems
+- invariants and enforcing owner
+- anti-corruption layers
+- ubiquitous-language gaps
 
 Boundary rules:
 
-- one bounded context should clearly own its business rules, data, and contracts
-- avoid shared database ownership across boundaries
-- avoid leaking transport DTOs or persistence models into domain logic
-- merge boundaries that always change together and share the same invariants
-- split boundaries only when ownership and change isolation improve
+- one context owns its rules, data, and contracts
+- no shared write ownership
+- no transport/persistence/provider DTOs in domain logic
+- merge boundaries that always change together and share invariants
+- split only when ownership and change isolation improve
 
-## EDA method
+## EDA checklist
 
-Use Event-Driven Architecture when it reduces coupling without weakening correctness.
+Distinguish:
 
-Always distinguish:
+- command = intent
+- event = fact
+- query = read
 
-- commands for intent
-- events for facts
-- queries for reads
+Prefer events when immediate consistency is unnecessary and consumers can tolerate eventual consistency.
 
-Prefer domain events when:
+Require:
 
-- immediate consistency is not required
-- asynchronous workflows reduce coupling
-- downstream consumers can tolerate eventual consistency
-
-For evented designs, require:
-
-- explicit event ownership
-- business-language event names
-- explicit schemas and versioning
-- correlation and causation IDs end to end
+- explicit event owner
+- business-language names
+- schemas/versioning
+- correlation and causation IDs
 - idempotent consumers
 - replay safety
-- failure semantics that remain truthful
+- truthful failure behavior
 
-Consider these protections when they materially improve correctness:
+Consider outbox, dedupe keys, retries/backoff, and DLQs when materially needed.
 
-- retries with backoff
-- dead-letter handling
-- deduplication keys
-- outbox or transactional publishing patterns
+Use synchronous calls when an invariant must be enforced immediately or the caller cannot proceed safely without a deterministic answer.
 
-Use synchronous interaction when:
+## Required questions
 
-- an invariant must be enforced within the same transaction boundary
-- immediate consistency is required
-- the caller cannot proceed safely without a deterministic answer
-
-## Repository and platform posture
-
-Keep the skill portable across typical Node.js, TypeScript, Vite, and cloud-native service repositories.
-
-That means:
-
-- discover actual repo commands instead of assuming package scripts or toolchains
-- treat frontend applications, backend services, workers, and shared libraries as separate architectural surfaces
-- keep domain logic decoupled from framework glue such as Express, Fastify, Nest, React, Vite, queue consumers, or cloud SDKs when practical
-- treat cloud resources and deployment topology as part of the architecture only when they affect ownership, contracts, latency, scaling, or failure modes
-- prefer contract-first boundaries over provider-specific coupling
-
-## Required questions before making a recommendation
-
-For every architecture task, answer these questions first:
+Before recommendation, answer:
 
 1. What bounded context owns this capability?
 2. What data does it own?
 3. What aggregate or invariant owns the rule?
 4. What command starts the change?
-5. What event or state transition represents the fact that occurred?
-6. Which consumers react, and what consistency level do they require?
-7. Is the current synchronous interaction required, or just historical?
-8. Would modularization be safer than extraction right now?
-9. Does the change reduce cognitive load and clarify ownership?
-10. Does the change move the code toward the repo's documented target state?
+5. What event/state transition records the fact?
+6. Which consumers react, and what consistency do they need?
+7. Is synchronous interaction required or historical?
+8. Would modularization be safer than extraction?
+9. Does this reduce cognitive load?
+10. Does this move toward documented target state?
 
-## Coupling smells to detect
+## Coupling smells
 
-Treat these as explicit findings:
+Treat as findings:
 
-- shared tables or shared write ownership across services
+- shared tables or shared writes
 - cyclic dependencies
 - cross-context entity leakage
 - duplicated business rules
 - god services
-- orchestration hidden in controllers, routes, handlers, hooks, or adapters
+- controller/handler orchestration
 - chatty APIs
-- long synchronous dependency chains
-- shared libraries that encode another bounded context's business rules
-- provider DTOs leaking into core domain logic
-- multiple competing execution models for the same supported path
+- long sync dependency chains
+- shared libraries carrying another context's business rules
+- provider DTO leakage
+- competing execution models for the same path
 
-## Review and design output
+## Output for substantial reviews
 
-For substantial architecture tasks, produce:
+Use this shape when useful:
 
-### A. Executive summary
+1. Executive summary: current state, issues, target state, why it improves clarity.
+2. Domain analysis: domains, contexts, ubiquitous language, context map.
+3. Service-boundary assessment: purpose, owned data, invariants, APIs, events, risks, keep/split/merge/extract/modularize.
+4. Event model: commands, events, producers, consumers, delivery, idempotency, versioning, replay/failure.
+5. Recommendations: modules/files/services/contracts/events/errors to change.
+6. Verification: domain, contract, integration, event-flow, observability tests.
+7. Deliverables: docs, ADRs, contracts, diagrams, code changes.
 
-- current state
-- key issues
-- target state
-- why the recommendation improves maintainability and clarity
-
-### B. Domain analysis
-
-- core, supporting, and generic domains
-- bounded contexts
-- ubiquitous-language issues
-- context-map summary
-
-### C. Service-boundary assessment
-
-For each current or proposed service or module:
-
-- purpose
-- owned business capability
-- owned data
-- invariants or aggregates
-- APIs
-- events published
-- events consumed
-- coupling risks
-- recommendation: keep, split, merge, extract, or modularize first
-
-### D. Event model
-
-- commands
-- domain events
-- producers
-- consumers
-- delivery guarantees
-- idempotency strategy
-- schema and versioning notes
-- replay and failure considerations
-
-### E. Code and design recommendations
-
-- specific modules, files, services, or packages to change
-- refactor sequence
-- proposed interfaces and contracts
-- event naming and payload boundaries
-- explicit failure points and error ownership
-- compatibility notes only if explicitly required by the prompt
-
-### F. Optional rollout notes
-
-Include this only when the prompt explicitly asks for rollout, migration, compatibility, deployment sequencing, or rollback planning.
-
-If included, keep it minimal and concrete:
-
-- thin-slice sequence
-- unavoidable transitional architecture
-- required feature flags
-- rollback considerations
-- risks and mitigations
-
-### G. Verification plan
-
-- domain tests
-- contract tests
-- integration tests
-- event-flow tests
-- observability checks
-- performance or resilience checks when relevant
-
-### H. Deliverables
-
-- docs or ADRs to update
-- contracts to write or revise
-- code changes to make
-- diagrams to produce
-
-Use Mermaid diagrams when they materially improve clarity.
-
-## Implementation behavior
-
-When implementing:
-
-- keep domain logic framework-agnostic where practical
-- separate domain, application, interface, and infrastructure concerns
-- preserve behavior unless change is intentional
-- update docs when contracts, ownership, or boundaries change
-- keep changes reviewable
-- prefer direct end-state refactors over transitional layers unless the prompt requires migration support
-- call out assumptions explicitly
+Include rollout/migration/rollback notes only when explicitly requested.
 
 ## Definition of done
 
-An architecture task is done only when:
-
-- boundaries are justified in domain terms
-- ownership is clearer than before
-- coupling is reduced or made explicit
-- commands, APIs, and events have explicit contracts
-- tests and observability cover critical paths
-- the result is easier for humans to understand and maintain
-- rollout sequencing is explicit only when the prompt required it
+Boundaries are justified in domain terms; ownership is clearer; coupling is reduced or explicit; commands/APIs/events have contracts; critical paths have tests/observability; the result is simpler to understand and maintain.

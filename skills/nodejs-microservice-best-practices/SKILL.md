@@ -1,246 +1,166 @@
 ---
 name: nodejs-microservice-best-practices
-description: Use for Node.js or TypeScript microservice work involving service design, API handlers, workers, adapters, configuration, observability, resilience, validation, package management, deployment posture, and test strategy. Use this when reviewing, creating, or refactoring backend services to improve correctness, operability, module boundaries, dependency handling, error semantics, runtime behavior, and Cloud Run readiness. Do not use for frontend-only work, for broad architecture and bounded-context redesign better handled by ddd-eda-architecture, or for general implementation posture already covered by ThePetitbonDoctrine.
+description: Use for Node.js/TypeScript microservice runtime quality: service bootstrap, handlers, adapters, configuration, dependency handling, validation, errors, logging, metrics, tracing, Cloud Run posture, package hygiene, and tests. Do not use as the primary skill for architecture boundaries or folder structure.
 ---
 
-You are acting as a senior Node.js microservices engineer for the current repository.
+# Node.js Microservice Best Practices
 
-## When To Pair This Skill
+Use this for service-internal correctness and operability.
+
+## Pairing and scope
 
 Pair with:
 
-- `ThePetitbonDoctrine` for implementation posture, fail-fast behavior, and simplification
-- `ddd-eda-architecture` when the task changes bounded contexts, ownership, contracts, or event flows
+- `ThePetitbonDoctrine` for green-field, fail-close, fail-hard posture
+- `nodejs-microservice-structure` for folders/naming/dependency direction
+- `ddd-eda-architecture` for ownership, contracts, and event flows
 
-Use this skill for service-internal quality. Do not let it drift into broad architecture redesign unless the task requires it.
+This skill owns runtime quality, not broad architecture or folder taxonomy.
 
-## Explicit Non-Overlap
+## First read
 
-This skill must not clash with other repo skills.
+Inspect the smallest relevant set:
 
-Use this skill to answer:
+- `AGENTS.md`
+- service manifest, lockfile, entrypoints
+- README/runbooks/deploy workflows
+- route/controller/handler/worker/consumer entry files
+- config/bootstrap/error/logging/auth/telemetry helpers
+- tests at the service boundary
 
-- how to structure and harden a Node.js microservice internally
-- how to review or refactor service bootstrap, handlers, clients, config, tests, and runtime behavior
-- how to keep package versions current and stable
-- how to keep a Node.js service aligned with Cloud Run operational constraints
+Discover actual repo commands. Do not assume framework, package manager, or validation scripts.
 
-Do not use this skill as the primary lens for:
-
-- target-state architecture, service extraction, context mapping, contract ownership, or event-model redesign
-- repo-wide coding doctrine, fallback policy, or broad refactor posture
-- frontend application work
-
-When another skill already owns the main question, defer to it and only use this skill as a narrow supplement.
-
-## First-Read Workflow
-
-Before making recommendations or code changes, inspect the smallest relevant set of:
-
-- root and nested `AGENTS.md`
-- the target service manifest and runtime entrypoints
-- README, runbooks, and deploy workflows
-- route, controller, handler, worker, or consumer entry files
-- config/bootstrap code
-- error, logging, auth, and telemetry helpers
-- tests that exercise the service boundary
-
-Discover the repo's actual commands instead of assuming them.
-
-## Service Posture
+## Service posture
 
 Optimize for:
 
-- explicit ownership
-- small public surface area
-- stateless request handling by default
-- deterministic startup and failure semantics
+- stateless request handling
+- deterministic startup
+- explicit dependency wiring
 - thin transport adapters
-- isolated domain and application logic
-- explicit contracts for inbound and outbound I/O
-- operational clarity in logs, metrics, and errors
+- isolated application/domain logic
+- explicit contracts for I/O
+- fail-close validation and authorization
+- structured observable failures
 
-Prefer deleting accidental complexity over adding new abstractions.
+Prefer deleting accidental complexity over adding abstractions.
 
-## Package And Git Hygiene
+## Package and repo hygiene
 
-Treat package management and repository hygiene as first-class service concerns.
+- keep generated output and dependencies out of VCS unless repo requires them
+- start from the current official Node `.gitignore`; add only necessary repo-specific paths
+- untrack ignored files already committed
+- keep runtime deps in `dependencies`; tooling in `devDependencies`
+- remove unused deps
+- use repo package manager and lockfile conventions
+- for John's Agentis repos, prefer `yarn` unless repo-local docs say otherwise
+- use `npm view <package> version` only for registry metadata checks, not installs
+- verify latest stable package versions from registry when upgrading
+- avoid prerelease/deprecated versions unless requested
+- inspect changelogs when crossing majors
 
-- keep generated output and installed dependencies out of version control unless the repository explicitly requires them
-- start from the current official Node `.gitignore` template from `github/gitignore`, then add only repo-specific generated paths that are truly needed
-- if ignored files are already tracked, untrack them explicitly instead of assuming `.gitignore` alone will fix the repo state
-- keep production dependencies in `dependencies` and local-only tooling in `devDependencies`
-- remove unused dependencies when refactors eliminate them
+Repo-standard defaults when no deeper doc overrides:
 
-For package versions:
+- `vitest` for tests
+- `pino` for structured logging
+- `pino-http` for HTTP/webhook request logging
+- `@google-cloud/pino-logging-gcp-config` when Cloud Run/GCP structured logging is required
 
-- prefer the latest stable release that is compatible with the repo's runtime, framework, and deployment constraints
-- do not pin prerelease, beta, rc, or deprecated package versions unless the prompt explicitly requires them
-- verify the current stable version from the package registry at change time instead of relying on memory
-- use the repository's package manager and lockfile conventions, but verify registry metadata with an official source such as `npm view <package> version`
-- when upgrading, check changelog or release notes for breaking changes when crossing major versions
-- keep manifests and lockfiles in sync
+## Bootstrap and config
 
-For repo-standard tooling libraries:
+- keep `main`/entry files to startup, wiring, listen, shutdown
+- parse env once into immutable typed config
+- fail startup on missing/invalid config, URLs, ports, credentials, policy settings, or required dependency metadata
+- build dependencies once and inject them
+- avoid global mutable clients imported deep in application/domain logic
+- handle `SIGTERM`/`SIGINT` for owned long-lived resources
 
-- standardize Node and TypeScript services on the same testing and logging libraries unless a deeper `AGENTS.md` or service-local doc explicitly requires an exception
-- use `vitest` as the default test runner across services; do not mix `jest`, `mocha`, or ad hoc `node:test` usage when the service is meant to follow the repo standard
-- use `pino` for structured application logging across services; add `pino-http` for HTTP or webhook boundaries that need request-scoped logging
-- when Cloud Run or GCP structured logging is part of the service runtime, keep `@google-cloud/pino-logging-gcp-config` aligned with the `pino` stack instead of introducing a parallel logging library
-- when touching multiple service manifests, align `vitest`, `pino`, `pino-http`, and related logging adapters to the same approved version line so versions do not drift service by service
-- if the aggregator repo has no root workspace catalog or shared package manifest, inspect the sibling service manifests, identify the active repo standard, and apply it consistently in the changed scope
-- if no standard exists yet, define the standard explicitly in the task output before applying it; do not silently create one-off package choices in a single service
+## Boundaries
 
-## Node.js Microservice Rules
+For HTTP/webhook/worker/event boundaries:
 
-### 1. Entry points and bootstrap
+- parse and validate input at the boundary
+- reject invalid/unauthorized/ambiguous requests fail-close
+- keep controllers, handlers, routes, and consumers thin
+- move orchestration into application services
+- keep provider request/response details inside adapters
+- do not leak provider SDK models into application/domain layers
 
-- keep `index` or server bootstrap files focused on process startup, wiring, and shutdown
-- build dependencies once during startup and inject them into the app
-- fail startup immediately when required config is missing or invalid
-- avoid hidden environment defaults that create fake success paths
-- handle `SIGTERM` and `SIGINT` explicitly when the service owns long-lived resources
+## Errors
 
-### 2. HTTP, webhook, and worker boundaries
+Use explicit error types or normalized error shapes.
 
-- keep routes, controllers, webhook handlers, and message consumers thin
-- parse transport input at the boundary
-- validate required input early and return or throw explicit errors
-- move orchestration and business decisions out of handlers
-- keep provider-specific request and response details inside adapter modules
+Distinguish:
 
-### 3. Module boundaries
+- validation errors
+- authorization/policy errors
+- domain errors
+- dependency failures
+- programmer bugs
 
-- separate transport, application orchestration, domain rules, and infrastructure clients
-- keep external SDKs, database clients, queues, caches, and auth providers at the edge
-- avoid generic `utils` growth; use purpose-named modules
-- prefer narrow interfaces over broad service objects
-- avoid cross-module mutation and request-time singleton state
+Log unexpected failures once at the boundary with correlation context. Map internal errors to transport-safe responses without hiding failure.
 
-### 4. Configuration and dependency handling
+## Async and concurrency
 
-- centralize config parsing near startup
-- parse env vars into typed config once
-- reject invalid URLs, ports, credentials, or feature settings at startup
-- inject dependencies instead of importing global mutable clients deep in the stack
-- do not let tests depend on ambient process state when explicit inputs are possible
+- await deliberately; no untracked hot-path promises
+- parallelize only independent calls
+- bound fan-out, retries, polling, and backoff
+- make retryable handlers idempotent
+- avoid in-memory coordination for correctness
+- use timeouts/cancellation for outbound calls when supported
 
-### 4a. Cloud Run configuration posture
+## Data and I/O
 
-When the service runs on GCP Cloud Run, optimize for Cloud Run's actual runtime model.
-
-- keep services stateless across requests; treat in-memory state only as opportunistic cache
-- ensure the process listens on the configured `PORT`
-- start the app with `node ...` rather than `npm start` when the service owns its container entrypoint
-- minimize startup work, dependency count, and cold-start file loading
-- lazy-load heavy or infrequently used modules when that materially reduces startup cost
-- set request timeouts deliberately so Node and framework timeouts do not fight Cloud Run timeout behavior
-- avoid background work after the HTTP response when using request-based billing
-- if the service truly requires background work outside requests, make that explicit and assume instance-based billing or a different execution model
-- delete temporary files promptly because Cloud Run filesystem writes consume memory
-- prefer lean container images and actively maintained base images
-- choose CPU, memory, concurrency, min instances, and max instances deliberately instead of copying defaults blindly
-- for single-threaded Node.js services, prefer starting from 1 vCPU when memory allows; if higher memory forces multiple vCPUs, tune concurrency explicitly
-- start with conservative concurrency, measure, and then raise it; if the service is not concurrency-safe, set concurrency to `1`
-- set max instances with downstream capacity in mind so autoscaling does not overload databases, queues, or rate-limited providers
-- use min instances or startup CPU boost only when latency or startup behavior justifies the cost tradeoff
-
-### 5. Error semantics
-
-- define explicit error types or normalized error shapes for expected failures
-- distinguish domain errors, validation errors, dependency failures, and programmer bugs
-- log unexpected failures once at the boundary with enough context to debug
-- never swallow exceptions or downgrade failed domain operations into empty success values
-- map internal errors to transport-safe HTTP or event-consumer behavior without hiding failure
-
-### 6. Async and concurrency discipline
-
-- await work deliberately; do not leave untracked promises in hot paths
-- use concurrency only when calls are truly independent
-- bound fan-out and retry behavior for external dependencies
-- make handlers idempotent when retries or duplicate delivery are plausible
-- avoid in-memory coordination for correctness unless the domain explicitly requires single-process ownership
-
-### 7. Data and I/O boundaries
-
-- keep request DTOs separate from persistence or provider models
-- normalize outbound calls in dedicated client modules
-- keep serialization and mapping explicit
+- keep request DTOs separate from persistence/provider models
+- normalize outbound calls in dedicated clients
+- keep serialization/mapping explicit
 - do not leak provider payloads into domain logic
-- use timeouts, cancellation, or abort semantics for outbound network calls when the repo supports them
+- avoid direct writes that bypass the owning application/domain boundary
 
-### 8. Logging, metrics, and tracing
+## Logging, metrics, tracing
 
 - emit structured logs with stable event names
-- include correlation IDs, request IDs, session IDs, and entity IDs where relevant
-- keep log messages factual and actionable
-- avoid duplicate logging at every layer
-- expose health behavior that reflects real readiness only when the service is actually ready
+- include correlation/request/session/entity IDs where relevant
+- log factual, actionable messages
+- avoid duplicate logs at every layer
+- readiness checks must reflect real readiness, not placeholder success
 
-For Cloud Run specifically:
+## Cloud Run posture
 
-- include request and correlation identifiers in every boundary log
-- log startup failures clearly because failed startup directly affects scaling and cold-start latency
-- treat health and readiness checks as operational contracts, not placeholders
+When deployed on Cloud Run:
 
-### 9. Testing posture
+- listen on configured `PORT`
+- remain stateless across requests
+- treat in-memory state only as opportunistic cache
+- prefer direct `node ...` container startup when service owns entrypoint
+- minimize cold-start work and dependencies
+- lazy-load heavy/infrequent modules when materially helpful
+- align app timeouts with Cloud Run timeout behavior
+- avoid background work after response under request-based billing
+- make background execution explicit if instance-based billing or another model is required
+- delete temp files promptly
+- choose CPU/memory/concurrency/min/max instances deliberately
+- set max instances with downstream capacity in mind
 
-- cover pure logic with unit tests
-- cover transport contracts with handler or app tests
-- cover external-client seams with contract-style tests or focused mocks
-- add one happy path and one explicit failure-path test for changed behavior
-- prefer testing observable behavior over internal implementation details
+## Tests
 
-### 10. Common Node.js microservice smells
+For changed behavior, add or update:
 
-Treat these as findings:
+- unit tests for pure logic
+- contract/app tests for transport boundaries
+- focused mocks or integration tests for external-client seams
+- at least one happy path and one explicit failure path
 
-- bootstrap code that silently fills missing config with empty strings
-- controllers or handlers owning orchestration and business policy
-- request validation scattered across many layers
-- provider SDK types leaking into domain modules
-- unbounded retries, recursive polling, or hidden backoff loops
-- mutable process-global state used for request correctness
-- inconsistent error mapping across routes
-- logging without correlation context
-- startup that succeeds before critical dependencies are validated
-- tests that only assert status codes and miss contract shape
+Prefer observable behavior over internal implementation details.
 
-## Preferred Review Output
+## Review output
 
-For Node.js service reviews or refactors, organize findings around:
+Organize findings by:
 
 1. correctness and invariants
-2. failure semantics and dependency handling
+2. fail-close/failure semantics/dependencies
 3. module and boundary clarity
 4. observability and operability
-5. test gaps
+5. tests
 
-Reference concrete files and lines when possible.
-
-## Implementation Bias
-
-When changing code:
-
-- keep the existing service shape unless the task explicitly asks for a larger redesign
-- make the smallest change that clearly improves the boundary or invariant
-- prefer explicit types and named helpers over clever inline logic
-- keep startup, app wiring, and runtime logic separate
-- update tests with behavior changes
-
-When package upgrades or Cloud Run guidance are part of the task, treat them as time-sensitive:
-
-- verify package versions from the current registry
-- verify Cloud Run guidance from current official Google Cloud docs
-- state clearly when a recommendation is an inference from those sources rather than an explicit vendor rule
-
-## Deliverables
-
-Depending on the task, produce some or all of:
-
-- a concise service review with severity-ordered findings
-- a targeted refactor plan
-- code changes that isolate transport from orchestration
-- stricter config validation
-- improved error normalization
-- stronger tests at the service boundary
+For implementation summaries, report commands actually run and their results. Do not claim validation not performed.

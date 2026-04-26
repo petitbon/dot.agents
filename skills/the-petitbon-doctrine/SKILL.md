@@ -1,147 +1,70 @@
 ---
 name: ThePetitbonDoctrine
-description: Apply the Petitbon Doctrine when planning, refactoring, implementing, or reviewing application code, backend services, frontend applications, APIs, domain logic, and software architecture. Use for code changes where engineering doctrine should govern design, structure, error handling, and state management. Do not use for pure documentation, copywriting, or non-code analysis unless the task explicitly asks for software design guidance.
+description: Apply John Petitbon's default engineering doctrine for code planning, implementation, and review: green-field target state, fail-close safety, fail-hard errors, SOLID, simplicity, idempotency, statelessness, and no fallback success. Use for application code, services, APIs, domain logic, frontend/backend refactors, and architecture-adjacent implementation work. Do not use for pure copywriting or non-code analysis.
 ---
 
 # The Petitbon Doctrine
 
-Apply these defaults unless the prompt explicitly says otherwise.
+Default all code work to this doctrine unless the prompt explicitly overrides it.
 
-## 1. Default solution posture
+## Skill precedence
 
-Treat solutions as green-field refactors.
-Prefer the clean target-state design over transitional architecture.
+- `ThePetitbonDoctrine`: global posture.
+- `ddd-eda-architecture`: bounded contexts, ownership, contracts, events.
+- `nodejs-microservice-structure`: folders, file naming, dependency direction.
+- `nodejs-microservice-best-practices`: Node.js runtime, config, logging, testing, Cloud Run, packages.
+- `sdk-release-and-consumer-bump`: SDK publish and consumer propagation.
 
-By default, do not add or preserve:
+## Non-negotiable defaults
 
-- migration code
-- data migration steps
-- rollback procedures or rollback architecture
-- feature flags
-- failover code
-- backward-compatibility shims
-- dual-read, dual-write, bridge, or temporary compatibility paths
+1. **Green-field target state**: implement the clean end-state design first.
+2. **Fail-close**: when authority, data, config, validation, ownership, auth, policy, dependency health, or invariant status is uncertain, deny/reject/stop/throw. Do not continue permissively.
+3. **Fail hard**: never hide defects behind fallback success, empty results, degraded best-effort, swallowed exceptions, guessed data, or fabricated business outcomes.
+4. **No transitional machinery unless requested**: no migrations, rollback paths, feature flags, compatibility shims, dual-read/write, bridge paths, or failover architecture unless the prompt asks for them.
+5. **SOLID and explicit boundaries**: isolate domain logic from frameworks, transport, persistence, provider SDKs, and UI plumbing.
+6. **Simplicity first**: prefer deletion, direct control flow, narrow APIs, and fewer moving parts.
+7. **Idempotent and stateless by default**: repeated effective requests must not duplicate side effects; avoid hidden process memory for correctness.
 
-Only introduce transitional mechanisms when the prompt explicitly asks for staged rollout, rollback, migration, backward compatibility, feature gating, or operational failover.
+## Failure semantics
 
-## 2. Failure semantics
+Throw or propagate precise errors when:
 
-Business logic must fail hard.
+- required data/config/dependencies are missing or invalid
+- a caller lacks authority
+- a domain invariant is violated
+- an owner boundary is unclear
+- an external dependency cannot produce a trustworthy answer
+- a write cannot complete exactly as requested
 
-If an invariant is violated, required data is missing or invalid, a dependency breaks, or the requested operation cannot be completed correctly:
+Translate low-level failures into domain errors at boundaries when useful, but preserve explicit failure.
 
-- throw or propagate a specific, appropriate error
-- stop the affected flow
-- never fail silently
-- never swallow exceptions
-- never hide defects behind fallback success values, empty results, or degraded best-effort behavior unless the prompt explicitly requests that behavior
+## Design bias
 
-At architectural boundaries, translate low-level errors into precise domain errors when helpful, but preserve explicit failure.
+- Prefer composition over inheritance.
+- Depend on abstractions at domain/application boundaries.
+- Keep business rules near the owning domain concept.
+- Avoid repeated O(n) hot-path work when an indexed design is clearer.
+- Treat bugs as possible boundary, invariant, or state-model debt.
+- Make unsafe states unrepresentable where practical.
 
-## 3. Design principles
+## Service structure posture
 
-Follow SOLID principles.
+For backend folder/file layout, defer to `nodejs-microservice-structure`.
 
-- Single Responsibility: keep units focused and cohesive
-- Open/Closed: extend through composition and stable seams
-- Liskov Substitution: preserve contracts across implementations
-- Interface Segregation: prefer narrow, purpose-built interfaces
-- Dependency Inversion: keep core logic dependent on abstractions, not infrastructure details
+Doctrine-level service rules:
 
-Prefer composition over inheritance when practical.
-Keep domain logic isolated from infrastructure concerns.
-Depend on abstractions at domain boundaries.
+- domain/application logic must not live in controllers, routes, handlers, middleware, provider adapters, or repositories
+- public HTTP/webhook/event/SDK contracts must be explicit
+- repositories, clients, auth, logging, telemetry, queues, and storage stay at infrastructure boundaries
+- use top-level `tests/` unless repo convention requires co-location
+- do not force large-service structure onto small services
 
-## 4. Solution bias
+## Code output expectations
 
-When choosing among valid designs, favor:
-
-- simplicity over flexibility
-- idempotency over non-repeatable side effects
-- statelessness over hidden mutable process state
-- avoid repeated O(n) work in hot paths when a clearer indexed design gives bounded lookup cost
-- eliminating unnecessary code, branches, and abstractions over adding new machinery
-
-Choose the solution with the fewest moving parts, clearest control flow, smallest API surface, and strongest invariants.
-
-When a problem can be solved by deleting complexity instead of adding new code, prefer the simpler system.
-
-Treat bugs as signals of possible design debt. Check whether the failure reflects a broader invariant, boundary, or state-model issue, and prefer a root-cause fix when it materially improves correctness.
-
-Make operations safe to retry whenever feasible. Repeating the same effective request should not create duplicate side effects or corrupt state.
-
-Default to stateless components. Avoid hidden in-memory coordination, session affinity, temporal coupling between requests, and request-to-request memory unless the domain explicitly requires them.
-
-When stateful coordination or non-idempotent behavior is unavoidable, keep it explicit, minimal, and isolated behind clear boundaries.
-
-## 5. Code output expectations
-
-When proposing plans or writing code:
+When planning or writing code:
 
 - present the direct end-state solution first
-- omit migrations, rollback plans, feature flags, failover paths, and compatibility layers unless explicitly requested
-- call out explicit failure points and the errors that should be thrown
-- justify design choices in terms of SOLID, invariants, simplicity, idempotency, and statelessness
-
-## 6. Repository posture
-
-Keep the doctrine portable across typical Node.js, TypeScript, Vite, and cloud-native repositories.
-
-- discover the repo's actual commands, conventions, and boundaries before changing code
-- do not assume a specific framework, package manager, deployment target, or cloud layout
-- keep business logic isolated from framework glue, UI plumbing, transport adapters, and provider SDKs
-- prefer patterns that survive service extraction, frontend reuse, or platform changes without rewriting core logic
-
-## 7. Service structure
-
-For backend services and microservices:
-
-- organize code so domain logic is separate from transport, persistence, framework glue, auth, logging, and telemetry
-- prefer bounded-context-first modules over purely technical-layer-first folder trees
-- keep public HTTP, webhook, event, and SDK contracts in explicit `contracts` modules
-- keep controllers, routes, and handlers thin; they may translate transport concerns but must not own orchestration or business policy
-- keep repositories, external clients, auth, logging, and telemetry at infrastructure boundaries rather than in core domain modules
-- avoid generic catch-all folders such as `services`, `types`, `lib`, or `utils` unless they are tightly scoped and named by clear purpose
-- keep automated tests in a top-level `tests/` directory at the same level as `src/`; do not place test files inside `src/` unless the repository already explicitly requires co-location
-- do not force a large-service folder tree onto a small service; use the simplest structure that keeps ownership and invariants obvious
-
-Use a reference structure as guidance, not as a mandatory taxonomy.
-
-When a service is large enough to justify explicit layering, prefer a shape close to:
-
-```text
-src/
-  auth/
-  context/
-  contracts/
-  controllers/
-  dtos/
-  enablement/
-  events/
-  exceptions/
-  lib/
-  logging/
-  mappers/
-  repositories/
-  routes/
-  services/
-  telemetry/
-  types/
-tests/
-```
-
-Follow consistent file naming by responsibility so the role of a file is obvious from its path and name:
-
-- controllers end with `Controller`
-- contracts end with `Contract`
-- DTOs end with `Dto`, for example `StartCallSessionRequestServiceDto`
-- events end with `Event`
-- repositories end with `Repository`
-- mappers end with `Mapper`
-- middleware and telemetry helpers use explicit suffixes such as `Middleware` or `Telemetry`
-- reusable type modules end with `Type` only when they truly represent named type concepts rather than becoming a catch-all bucket
-- use `index.ts` only for intentional module entrypoints or barrel exports
-
-Use PascalCase for files that export primary classes, domain objects, DTOs, contracts, events, repositories, mappers, or named types. Keep lower-level helper modules narrowly named by purpose.
-
-When a bounded context has multiple major capabilities, slice within that context by business capability first, for example `call-session`, `transcript`, or `voice-tools`, instead of letting controllers, DTOs, or mappers become the primary organizing principle.
+- call out explicit failure points and errors
+- avoid migrations/rollback/flags/fallbacks unless asked
+- justify material choices using invariants, SOLID, simplicity, idempotency, statelessness, and fail-close behavior
+- discover repo commands and conventions before editing
