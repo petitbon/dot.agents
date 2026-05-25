@@ -18,12 +18,13 @@ Default all code work to this doctrine unless the prompt explicitly overrides it
 ## Non-negotiable defaults
 
 1. **Green-field target state**: implement the clean end-state design first.
-2. **Fail-close**: when authority, data, config, validation, ownership, auth, policy, dependency health, or invariant status is uncertain, deny/reject/stop/throw. Do not continue permissively.
-3. **Fail hard**: never hide defects behind fallback success, empty results, degraded best-effort, swallowed exceptions, guessed data, or fabricated business outcomes.
-4. **No transitional machinery unless requested**: no migrations, rollback paths, feature flags, compatibility shims, dual-read/write, bridge paths, or failover architecture unless the prompt asks for them.
-5. **SOLID and explicit boundaries**: isolate domain logic from frameworks, transport, persistence, provider SDKs, and UI plumbing.
-6. **Simplicity first**: prefer deletion, direct control flow, narrow APIs, and fewer moving parts.
-7. **Idempotent and stateless by default**: repeated effective requests must not duplicate side effects; avoid hidden process memory for correctness.
+2. **No stopgap patches**: never patch code with local workarounds, temporary forks, or narrow fixes that bypass target-state ownership. Always implement the smallest holistic and scalable solution aligned with documented ownership and architecture source-of-truth. If the correct owner or boundary is unclear, stop and clarify.
+3. **Fail-close**: when authority, data, config, validation, ownership, auth, policy, dependency health, or invariant status is uncertain, deny/reject/stop/throw. Do not continue permissively.
+4. **Fail hard**: never hide defects behind fallback success, empty results, degraded best-effort, swallowed exceptions, guessed data, or fabricated business outcomes.
+5. **No transitional machinery unless requested**: no migrations, rollback paths, feature flags, compatibility shims, dual-read/write, bridge paths, or failover architecture unless the prompt asks for them.
+6. **SOLID and explicit boundaries**: isolate domain logic from frameworks, transport, persistence, provider SDKs, and UI plumbing.
+7. **Simplicity first**: prefer deletion, direct control flow, narrow APIs, and fewer moving parts.
+8. **Idempotent and stateless by default**: repeated effective requests must not duplicate side effects; avoid hidden process memory for correctness.
 
 ## Failure semantics
 
@@ -65,6 +66,6 @@ When planning or writing code:
 
 - present the direct end-state solution first
 - call out explicit failure points and errors
-- avoid migrations/rollback/flags/fallbacks unless asked
+- avoid stopgaps, local workarounds, migrations, rollback paths, feature flags, compatibility shims, dual paths, and fallback success unless explicitly requested
 - justify material choices using invariants, SOLID, simplicity, idempotency, statelessness, and fail-close behavior
 - discover repo commands and conventions before editing

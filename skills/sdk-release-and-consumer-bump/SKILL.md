@@ -14,6 +14,42 @@ Execute SDK release work end to end without guessing version strategy or consume
 
 ## Workflow
 
+### 0. Publishing authority
+
+For Agentis SDK repos, SDK publishing is owned by GitHub Actions. Do not run
+`yarn publish`, `yarn npm publish`, `npm publish`, or equivalent from the local
+machine unless the user explicitly requests local publishing for that turn.
+
+Every SDK code update requires a new package version. Standard flow:
+
+1. Make the SDK change.
+2. Bump the SDK version intentionally.
+3. Run repo-defined SDK validation locally.
+4. Commit only the SDK code/version change.
+5. Push the SDK branch to GitHub.
+6. Monitor the GitHub Actions publish workflow until it succeeds.
+7. Verify the exact package version exists in the registry, for example with
+   `yarn npm info`.
+8. Update downstream consumers to that exact published version and refresh
+   lockfiles.
+9. Run repo-defined consumer validation.
+
+This release gate is mandatory before editing downstream consumer manifests or
+lockfiles. Do not pre-bump consumers to an unpublished SDK version. Do not
+revert consumers back to the old SDK version as a "release hygiene" fix unless
+the user explicitly asks to stop before publish. If publishing cannot be
+completed, leave consumers untouched and report the blocker.
+
+If consumer validation is needed before the workflow has published the package,
+state that validation is blocked unless the user explicitly approves a temporary
+local pack/link validation path. Do not commit temporary local package
+references, and do not edit consumer manifests or lockfiles for the unpublished
+version.
+
+Never add local registry auth config or tokens to make local SDK publishing
+work. Registry auth for SDK publishing belongs in GitHub Actions secrets and
+workflows.
+
 ### 1. Establish release surface
 
 Inspect the smallest relevant set:
@@ -55,15 +91,19 @@ If a check is absent, say so. Do not publish failing SDKs unless the user explic
 
 ### 4. Publish through declared path
 
-Use the repo-defined publish command and configured registry.
+Use the repo-defined GitHub Actions workflow by committing only the SDK
+version/code change and pushing the current branch to GitHub. Monitor the
+workflow until it reaches a terminal state, then verify registry availability
+for the exact version before touching consumers. Do not use the local publish
+command unless the user explicitly requested local publishing.
 
-If publish fails, classify the blocker:
+If workflow publishing fails, classify the blocker:
 
 - version conflict
 - auth
 - missing files
 - validation failure
-- registry config
+- workflow registry config
 - package metadata issue
 
 Fix the actual blocker on the single correct path. No blind retries.
