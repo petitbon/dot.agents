@@ -23,9 +23,10 @@ Use this reference when reading `eventstorming-workbench/docs/eventstorming/**/s
 - `actor` (`ACT-*`): human/system participant.
 - `external_system` (`EXT-*`): provider or outside system; never business truth by itself.
 - `command` (`CMD-*`): intent or operation to execute. Read `inputSummary`, `outputSummary`, `idempotencyKey`.
-- `domain_event` (`EVT-*`): business fact. Read `facts`, `schemaRef`, `evidenceShape`, `recoveryShape`.
+- `domain_event` (`EVT-*`): business fact. Read `facts`, `schemaRef`, `evidenceShape`, `recoveryShape`, owner notes, and persistence or trace expectations.
 - `policy` (`POL-*`): rule that reacts to an event and issues a command. Read `triggerEventId`, `commandId`, `execution`, `failureBehavior`, `description`, `notes`.
-- `bdd` (`BDD-*`): acceptance scenario. Read `scenario`, `given`, `when`, `then`, `linkedElementIds`.
+- `bdd` (`BDD-*`): business-facing scenario overlay. Read `scenario`, `given`, `when`, `then`, `linkedElementIds`, but do not treat it as the executable oracle.
+- `outcome_contract` or EDD contract elements (`EDD-*`, when present): evidence oracle. Read setup, normalized intent, required evidence, Workflow outcome, forbidden side effects, trace requirements, and result classifications.
 
 ## Status Semantics
 
@@ -56,7 +57,8 @@ Treat these as contract obligations:
 - `evidenceShape`
 - `recoveryShape`
 - command `inputSummary` / `outputSummary`
-- BDD `Then` clauses mentioning contracts, SDK tool schema, parity, idempotency, or fail-closed behavior
+- EDD Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, or linked contract references
+- BDD `Then` clauses mentioning contracts, SDK tool schema, parity, idempotency, evidence, oracle semantics, or fail-closed behavior
 
 For Agentis realtime booking storms, `docs/contracts/surface-registry.json#bkg_wish` and `docs/contracts/booking-workflow.md` references normally require both documentation and SDK/runtime schema checks.
 
@@ -144,16 +146,54 @@ Every target event or fact should have an owner category. Prefer explicit wordin
 
 If ownership is unclear, block implementation planning until the storm distinguishes internal SDK decisions from persisted domain events and runtime observations.
 
+### Evidence Obligations
+
+Every target path must identify the evidence that proves the intended business outcome. Prefer canonical evidence over transcript wording:
+
+- domain events and persisted facts
+- Workflow commands and outcomes
+- SDK policy decisions and validated tool inputs
+- dependency calls and accepted/rejected provider facts
+- rejection, repair, clarification, and recovery codes
+- side-effect records and forbidden side-effect checks
+- correlation identifiers for caller turn, session, workflow, and provider/dependency calls
+
+If required evidence is not currently observable, the storm must include observability work before implementation can be considered complete.
+
+### Scenario Result Semantics
+
+Executable scenarios must define how to classify a run:
+
+- `PASS`: setup exists, required evidence and outcomes exist, forbidden side effects are absent.
+- `FAIL`: setup and observability are valid, but the business outcome or evidence did not occur.
+- `SETUP_FAILED`: Given state, fixture, or setup dependency was not established.
+- `OBSERVABILITY_FAILED`: the behavior may have occurred, but required traces, facts, outcomes, or side effects were not captured.
+- `SCENARIO_INVALID`: the scenario name, channel coverage, fixture, branch, or rule does not match what was executed.
+
+Do not count setup calls, rejected setup attempts, transcript wording, or generic tool attempts as positive evidence for the behavior under test.
+
 ## BDD Handling
 
-BDD elements may not appear in `layout.nodes`; this is intentional. They are displayed in the workbench overlay and must be treated as first-class acceptance criteria.
+BDD elements may not appear in `layout.nodes`; this is intentional. They are displayed in the workbench overlay and must be treated as first-class business examples.
 
 When implementing:
 
-- Convert each target BDD into tests or explicit verification steps.
+- Link each target BDD to an EDD Outcome Contract or explicit evidence oracle.
 - Use `linkedElementIds` to find the policies, commands, events, and contexts that must satisfy the scenario.
-- Preserve exact quoted caller turns when present.
-- For cross-channel BDD, test equivalent SDK policy inputs for both browser-chat and phone.
+- Preserve exact quoted caller turns as input examples, not as transcript-only pass criteria.
+- For cross-channel BDD, require equivalent SDK policy inputs for both browser-chat and phone plus a normalized parity comparison contract.
+
+## EDD Handling
+
+When a storm includes EDD Outcome Contracts, evidence shapes, recovery shapes, or linked evidence references:
+
+- Separate controlled setup from the behavior under test.
+- Identify positive evidence for accepted paths.
+- Identify rejection or repair evidence for negative paths.
+- Identify allowed and forbidden side effects.
+- Identify Workflow commands, Workflow outcomes, dependency calls, and persisted facts.
+- Require trace capture for every fact needed by the oracle.
+- Use `PASS`, `FAIL`, `SETUP_FAILED`, `OBSERVABILITY_FAILED`, and `SCENARIO_INVALID` distinctly.
 
 ## Output Checklist
 
@@ -163,7 +203,7 @@ When asked whether a storm is enough for Codex, check:
 2. Target paths have concrete commands/events, not prose-only actions.
 3. Mutually exclusive branches declare their discriminator.
 4. Required contracts and schemas are explicit.
-5. BDD covers happy path, negative path, recovery, and parity when applicable.
+5. Target behavior has Outcome Contracts, evidence shapes, or equivalent required canonical evidence.
 6. Bounded context ownership matches repository/service code paths.
 7. Replace behavior is specific enough to remove or reroute.
 8. No backend English parsing is implied unless explicitly allowed.
@@ -171,3 +211,8 @@ When asked whether a storm is enough for Codex, check:
 10. Booking target paths separate commit, prepare-only, clarify, and restart-search behavior.
 11. New storm fields reconcile with existing contract terminology or declare contract changes.
 12. Target facts declare their owning context and persistence/observation category.
+13. BDD overlays link to implementation elements and EDD outcome oracles.
+14. Fixture/setup state is explicit and cannot be counted as pass evidence.
+15. Rejection, repair, clarification, and recovery paths name stable codes.
+16. Required evidence is captured in traces or the storm includes observability work.
+17. Channel parity claims include both channel paths and a normalization/comparison contract.
