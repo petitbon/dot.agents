@@ -1,7 +1,0 @@
-interface:
-  display_name: "EventStorming Workbench"
-  short_description: "Read storm JSON as EDD implementation specs"
-  default_prompt: "Use $eventstorming-workbench to read this storm JSON in plan-first mode and produce an implementation plan with contracts, EDD outcome evidence, and BDD overlays."
-
-policy:
-  allow_implicit_invocation: true

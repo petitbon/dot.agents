@@ -1,7 +1,0 @@
-interface:
-  display_name: "Evidence Driven Development"
-  short_description: "Define outcome contracts and evidence oracles"
-  default_prompt: "Use $evidence-driven-development to convert this agent behavior scenario into an outcome contract with required evidence and result semantics."
-
-policy:
-  allow_implicit_invocation: true

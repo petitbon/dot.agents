@@ -1,0 +1,7 @@
+interface:
+  display_name: "Pagoda Framework"
+  short_description: "Map outcomes to evidence and oracles."
+  default_prompt: "Use $pagoda-framework to model this outcome, define evidence obligations, and produce implementation or contract guidance."
+
+policy:
+  allow_implicit_invocation: true
