@@ -227,6 +227,29 @@ Transcript wording is supporting evidence. It is not the primary oracle for doma
 
 A tool attempt is not proof of successful behavior. A rejected or malformed tool call is evidence of rejection, repair, setup failure, or product failure depending on the scenario contract.
 
+For SDK/runtime tools, accepted evidence may be represented by stable
+SDK-emitted evidence codes persisted on runtime-tool-call observations. Treat
+those codes as canonical audit evidence only when the producing SDK/domain path
+owns the code and the tool call itself was accepted. Do not infer accepted
+evidence from the tool name, attempt count, or assistant narration.
+
+For provider-preference outcomes, positive evidence should include the
+provider-preference evidence-ready fact/code, provider-aware Workflow selection
+command, provider-aware Workflow outcome, selected start or explicit
+missing-start rejection, provider identity, full-chain or segment scope,
+fallback/hard-provider booleans, call/session/turn/channel correlation, and no
+booking mutation before validation plus caller confirmation. Rejection paths
+must prove explicit codes such as `MISSING_SELECTED_START`,
+`INVALID_TIME_RANGE`, `INVALID_PROVIDER_FLAGS`, `STALE_PROPOSAL`, or
+`PROVIDER_NOT_RESOLVABLE`.
+
+Channel parity scenarios are not one scenario with a channel label. Model them
+as two child outcome contracts, one per channel, plus a parity contract that
+compares normalized evidence fields while excluding channel-specific metadata.
+If either child run is missing, classify the parity contract as
+`SCENARIO_INVALID` unless the contract explicitly defines a missing trace as
+`OBSERVABILITY_FAILED`.
+
 ## Scenario Result Semantics
 
 EDD scenarios must distinguish outcome failure from harness, setup, and observability problems.
