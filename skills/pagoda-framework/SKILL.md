@@ -185,6 +185,33 @@ Classification order:
 Do not collapse setup failure, observability failure, or invalid scenario
 definition into ordinary pass/fail.
 
+## Preconditions Are Not Proof
+
+Scenario setup may create or verify trusted facts needed before the action under
+test, but setup evidence must never satisfy the outcome oracle.
+
+For every scenario with a `Given` precondition, fixture, seed, or setup action:
+
+- mark setup evidence separately from outcome evidence;
+- partition the trace into a setup window and an action-under-test window;
+- require the outcome evidence to occur after the setup boundary;
+- classify missing or failed setup as `SETUP_FAILED`;
+- classify missing trusted trace as `OBSERVABILITY_FAILED`;
+- classify a valid setup with missing or wrong outcome evidence as `FAIL`;
+- define a separate Outcome Contract when the setup behavior itself needs to be
+  tested.
+
+Example:
+
+```text
+Given CallerIdentityAccepted exists before the protected request
+When a later protected request is classified
+Then CallerIdentityRequirementClassified must record ALREADY_ACCEPTED
+
+CallerIdentityAccepted is setup evidence. It enables the test; it is not PASS
+evidence for the later classification outcome.
+```
+
 ## Evidence Trust Boundaries
 
 For each evidence obligation, identify:
