@@ -1,7 +1,7 @@
 interface:
   display_name: "Pagoda Framework"
-  short_description: "Map Workbench EDD without platform coupling."
-  default_prompt: "Use $pagoda-framework to interpret this Workbench storm, EDD registry, or outcome run and produce evidence-map, contract, oracle, or implementation guidance while keeping Pagoda testing artifacts owned only by agentis-pagoda-workbench."
+  short_description: "Workbench E2E evidence proof."
+  default_prompt: "Use $pagoda-framework for Workbench-owned E2E outcome proof with Evidence/Outcome/Trace Contracts, Scenario Oracles, EDD runs, evidence traces, result classification, and Workbench/platform isolation."
 
 policy:
   allow_implicit_invocation: true

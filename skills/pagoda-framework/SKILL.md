@@ -1,6 +1,6 @@
 ---
 name: pagoda-framework
-description: Use for Agentis Pagoda Workbench, EventStorming/storm JSON, EDD registry, Outcome Contract, Evidence Map, Evidence Driven Development, simulation-ai harness, executable EDD outcome run, trace/oracle, agent-native behavior-proof work, and ownership isolation between Pagoda testing artifacts and Agentis platform repos. Use across code and architecture updates, reviews, refactors, moves, contract changes, workflow changes, runtime-agent changes, prompt/tool changes, harness changes, and behavior-affecting documentation changes. Use to interpret agentis-pagoda-workbench docs/eventstorming models, storm-current.json, edd-registry.json, docs/evidence features, EDD run artifacts, Evidence Maps, Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, Scenario Oracles, evidence trust boundaries, forbidden side effects, channel parity contracts, and coding-agent implementation plans.
+description: "Use for Agentis Pagoda Workbench, EDD registry, Pagoda scenario JSON interpretation, Evidence Maps for executable outcome proof, Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, Scenario Oracles, simulation-ai harness behavior, executable EDD outcome runs, Evidence Traces, channel parity contracts, PASS/FAIL/SETUP_FAILED/OBSERVABILITY_FAILED/SCENARIO_INVALID classification, and ownership isolation between Pagoda testing artifacts and Agentis platform repos. Use when the task changes or evaluates Pagoda-owned end-to-end behavior-proof artifacts. Do not use as the primary skill for non-Pagoda repository governance, AGENTS.md topology, quality scorecards, technical-debt ledgers, ordinary architecture or refactor work, non-Pagoda planning, Node runtime quality, service folder structure, SDK release work, or realtime prompt/tool design unless the task directly affects Pagoda evidence, contracts, traces, or harness execution."
 ---
 
 # Pagoda Framework
@@ -16,6 +16,30 @@ Correctness is not proven by what an agent says.
 Correctness is proven by trusted evidence that an authorized outcome occurred
 without forbidden side effects.
 ```
+
+## Scope Boundary
+
+Pagoda is an independent, encapsulated, end-to-end outcome-proof harness for agent-native software.
+
+Pagoda owns:
+
+- Evidence Maps when used to define executable outcome proof;
+- Outcome Contracts;
+- Evidence Contracts;
+- Fixture Contracts;
+- Trace Contracts;
+- Scenario Oracles;
+- Evidence Traces;
+- EDD registry interpretation;
+- simulation-ai harness behavior;
+- executable EDD outcome runs;
+- channel parity contracts;
+- PASS, FAIL, SETUP_FAILED, OBSERVABILITY_FAILED, and SCENARIO_INVALID classification;
+- Workbench/platform isolation.
+
+Pagoda does not own general repository harness engineering. AGENTS.md topology, repository-wide docs as system of record, quality scorecards, technical-debt ledgers, custom architecture lints, structural tests, local worktree bootability, general observability access for Codex, and recurring cleanup loops belong to `agent-harness-engineering` or the relevant architecture/runtime skill.
+
+Use Pagoda to prove outcomes. Use `agent-harness-engineering` to make the repository legible and governable for coding agents.
 
 For detailed vocabulary, artifact shapes, examples, and checklists, read
 `references/pagoda-framework.md` when the task needs more than the workflow
@@ -43,9 +67,10 @@ Hard isolation rule:
 
 Load the smallest relevant files:
 
-- `agentis-pagoda-workbench/docs/eventstorming/edd-registry.json`
-- `agentis-pagoda-workbench/docs/eventstorming/models/**/storm-current.json`
-- `agentis-pagoda-workbench/docs/evidence/*.feature`
+- `agentis-pagoda-workbench/docs/pagoda/scenarios/*.scenario.json`
+- `agentis-pagoda-workbench/docs/pagoda/contracts/*.outcome-contract.json`
+- `agentis-pagoda-workbench/server/pagodaModelService.ts`
+- `agentis-pagoda-workbench/server/pagodaCli.ts`
 - `agentis-pagoda-workbench/server/simulation-ai/**`
 - `agentis-pagoda-workbench/artifacts/**` only for specific run evidence
 
@@ -145,8 +170,9 @@ Event = published representation of that fact for consumers.
 
 ## Evidence Mapping Workflow
 
-For architecture, modeling, contract, or implementation-planning tasks, follow
-this order:
+For Pagoda Evidence Map, Outcome Contract, Evidence Contract, Trace Contract,
+Scenario Oracle, EDD registry, simulation-ai harness, or Workbench-owned
+evidence-trace work, follow this order:
 
 1. **Name the outcome**: identify the business result or explicit rejection.
 2. **Assign authority**: identify who owns each outcome, fact, decision,
@@ -336,7 +362,9 @@ The parity contract must define:
 
 If one channel did not execute, the parity contract cannot pass.
 
-## Coding-Agent Workflow
+## Implementation Guidance for Pagoda Contract Failures
+
+Use this section only when implementation work is needed to satisfy, repair, or extend a Pagoda Outcome Contract, Evidence Contract, Trace Contract, Scenario Oracle, EDD registry path, simulation-ai harness behavior, Workbench-owned evidence trace, or channel parity contract.
 
 When creating implementation guidance for Codex or another coding agent,
 include:
@@ -397,7 +425,7 @@ contract, or legacy storm edits required before implementation.
 
 ## Output Shapes
 
-For modeling or architecture work, cover:
+For Pagoda Evidence Map or outcome-proof modeling work, cover:
 
 - current state if supplied;
 - target Evidence Map;
@@ -419,7 +447,7 @@ For contract work, produce:
 - Scenario Oracle;
 - channel parity contract when needed.
 
-For implementation planning, produce:
+For Pagoda contract repair or extension work, produce:
 
 - spec gate status;
 - target path;

@@ -16,6 +16,12 @@ regression suites so teams can prove that coding agents and runtime agents
 achieved intended domain outcomes without relying on transcript wording, model
 self-report, or incidental tool attempts.
 
+## Scope Boundary
+
+Pagoda is not the general agent-harness-engineering layer. Pagoda owns independent end-to-end outcome proof through Evidence Maps for executable proof, Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, Scenario Oracles, executable EDD harnesses, Evidence Traces, channel parity, and Workbench/platform isolation.
+
+General repository legibility, AGENTS.md topology, docs-as-system-of-record, quality scorecards, technical-debt ledgers, custom architecture lints, structural tests, local worktree bootability, general observability access for Codex, and recurring cleanup loops belong to `agent-harness-engineering` or the relevant architecture/runtime skill.
+
 ## Artifact Responsibilities
 
 | Artifact | Responsibility |
@@ -43,26 +49,10 @@ docs/
     evidence-mapping.md
     evidence-driven-development.md
     agent-trust-boundaries.md
-  behavior/
-    *.feature
-  evidence/
-    outcomes/
-      *.outcome.md
-    maps/
-      *.evidence-map.md
-
-contracts/
-  evidence/
-    <suite-name>/
+    scenarios/
+      <scenario-id>.scenario.json
+    contracts/
       <scenario-id>.outcome-contract.json
-      <scenario-id>.fixture-contract.json
-      <scenario-id>.evidence-contract.json
-      <scenario-id>.trace-contract.json
-
-models/
-  <domain-area>/
-    storm-current.json
-    evidence-map.json
 
 src/
   evidence/
@@ -80,13 +70,12 @@ In the Agentis workspace, the current Pagoda/EventStorming owner is:
 
 ```text
 agentis-pagoda-workbench/
-  docs/evidence/
-    *.feature
-  docs/eventstorming/
-    edd-registry.json
-    card-registry.json
-    models/<model-id>/storm-current.json
-    models/<model-id>/metadata.json
+  docs/pagoda/
+    scenarios/<scenario-id>.scenario.json
+    contracts/<scenario-id>.outcome-contract.json
+  server/
+    pagodaCli.ts
+    pagodaModelService.ts
   server/simulation-ai/
     cli.ts
     simulation-ai-realtime.ts
@@ -112,9 +101,9 @@ EDD-registry, storm, and simulation harness behavior:
 - If a proposed change requires platform code to know about Pagoda-specific
   terms or files, treat it as a boundary violation and move that logic back
   into `agentis-pagoda-workbench`.
-- `docs/eventstorming/edd-registry.json` is the scenario registry view.
-- `models/**/storm-current.json` is the current storm/evidence map snapshot.
-- `docs/evidence/*.feature` is the business-readable EDD feature layer.
+- `docs/pagoda/scenarios/*.scenario.json` is the scenario source of truth.
+- `docs/pagoda/contracts/*.outcome-contract.json` is the generated contract projection.
+- `server/pagodaModelService.ts` loads, validates, and projects Pagoda scenarios.
 - `server/simulation-ai/**` is the executable EDD harness and oracle code.
 - `artifacts/**` is run output evidence, not source-of-truth design input,
   unless a specific run is being diagnosed.
@@ -439,6 +428,21 @@ OBSERVABILITY_FAILED:
 SCENARIO_INVALID:
   The run claims channel parity but one declared channel did not execute.
 ```
+
+## Pagoda Harness Debt
+
+Track Pagoda-specific debt separately from general repository quality debt:
+
+- missing Outcome Contract clauses;
+- missing Evidence Contract obligations;
+- trace sources that cannot be correlated;
+- transcript-only oracles that should use trusted evidence;
+- setup evidence accidentally counted as outcome proof;
+- channel parity claims without child contracts;
+- Workbench/platform boundary risks;
+- scenario runs that collapse SETUP_FAILED, OBSERVABILITY_FAILED, or SCENARIO_INVALID into ordinary FAIL.
+
+General quality scorecards and repository cleanup loops belong to `agent-harness-engineering`.
 
 ## Working Principles
 

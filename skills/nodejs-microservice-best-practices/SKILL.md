@@ -14,6 +14,7 @@ Pair with:
 - `ThePetitbonDoctrine` for green-field, fail-close, fail-hard posture
 - `nodejs-microservice-structure` for folders/naming/dependency direction
 - `ddd-eda-architecture` for ownership, contracts, and event flows
+- `agent-harness-engineering` for repository-level validation loops, observability access docs/checklists for coding agents, quality scorecards, and cleanup docs
 
 This skill owns runtime quality, not broad architecture or folder taxonomy.
 
@@ -125,6 +126,40 @@ Log unexpected failures once at the boundary with correlation context. Map inter
 - avoid duplicate logs at every layer
 - readiness checks must reflect real readiness, not placeholder success
 
+## Agent-Readable Runtime Feedback
+
+When changing runtime behavior, make validation observable to coding agents.
+
+This skill owns service implementation of runtime evidence:
+
+- logging;
+- metrics;
+- traces;
+- readiness;
+- structured errors;
+- correlation IDs;
+- replay fixtures when service-owned.
+
+`agent-harness-engineering` owns repository-level observability access docs, checklists, validation registries, and quality/debt tracking.
+
+Prefer:
+
+- deterministic local startup command;
+- health/readiness checks that reflect real readiness;
+- stable structured log event names;
+- correlation IDs across request, session, workflow, dependency call, and trace boundaries;
+- queryable logs, metrics, and traces in local/dev environments where available;
+- replay fixtures for critical flows;
+- validation commands that produce clear pass/fail output.
+
+For substantial runtime changes, report:
+
+- startup command used;
+- validation commands run;
+- relevant log, metric, or trace evidence inspected;
+- failures or missing observability;
+- observability gaps that should become follow-up tasks.
+
 ## Cloud Run posture
 
 When deployed on Cloud Run:
@@ -164,3 +199,5 @@ Organize findings by:
 5. tests
 
 For implementation summaries, report commands actually run and their results. Do not claim validation not performed.
+
+When runtime behavior was validated through logs, metrics, traces, replay fixtures, or local startup, report the exact evidence inspected. Do not claim observability validation that was not performed.

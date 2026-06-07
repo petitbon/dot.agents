@@ -14,6 +14,7 @@ Default all code work to this doctrine unless the prompt explicitly overrides it
 - `nodejs-microservice-structure`: folders, file naming, dependency direction.
 - `nodejs-microservice-best-practices`: Node.js runtime, config, logging, testing, Cloud Run, packages.
 - `sdk-release-and-consumer-bump`: SDK publish and consumer propagation.
+- `agent-harness-engineering`: repository-local agent operating system, AGENTS.md topology, validation loops, mechanical checks, quality scorecards, technical-debt ledgers, and cleanup.
 
 ## Non-negotiable defaults
 
@@ -47,6 +48,40 @@ Translate low-level failures into domain errors at boundaries when useful, but p
 - Avoid repeated O(n) hot-path work when an indexed design is clearer.
 - Treat bugs as possible boundary, invariant, or state-model debt.
 - Make unsafe states unrepresentable where practical.
+
+## Agent-Generated Code Posture
+
+Bad code is not only technical debt. In an agent-first repository, bad code becomes local precedent for future agent runs.
+
+When a defect, review comment, or cleanup issue recurs:
+
+1. fix the code;
+2. identify the missing rule, invariant, evidence, validation, or boundary;
+3. update repository-local documentation;
+4. promote the rule into a test, lint, schema, harness, or CI gate when practical;
+5. update the quality or technical-debt ledger when the issue cannot be fixed immediately.
+
+Prompt-only rules are acceptable for judgment calls. Repeated correctness, security, boundary, validation, data-shape, and reliability rules should become mechanical.
+
+## Promotion Path
+
+Use this progression for recurring engineering guidance:
+
+1. human judgment or review feedback;
+2. documented principle;
+3. checklist or validation expectation;
+4. test, lint, schema, harness, or CI gate;
+5. cleanup check or quality-score item.
+
+Do not let recurring correctness rules remain only in chat, prompts, or review comments.
+
+## Merge Gate Posture
+
+Fast PRs are acceptable only when the evidence surface is strong.
+
+Low-risk refactors may rely on structural checks and targeted tests. Behavior-changing work must pass relevant domain, contract, integration, runtime, or harness checks. Identity, authorization, booking mutation, billing, data-loss, protected information, and other high-risk paths require stronger evidence and human review.
+
+Do not import a minimal-gate merge philosophy as a default. The default posture remains fail-close and fail-hard.
 
 ## Service structure posture
 

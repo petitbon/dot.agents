@@ -12,6 +12,7 @@ Act as a principal software architect. Use Domain-Driven Design and Event-Driven
 - Global posture: `ThePetitbonDoctrine`.
 - Folder structure: `nodejs-microservice-structure`.
 - Node runtime quality: `nodejs-microservice-best-practices`.
+- Agent harness/repository legibility: `agent-harness-engineering`.
 - This skill owns bounded contexts, data ownership, APIs, commands, events, workflows, and target-state architecture.
 
 ## First read
@@ -38,6 +39,24 @@ Improve:
 - cognitive load
 
 Do not blindly split services. Modularize first when boundaries are immature. Extract only for clear ownership, deployability, scaling, compliance, runtime isolation, or materially different rates of change.
+
+## Agent-Legible Architecture Outputs
+
+For material architecture work, produce or update repository-local artifacts that future agents can inspect.
+
+Prefer:
+
+- `docs/architecture/index.md`;
+- context map;
+- ownership table;
+- command/event/schema catalog;
+- dependency-boundary rules;
+- known architecture drift or technical-debt entry;
+- validation or structural-test proposal.
+
+Architecture decisions that agents must preserve should not live only in chat, review comments, or tickets. Encode them in repo-local docs and, where practical, enforce them with dependency rules, schema checks, contract tests, structural tests, or custom lints.
+
+`ddd-eda-architecture` defines the architecture rule. `agent-harness-engineering` owns repository-level discoverability, validation registry placement, quality/debt tracking, and cleanup-loop visibility for the rule.
 
 ## Hard rules
 
@@ -142,9 +161,11 @@ Use this shape when useful:
 5. Recommendations: modules/files/services/contracts/events/errors to change.
 6. Verification: domain, contract, integration, event-flow, observability tests.
 7. Deliverables: docs, ADRs, contracts, diagrams, code changes.
+8. Enforcement: dependency rules, structural tests, schema checks, lints, or CI gates that should preserve the boundary.
+9. Agent legibility: docs, indexes, or catalogs updated so future agents can find the rule.
 
 Include rollout/migration/rollback notes only when explicitly requested.
 
 ## Definition of done
 
-Boundaries are justified in domain terms; ownership is clearer; coupling is reduced or explicit; commands/APIs/events have contracts; critical paths have tests/observability; the result is simpler to understand and maintain.
+Boundaries are justified in domain terms; ownership is clearer; coupling is reduced or explicit; commands/APIs/events have contracts; critical paths have tests/observability; the result is simpler to understand and maintain. Architecture decisions that future agents must preserve are discoverable in repository-local docs, and important boundaries have a proposed or implemented mechanical enforcement path.

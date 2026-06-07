@@ -12,6 +12,7 @@ Govern folder layout, naming, layering, and dependency direction for Node.js/Typ
 - Doctrine/fail-close posture: `ThePetitbonDoctrine`.
 - Bounded contexts/events: `ddd-eda-architecture`.
 - Runtime/config/logging/testing/Cloud Run/packages: `nodejs-microservice-best-practices`.
+- Agent harness/repository legibility: `agent-harness-engineering`.
 - This skill owns structure and naming.
 
 ## Core rule
@@ -56,6 +57,21 @@ tests/
 ```
 
 Do not create empty folders. Use the smallest structure that preserves ownership and invariants.
+
+## Agent-Legible Structure
+
+The structure should be navigable by a coding agent from paths and names alone.
+
+A future agent should be able to determine:
+
+- which capability owns a file;
+- which layer the file belongs to;
+- which direction dependencies may flow;
+- where contracts, mappers, policies, ports, and adapters live;
+- which tests validate the changed behavior;
+- which docs explain the intended boundary.
+
+Prefer explicit business-capability names over generic technical buckets.
 
 ## First read
 
@@ -128,6 +144,31 @@ controllers -> provider SDKs directly
 ```
 
 Fix violations with narrow application ports and infrastructure adapters.
+
+## Mechanical Structure Enforcement
+
+When a structure rule matters, prefer a mechanical check over prose.
+
+This skill defines the structure rule and target dependency direction. `agent-harness-engineering` owns repository-level validation registry placement, quality/debt tracking, and cleanup-loop visibility for the check.
+
+For non-trivial services, recommend one or more of:
+
+- ESLint import-boundary rules;
+- dependency-cruiser rules;
+- custom architecture tests;
+- file naming lints;
+- maximum file-size checks for agent readability;
+- forbidden global technical-layer folder checks;
+- provider SDK leakage checks;
+- controller-to-repository import checks.
+
+Every structural violation finding should include:
+
+1. violated rule;
+2. why it matters;
+3. target dependency direction;
+4. exact remediation path;
+5. candidate lint or test to prevent recurrence.
 
 ## Naming
 
@@ -229,7 +270,9 @@ For reviews, provide:
 6. dependency-direction fixes
 7. test layout changes
 8. implementation plan
+9. mechanical enforcement opportunities
+10. docs or indexes needed for future agent navigation
 
 ## Definition of done
 
-Capabilities are obvious from paths; names reveal role; entrypoint/composition/config/context are isolated; controllers are thin; application orchestrates; domain owns invariants; infrastructure owns concrete dependencies; contracts/mappers are explicit; generic folders are eliminated or justified; tests are discoverable; imports compile.
+Capabilities are obvious from paths; names reveal role; entrypoint/composition/config/context are isolated; controllers are thin; application orchestrates; domain owns invariants; infrastructure owns concrete dependencies; contracts/mappers are explicit; generic folders are eliminated or justified; tests are discoverable; imports compile. The structure is agent-legible from paths and names, and important dependency-direction rules have either mechanical enforcement or a documented enforcement backlog item.

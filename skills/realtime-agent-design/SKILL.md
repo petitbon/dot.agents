@@ -7,6 +7,16 @@ description: "Use for designing, implementing, and prompting realtime voice agen
 
 This skill synthesizes the **Agent Architecture Principles** with the **Realtime Prompting Guide** (`gpt-realtime-2` / `gpt-realtime-1.5`) to ensure Codex designs safe, composable, and model-native conversational agents.
 
+## Pairing and Scope
+
+Pair with:
+
+- `ThePetitbonDoctrine` for fail-close/fail-hard posture;
+- `agent-harness-engineering` for repository-level validation loops, observability access, quality/debt docs, and cleanup;
+- `pagoda-framework` only when realtime behavior must be proven through Pagoda Outcome Contracts, Evidence Contracts, Trace Contracts, Scenario Oracles, or EDD harness execution.
+
+This skill owns realtime agent design. Pagoda owns independent E2E outcome proof. Do not embed Pagoda-specific harness concepts into runtime platform code.
+
 ## Core Principle
 
 **The model decides what capability is needed.**
@@ -53,6 +63,21 @@ Booking writes must be safe under retries, repeated confirmations, race conditio
 
 ### 12. Tests and evals should protect behavior
 Prioritize coverage for happy paths, ambiguous requests, unclear audio, tool failures, missing fields, and policy violations. Use deterministic fixtures that simulate model tool calls.
+
+### 13. Realtime Evidence and Replay
+
+For behavior-changing realtime agent work, define or update:
+
+- normalized intent shape;
+- tool-call evidence;
+- guarded execution evidence;
+- confirmation evidence for writes;
+- policy decision evidence;
+- session ledger evidence;
+- transcript as supporting evidence only unless presentation is the outcome;
+- replay fixture or eval scenario for the changed behavior.
+
+Do not validate realtime behavior only by assistant wording. Use replayable traces, tool-call ledgers, policy decisions, state transitions, and outcome contracts where domain correctness is affected.
 
 ---
 
@@ -117,6 +142,19 @@ For dense, long sessions (up to 128k context), use a structured pattern to defin
 
 ---
 
+## Required Validation for Realtime Changes
+
+For tool, prompt, confirmation, policy, or state changes:
+
+- run deterministic tool-call fixtures where available;
+- run relevant eval scenarios where available;
+- run relevant Pagoda Outcome Contracts when the task explicitly affects Pagoda evidence or EDD harness behavior;
+- inspect session ledger, tool-call trace, or policy decision evidence where available;
+- verify forbidden write actions cannot occur before server-side confirmation;
+- update fixtures for ambiguity, unclear audio, tool failure, missing fields, and policy violations.
+
+Report commands actually run and evidence actually inspected.
+
 ## Codex Working Rules
 
 When reviewing or changing this repository:
@@ -130,3 +168,5 @@ When reviewing or changing this repository:
 8. Treat state as context and guardrails, not a scripted dialogue tree.
 9. Add observability for tool calls and state transitions.
 10. Add or update tests/evals for any architectural change.
+11. Use replayable traces, ledgers, or eval fixtures for behavior-changing prompt/tool/state updates.
+12. Keep Pagoda-specific harness logic outside platform runtime code; expose ordinary product evidence that Pagoda can observe externally.

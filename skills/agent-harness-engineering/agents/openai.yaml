@@ -1,0 +1,7 @@
+interface:
+  display_name: "Agent Harness Engineering"
+  short_description: "Guide agent-readable repos and checks."
+  default_prompt: "Use $agent-harness-engineering to keep repository docs, validation, observability access, quality/debt tracking, and cleanup loops agent-legible."
+
+policy:
+  allow_implicit_invocation: true

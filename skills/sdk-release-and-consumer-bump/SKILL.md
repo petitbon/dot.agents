@@ -147,6 +147,28 @@ Return:
 - validation commands and results for SDK/consumers
 - skipped checks and why
 - remaining follow-up items
+- release evidence note path, when created or updated
+- consumer inventory changes, when `docs/sdk-consumers.json` was updated
+
+## Release Evidence Artifact
+
+For every SDK release, produce or update a release evidence note when the repository has a docs location for release records.
+
+The note should include:
+
+- package name;
+- previous version;
+- new version;
+- semver rationale;
+- GitHub Actions workflow run;
+- registry verification command and result;
+- consumers discovered;
+- consumers updated;
+- validation commands and results;
+- skipped checks and why;
+- blocker classification if publish failed.
+
+Prefer `docs/sdk-consumers.json` as the consumer inventory. If it is stale or incomplete, update it in the same change.
 
 ## Pitfalls to avoid
 
