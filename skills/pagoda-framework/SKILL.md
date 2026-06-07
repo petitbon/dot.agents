@@ -1,6 +1,6 @@
 ---
 name: pagoda-framework
-description: Use for Pagoda Evidence Mapping and Evidence Driven Development work across code and architecture updates, refactors, reviews, cleanups, deletions, moves, extractions, consolidations, contract changes, workflow changes, runtime-agent changes, prompt/tool changes, harness changes, and behavior-affecting documentation changes. Use to model agent-native outcomes, replace or interpret EventStorming/storm JSON artifacts, define Evidence Maps, Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, Scenario Oracles, evidence trust boundaries, out-of-band evidence, forbidden side effects, channel parity contracts, and coding-agent implementation plans for prompts, tools, workflows, domain services, and runtime harnesses.
+description: Use for Agentis Pagoda Workbench, EventStorming/storm JSON, EDD registry, Outcome Contract, Evidence Map, Evidence Driven Development, simulation-ai harness, executable EDD outcome run, trace/oracle, agent-native behavior-proof work, and ownership isolation between Pagoda testing artifacts and Agentis platform repos. Use across code and architecture updates, reviews, refactors, moves, contract changes, workflow changes, runtime-agent changes, prompt/tool changes, harness changes, and behavior-affecting documentation changes. Use to interpret agentis-pagoda-workbench docs/eventstorming models, storm-current.json, edd-registry.json, docs/evidence features, EDD run artifacts, Evidence Maps, Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, Scenario Oracles, evidence trust boundaries, forbidden side effects, channel parity contracts, and coding-agent implementation plans.
 ---
 
 # Pagoda Framework
@@ -20,6 +20,37 @@ without forbidden side effects.
 For detailed vocabulary, artifact shapes, examples, and checklists, read
 `references/pagoda-framework.md` when the task needs more than the workflow
 below.
+
+## Agentis Workbench Pointers
+
+For Agentis tasks, treat `agentis-pagoda-workbench` as the local owner for
+Pagoda/EventStorming model artifacts, the Pagoda testing framework, executable
+EDD outcome runs, simulation harness code, trace/oracle code, fixtures,
+generated artifacts, and all Pagoda-specific context.
+
+Hard isolation rule:
+
+- `agentis-pagoda-workbench` owns Pagoda testing framework files and artifacts.
+- Agentis platform repos must remain 100% agnostic of Pagoda testing,
+  EventStorming, EDD registry, simulation harness, oracle, fixture, artifact,
+  and Workbench-specific context.
+- Do not move, copy, import, depend on, or reference Pagoda harness code,
+  generated artifacts, storm files, EDD registry files, or Workbench-only
+  context from platform repos.
+- Platform repos may expose ordinary product contracts, logs, APIs, events, and
+  runtime evidence that the Workbench observes from outside. They must not embed
+  Pagoda concepts to satisfy tests.
+
+Load the smallest relevant files:
+
+- `agentis-pagoda-workbench/docs/eventstorming/edd-registry.json`
+- `agentis-pagoda-workbench/docs/eventstorming/models/**/storm-current.json`
+- `agentis-pagoda-workbench/docs/evidence/*.feature`
+- `agentis-pagoda-workbench/server/simulation-ai/**`
+- `agentis-pagoda-workbench/artifacts/**` only for specific run evidence
+
+Do not use the old `agentis-scripts-local` simulation-ai path as the owner for
+Workbench EDD execution.
 
 ## Method Stack
 

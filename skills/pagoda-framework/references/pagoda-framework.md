@@ -74,6 +74,55 @@ src/
 The important rule is that business-readable examples, evidence contracts, and
 runtime harness logic remain distinguishable.
 
+## Agentis Workbench Conventions
+
+In the Agentis workspace, the current Pagoda/EventStorming owner is:
+
+```text
+agentis-pagoda-workbench/
+  docs/evidence/
+    *.feature
+  docs/eventstorming/
+    edd-registry.json
+    card-registry.json
+    models/<model-id>/storm-current.json
+    models/<model-id>/metadata.json
+  server/simulation-ai/
+    cli.ts
+    simulation-ai-realtime.ts
+    simulation-ai-realtime-edd.ts
+    simulation-ai-storm-trace.ts
+  artifacts/
+    <edd-suite>/<channel-or-run>.json
+```
+
+Use these conventions when interpreting or changing Agentis workbench,
+EDD-registry, storm, and simulation harness behavior:
+
+- All Pagoda testing framework files, harness code, fixtures, trace/oracle
+  code, EDD registry files, storm files, Workbench context, and generated
+  artifacts are owned by `agentis-pagoda-workbench`.
+- Agentis platform repos must stay agnostic of Pagoda. They must not import,
+  depend on, copy, generate, or persist Pagoda-specific harness code, storm
+  context, EDD registry context, oracle logic, fixture definitions, generated
+  artifacts, or testing-only contracts.
+- The Workbench may observe the platform through normal product contracts,
+  logs, events, APIs, traces, dependency ledgers, and runtime evidence. This
+  observation does not make Pagoda a platform dependency.
+- If a proposed change requires platform code to know about Pagoda-specific
+  terms or files, treat it as a boundary violation and move that logic back
+  into `agentis-pagoda-workbench`.
+- `docs/eventstorming/edd-registry.json` is the scenario registry view.
+- `models/**/storm-current.json` is the current storm/evidence map snapshot.
+- `docs/evidence/*.feature` is the business-readable EDD feature layer.
+- `server/simulation-ai/**` is the executable EDD harness and oracle code.
+- `artifacts/**` is run output evidence, not source-of-truth design input,
+  unless a specific run is being diagnosed.
+- `agentis-scripts-local` no longer owns `simulation-ai`.
+
+For implementation plans, always connect workbench model changes to the
+corresponding harness/oracle tests when executable EDD behavior changes.
+
 ## Outcome Contract Shape
 
 ```ts
