@@ -1,13 +1,13 @@
 ---
 name: pagoda-framework
-description: "Use for Agentis Pagoda Workbench, EDD registry, Pagoda scenario JSON interpretation, Evidence Maps for executable outcome proof, Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, Scenario Oracles, simulation-ai harness behavior, executable EDD outcome runs, Evidence Traces, channel parity contracts, PASS/FAIL/SETUP_FAILED/OBSERVABILITY_FAILED/SCENARIO_INVALID classification, and ownership isolation between Pagoda testing artifacts and Agentis platform repos. Use when the task changes or evaluates Pagoda-owned end-to-end behavior-proof artifacts. Do not use as the primary skill for non-Pagoda repository governance, AGENTS.md topology, quality scorecards, technical-debt ledgers, ordinary architecture or refactor work, non-Pagoda planning, Node runtime quality, service folder structure, SDK release work, or realtime prompt/tool design unless the task directly affects Pagoda evidence, contracts, traces, or harness execution."
+description: "Use for Agentis Pagoda Workbench outcome proof: Evidence Mapping, Evidence Scenario Thinking, scenario families, invariant properties, Outcome/Evidence/Fixture/Trace Contracts, Scenario Oracles, Evidence Traces, executable EDD runs, simulation-ai harness behavior, LLM presentation variance checks, channel parity contracts, run classification, and Workbench/platform isolation. Use when a task changes or evaluates Pagoda-owned behavior-proof artifacts, scenario JSON, trace/oracle behavior, or coding-agent constraints derived from Pagoda evidence. Do not use for general repo governance, ordinary architecture/refactor work, Node service quality, SDK releases, or realtime prompt/tool design unless Pagoda evidence, contracts, traces, scenarios, or harness execution are directly affected."
 ---
 
 # Pagoda Framework
 
 Use this skill for Pagoda work. Pagoda is an outcome-first framework for
-agent-native software. It combines Evidence Mapping, the modeling method, with
-Evidence Driven Development, the engineering discipline.
+agent-native software. It combines Evidence Mapping, Evidence Scenario Thinking,
+and Evidence Driven Development.
 
 Core rule:
 
@@ -17,33 +17,59 @@ Correctness is proven by trusted evidence that an authorized outcome occurred
 without forbidden side effects.
 ```
 
+Secondary rule:
+
+```text
+Do not test exact LLM wording unless exact wording is the regulated,
+contractual, safety, legal, or product outcome under test.
+Test normalized meaning, trusted evidence, authorized outcomes, trace ordering,
+and forbidden side effects.
+```
+
+LLM judge rule:
+
+```text
+An LLM judge may evaluate presentation meaning only. It is never authority for
+business truth, setup truth, workflow success, identity, availability, booking,
+pricing, policy, or forbidden-side-effect absence.
+```
+
 ## Scope Boundary
 
-Pagoda is an independent, encapsulated, end-to-end outcome-proof harness for agent-native software.
+Pagoda is an independent, encapsulated, end-to-end outcome-proof harness for
+agent-native software.
 
 Pagoda owns:
 
 - Evidence Maps when used to define executable outcome proof;
-- Outcome Contracts;
-- Evidence Contracts;
-- Fixture Contracts;
-- Trace Contracts;
-- Scenario Oracles;
-- Evidence Traces;
-- EDD registry interpretation;
-- simulation-ai harness behavior;
-- executable EDD outcome runs;
+- Evidence Scenario Thinking artifacts;
+- Evidence Scenario Families, invariant properties, generated variations, and
+  counterexamples;
+- Outcome Contracts, Evidence Contracts, Fixture Contracts, Trace Contracts, and
+  Scenario Oracles;
+- Evidence Traces and executable EDD outcome runs;
+- LLM output variance rules and semantic presentation contracts when they affect
+  scenario evaluation;
+- LLM-as-judge protocol for assistant presentation meaning when the judge is
+  subordinate to deterministic evidence contracts;
+- EDD registry interpretation and simulation-ai harness behavior;
 - channel parity contracts;
-- PASS, FAIL, SETUP_FAILED, OBSERVABILITY_FAILED, and SCENARIO_INVALID classification;
+- PASS, FAIL, SETUP_FAILED, OBSERVABILITY_FAILED, and SCENARIO_INVALID
+  classification;
 - Workbench/platform isolation.
 
-Pagoda does not own general repository harness engineering. AGENTS.md topology, repository-wide docs as system of record, quality scorecards, technical-debt ledgers, custom architecture lints, structural tests, local worktree bootability, general observability access for Codex, and recurring cleanup loops belong to `agent-harness-engineering` or the relevant architecture/runtime skill.
+Pagoda does not own general repository harness engineering. AGENTS.md topology,
+repository-wide docs as system of record, quality scorecards, technical-debt
+ledgers, custom architecture lints, structural tests, local worktree bootability,
+general observability access for Codex, and recurring cleanup loops belong to
+`agent-harness-engineering` or the relevant architecture/runtime skill.
 
-Use Pagoda to prove outcomes. Use `agent-harness-engineering` to make the repository legible and governable for coding agents.
+Use Pagoda to prove outcomes. Use `agent-harness-engineering` to make the
+repository legible and governable for coding agents.
 
 For detailed vocabulary, artifact shapes, examples, and checklists, read
-`references/pagoda-framework.md` when the task needs more than the workflow
-below.
+`references/pagoda-framework.md` when the task needs more than this compact
+workflow. Use its routing section to load only the relevant detail.
 
 ## Agentis Workbench Pointers
 
@@ -68,6 +94,7 @@ Hard isolation rule:
 Load the smallest relevant files:
 
 - `agentis-pagoda-workbench/docs/pagoda/scenarios/*.scenario.json`
+- `agentis-pagoda-workbench/docs/pagoda/evidence-maps/*.evidence-map.json`
 - `agentis-pagoda-workbench/docs/pagoda/contracts/*.outcome-contract.json`
 - `agentis-pagoda-workbench/server/pagodaModelService.ts`
 - `agentis-pagoda-workbench/server/pagodaCli.ts`
@@ -86,13 +113,24 @@ Evidence Mapping
   Models authorized outcomes, causal paths, ownership, constraints, recovery,
   side effects, evidence obligations, trace requirements, and oracles.
 
+Evidence Scenario Thinking
+  Converts Evidence Maps into scenario families, invariant properties,
+  generated variations, concrete examples, negative paths, recovery probes,
+  forbidden-side-effect probes, counterexamples, and falsification rules.
+
 Evidence Driven Development
-  Turns Evidence Maps into outcome contracts, implementation work, harness
-  behavior, trace evaluation, regression protection, and coding-agent tasks.
+  Turns Evidence Maps and Evidence Scenario Families into outcome contracts,
+  implementation work, harness behavior, trace evaluation, regression
+  protection, and coding-agent tasks.
 
 Outcome Contract
   Machine-evaluable contract for required setup, normalized intent, evidence,
   workflow/domain outcomes, forbidden side effects, trace, and oracle clauses.
+
+Evidence Scenario
+  Concrete or generated path through an Evidence Map that attempts to prove or
+  falsify an outcome using trusted evidence, forbidden-side-effect checks, trace
+  requirements, and oracle clauses.
 
 Evidence Trace
   Ordered runtime evidence from domain facts, Workflow events, tool calls,
@@ -107,6 +145,13 @@ Use this center of gravity:
 
 ```text
 Outcome -> Authority -> Causal Path -> Evidence -> Oracle
+```
+
+Use this implementation center of gravity when Codex or another coding agent is
+about to change code:
+
+```text
+Outcome -> Authority -> Invariant -> Scenario Family -> Evidence -> Oracle
 ```
 
 ## EventStorming Replacement Rule
@@ -127,39 +172,36 @@ Translate the artifact into an Evidence Map:
   become contract and implementation obligations.
 
 Preserve useful EventStorming concepts, but center the answer on outcome,
-authority, evidence, trace, and oracle semantics.
+authority, evidence, trace, oracle, and scenario-family semantics.
 
 ## Core Primitives
 
-Use these primitives in maps, plans, contracts, and reviews:
+Use these primitives in maps, plans, contracts, scenario families, and reviews:
 
 - **Outcome**: the business result or explicit rejection that must become true.
-- **Actor**: a human, system, runtime agent, coding agent, provider, gateway, or
-  infrastructure source that initiates intent or contributes evidence.
 - **Intent**: normalized actor goal independent of transcript wording,
   transport, language, or model phrasing.
 - **Authority**: the bounded context, workflow, aggregate, policy, service, or
   infrastructure layer that may decide, mutate, accept, reject, publish, or
   capture trusted evidence.
-- **Command**: request sent to an authority. It expresses intent; it does not
-  prove success.
-- **Decision**: deterministic policy evaluation from canonical inputs to stable
-  output codes and mutually exclusive branches.
-- **Constraint**: invariant that must hold before a command, fact, or side
-  effect is allowed.
 - **Fact**: accepted business truth owned by one context.
 - **Event**: published notification that a fact occurred.
-- **Side Effect**: mutation, external call, emitted event, notification,
-  disclosure, provider operation, ledger append, or user-visible response.
-- **Recovery**: valid rejection, clarification, repair, retry, restart, or
-  alternate path with its own evidence.
 - **Evidence**: observable, correlated proof that a command, decision, fact,
-  side effect, or recovery occurred.
+  side effect, recovery, or absence of forbidden side effect occurred.
 - **Trace**: ordered runtime record used to evaluate the map.
 - **Oracle**: classification rule that evaluates a trace against an Outcome
   Contract.
-- **View**: human-facing or system-facing representation, such as assistant
-  response, transcript, UI state, read model, BDD scenario, or report.
+- **Evidence Scenario**: a concrete or generated path through an Evidence Map
+  that attempts to prove or falsify an outcome.
+- **Scenario Family**: a group of Evidence Scenarios generated from the same
+  outcome, authority, causal path, invariant, recovery rule, or forbidden-side
+  effect rule.
+- **Counterexample**: the smallest scenario variation that falsifies an
+  invariant, violates a contract, misses required evidence, produces a forbidden
+  side effect, or exposes a trace/oracle ambiguity.
+- **Presentation Meaning**: normalized meaning communicated by an assistant, UI,
+  transcript, notification, or generated message, independent of exact wording
+  unless exact wording is itself the outcome.
 
 Facts and events are not synonyms:
 
@@ -168,293 +210,100 @@ Fact = accepted business truth owned by a context.
 Event = published representation of that fact for consumers.
 ```
 
+Evidence scenarios are not synonyms for transcript scripts:
+
+```text
+Transcript script = brittle wording expectation.
+Evidence Scenario = outcome probe evaluated through authority, evidence, trace,
+forbidden-side-effect rules, and oracle classification.
+```
+
 ## Evidence Mapping Workflow
 
-For Pagoda Evidence Map, Outcome Contract, Evidence Contract, Trace Contract,
-Scenario Oracle, EDD registry, simulation-ai harness, or Workbench-owned
-evidence-trace work, follow this order:
+For Pagoda Evidence Map, Evidence Scenario Family, Outcome Contract, Evidence
+Contract, Trace Contract, Scenario Oracle, EDD registry, simulation-ai harness,
+or Workbench-owned evidence-trace work, follow this order:
 
 1. **Name the outcome**: identify the business result or explicit rejection.
 2. **Assign authority**: identify who owns each outcome, fact, decision,
    command, side effect, and evidence source.
 3. **Normalize intent**: separate actor wording from canonical business fields.
 4. **Map the causal path**: encode explicit causal edges from actor intent to
-   command, decision, fact, command, and outcome.
-5. **Map constraints**: attach invariants to the authorities that enforce them.
-6. **Map recovery**: name stable rejection, repair, clarification, retry,
+   command, decision, fact, side effect, recovery, and outcome.
+5. **Derive evidence scenarios**: create scenario families from the outcome
+   path, including concrete examples, generated variations, invariant
+   properties, negative paths, recovery paths, forbidden-side-effect probes, and
+   counterexamples.
+6. **Map constraints**: attach invariants to the authorities that enforce them.
+7. **Map recovery**: name stable rejection, repair, clarification, retry,
    restart, or approval paths.
-7. **Map side effects**: list allowed side effects, forbidden side effects, and
-   side effects forbidden before evidence, identity, policy, or confirmation.
-8. **Map evidence**: define what proves each important command, decision, fact,
-   recovery, and side effect.
-9. **Define the trace contract**: specify required sources, correlation,
-   ordering, trust, and missing-evidence classification.
-10. **Define the oracle**: classify PASS, FAIL, SETUP_FAILED,
+8. **Map side effects**: list allowed side effects, forbidden side effects, and
+   side effects forbidden before evidence, identity, policy, confirmation,
+   payment, authorization, or Workflow approval.
+9. **Map evidence**: define what proves each important command, decision, fact,
+   recovery, side effect, and absence of forbidden side effects.
+10. **Define the trace contract**: specify required sources, correlation,
+    ordering, trust, setup/action partitioning, and missing-evidence
+    classification.
+11. **Define the oracle**: classify PASS, FAIL, SETUP_FAILED,
     OBSERVABILITY_FAILED, and SCENARIO_INVALID deterministically.
-
-## Evidence Priority
-
-Prefer evidence in this order:
-
-1. canonical domain events and facts;
-2. Workflow-owned commands and outcomes;
-3. SDK or shared policy decisions;
-4. dependency/tool results accepted by the owning domain policy;
-5. explicit rejection, repair, or clarification codes;
-6. transcript facts captured by infrastructure;
-7. assistant prose only as supporting/debug evidence unless presentation is the
-   outcome under test.
-
-Never treat these as positive proof by themselves:
-
-- assistant wording;
-- transcript regexes;
-- raw tool-attempt counts;
-- rejected or malformed tool calls;
-- setup calls;
-- model self-reports;
-- agent-generated audit summaries;
-- one channel run for a claimed parity scenario.
-
-## Result Semantics
-
-Always preserve these classifications:
-
-```text
-PASS
-FAIL
-SETUP_FAILED
-OBSERVABILITY_FAILED
-SCENARIO_INVALID
-```
-
-Classification order:
-
-```text
-1. SCENARIO_INVALID
-2. SETUP_FAILED
-3. OBSERVABILITY_FAILED
-4. FAIL due to forbidden side effect
-5. FAIL due to missing required evidence/outcome
-6. PASS
-```
-
-Do not collapse setup failure, observability failure, or invalid scenario
-definition into ordinary pass/fail.
-
-## Preconditions Are Not Proof
-
-Scenario setup may create or verify trusted facts needed before the action under
-test, but setup evidence must never satisfy the outcome oracle.
-
-For every scenario with a `Given` precondition, fixture, seed, or setup action:
-
-- mark setup evidence separately from outcome evidence;
-- partition the trace into a setup window and an action-under-test window;
-- require the outcome evidence to occur after the setup boundary;
-- classify missing or failed setup as `SETUP_FAILED`;
-- classify missing trusted trace as `OBSERVABILITY_FAILED`;
-- classify a valid setup with missing or wrong outcome evidence as `FAIL`;
-- define a separate Outcome Contract when the setup behavior itself needs to be
-  tested.
-
-Example:
-
-```text
-Given CallerIdentityAccepted exists before the protected request
-When a later protected request is classified
-Then CallerIdentityRequirementClassified must record ALREADY_ACCEPTED
-
-CallerIdentityAccepted is setup evidence. It enables the test; it is not PASS
-evidence for the later classification outcome.
-```
-
-## Evidence Trust Boundaries
-
-For each evidence obligation, identify:
-
-- what it proves;
-- who owns the truth;
-- who produced it;
-- who captured it;
-- whether the agent could read, modify, or omit it;
-- whether it was enforced or captured out of band;
-- how it correlates to session, turn, command, workflow, and outcome;
-- what classification applies if it is missing.
-
-Use these trust levels:
-
-```text
-Trusted
-  Produced or captured by the owning authority or infrastructure outside the
-  agent's control.
-
-Partially trusted
-  Derived from agent interaction but validated, normalized, or captured by
-  infrastructure.
-
-Untrusted
-  Produced by the agent and not independently validated or captured.
-```
-
-For protected outcomes, prefer out-of-band evidence. Agent-generated language
-is not evidence. Agent-supplied metadata is not authority.
-
-## Outcome Contract Guidance
-
-An Outcome Contract should define:
-
-- id, map id, source BDD id, and legacy storm ids when applicable;
-- title and intended outcome;
-- channels;
-- Fixture Contract;
-- Intent Contract;
-- Required Evidence Contract;
-- required Workflow/domain outcomes;
-- Forbidden Side-Effect Contract;
-- Trace Contract;
-- Scenario Oracle clauses.
-
-Use domain-specific normalized intent types when possible. Avoid loose
-`Record<string, unknown>` shapes in production contracts unless the repository
-does not yet have a stronger type.
-
-## Harness Rules
-
-A Pagoda-compatible harness evaluates Outcome Contracts, not transcript
-strings. It must:
-
-- evaluate setup before outcome behavior;
-- classify failed setup as `SETUP_FAILED`;
-- evaluate observability before business pass/fail;
-- classify missing required trace as `OBSERVABILITY_FAILED`;
-- classify mismatched scenario, channel, map, or branch as
-  `SCENARIO_INVALID`;
-- prevent `PASS` when the run is blocked or invalid;
-- require positive evidence for positive paths;
-- require rejection evidence for rejection paths;
-- require repair codes for repair paths;
-- require Workflow outcome evidence when the path reaches Workflow;
-- evaluate forbidden side effects independently from positive evidence;
-- report clause-level evidence and classification.
-
-## Channel Parity
-
-A parity claim requires separate child contracts plus a comparison contract.
-
-Example:
-
-```text
-EDD-041A: Browser-chat produces canonical provider-preference evidence.
-EDD-041B: Phone produces canonical provider-preference evidence.
-EDD-041C: Browser-chat and phone canonical evidence are equivalent after normalization.
-```
-
-The parity contract must define:
-
-- child contracts required;
-- fields that must match;
-- fields that may differ;
-- normalization rules;
-- channel-specific metadata exclusions;
-- required outcome class;
-- classification when a child run is missing.
-
-If one channel did not execute, the parity contract cannot pass.
-
-## Implementation Guidance for Pagoda Contract Failures
-
-Use this section only when implementation work is needed to satisfy, repair, or extend a Pagoda Outcome Contract, Evidence Contract, Trace Contract, Scenario Oracle, EDD registry path, simulation-ai harness behavior, Workbench-owned evidence trace, or channel parity contract.
-
-When creating implementation guidance for Codex or another coding agent,
-include:
-
-```text
-Outcome:
-  What must become true.
-
-Authority:
-  Which context owns the decision, fact, or mutation.
-
-Path:
-  Actor -> intent -> command -> decision -> fact -> outcome.
-
-Contracts:
-  schemaRef, evidence contract, trace contract, outcome contract.
-
-Forbidden Side Effects:
-  What must not happen, and when.
-
-Result Semantics:
-  PASS, FAIL, SETUP_FAILED, OBSERVABILITY_FAILED, SCENARIO_INVALID.
-
-Validation Commands:
-  Typecheck, lint, tests, scenario harness, trace checks.
-```
-
-Tell the coding agent to implement the target evidence path, not a transcript
-regex or raw tool-attempt heuristic.
+12. **Define presentation judging**: when assistant meaning is part of the
+    outcome, require a semantic presentation contract and a strict JSON judge
+    result that can only fail or support the presentation clause.
 
 ## Quality Gate
 
-Before treating a map or legacy storm artifact as implementation-ready, verify:
+Before treating a map, scenario family, or legacy storm artifact as
+implementation-ready, verify:
 
-- each outcome has one owning authority;
-- each command has one receiving authority;
-- each fact has one owning context;
-- each side effect has an owner or execution authority;
-- each evidence obligation names an owner and capture source;
-- every path has explicit causal relationships;
-- same-trigger decisions have mutually exclusive discriminators;
+- each outcome, fact, command, decision, side effect, and evidence source has
+  one clear owning authority;
+- every path has explicit causal relationships and mutually exclusive branch
+  discriminators where needed;
 - recovery paths are connected to the constraints that produce them;
-- each target path has positive evidence obligations;
-- each rejection or repair path has explicit recovery evidence;
-- fixtures are separate from behavior proof;
-- setup evidence is not counted as outcome evidence;
-- tool attempts and rejected/malformed calls are not counted as positive
-  evidence;
-- transcript wording is not the primary oracle unless presentation is the
-  outcome;
+- each target outcome has at least one concrete Evidence Scenario and one
+  invariant property when behavior varies;
+- generated variations are bounded by domain-valid data;
+- positive, negative, recovery, and forbidden-side-effect paths have explicit
+  evidence obligations;
+- fixtures are separate from behavior proof and setup evidence is not counted as
+  outcome evidence;
+- tool attempts, rejected or malformed calls, transcript wording, and model
+  self-report are not counted as positive proof;
+- LLM output variance is handled through semantic meaning, trusted evidence,
+  and explicit presentation contracts;
+- exact wording is required only when the contract explicitly says exact wording
+  is the outcome;
 - required trace sources are captured out of band when possible;
 - missing trace evidence has explicit classification;
 - forbidden side effects are explicit and evaluated independently;
+- property-based tests do not replace trusted evidence traces;
 - cross-channel parity claims define each channel path and comparison contract.
+- LLM judge output is strict, typed, auditable, and subordinate to deterministic
+  evidence; missing, malformed, ambiguous, or contradictory judge output never
+  produces success.
 
 If the quality gate is blocked, report only the blocking gaps and the exact map,
-contract, or legacy storm edits required before implementation.
+scenario family, contract, or legacy storm edits required before implementation.
 
 ## Output Shapes
 
-For Pagoda Evidence Map or outcome-proof modeling work, cover:
+For Pagoda Evidence Map or outcome-proof modeling work, cover current state if
+supplied, target Evidence Map, bounded-context authorities, causal path,
+Evidence Scenario Families, invariant properties, generated variation
+dimensions, counterexamples, evidence obligations, trace and oracle
+requirements, LLM output variance when relevant, and verification.
 
-- current state if supplied;
-- target Evidence Map;
-- bounded-context authorities;
-- commands, decisions, facts, events, side effects, recoveries;
-- impacted contracts and schemas;
-- evidence obligations and trust boundaries;
-- trace and oracle requirements;
-- verification.
+For contract work, produce the Outcome Contract, Fixture Contract, Intent
+Contract, Evidence Contract, Forbidden Side-Effect Contract, Trace Contract,
+Scenario Oracle, Evidence Scenario Family when needed, Assistant Presentation
+Contract when user-facing meaning is part of the outcome, and channel parity
+contract when needed.
 
-For contract work, produce:
-
-- Outcome Contract;
-- Fixture Contract;
-- Intent Contract;
-- Evidence Contract;
-- Forbidden Side-Effect Contract;
-- Trace Contract;
-- Scenario Oracle;
-- channel parity contract when needed.
-
-For Pagoda contract repair or extension work, produce:
-
-- spec gate status;
-- target path;
-- owner-by-owner implementation steps;
-- contract/schema updates;
-- tests and harness changes;
-- validation commands.
+For Pagoda contract repair or extension work, produce spec gate status, target
+path, invariant properties, scenario families and counterexamples,
+owner-by-owner implementation steps, contract/schema updates, tests and harness
+changes, and validation commands.
 
 Include migration, rollback, compatibility shims, or feature flags only when
 explicitly requested or when the supplied architecture requires them.
