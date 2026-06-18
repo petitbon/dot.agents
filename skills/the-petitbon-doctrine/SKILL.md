@@ -1,20 +1,11 @@
 ---
-name: ThePetitbonDoctrine
+name: the-petitbon-doctrine
 description: "Apply John Petitbon's default engineering doctrine for code planning, implementation, and review: green-field target state, fail-close safety, fail-hard errors, SOLID, simplicity, idempotency, statelessness, and no fallback success. Use for application code, services, APIs, domain logic, frontend/backend refactors, and architecture-adjacent implementation work. Do not use for pure copywriting or non-code analysis."
 ---
 
 # The Petitbon Doctrine
 
 Default all code work to this doctrine unless the prompt explicitly overrides it.
-
-## Skill precedence
-
-- `ThePetitbonDoctrine`: global posture.
-- `ddd-eda-architecture`: bounded contexts, ownership, contracts, events.
-- `nodejs-microservice-structure`: folders, file naming, dependency direction.
-- `nodejs-microservice-best-practices`: Node.js runtime, config, logging, testing, Cloud Run, packages.
-- `sdk-release-and-consumer-bump`: SDK publish and consumer propagation.
-- `agent-harness-engineering`: repository-local agent operating system, AGENTS.md topology, validation loops, mechanical checks, quality scorecards, technical-debt ledgers, and cleanup.
 
 ## Non-negotiable defaults
 
@@ -49,31 +40,12 @@ Translate low-level failures into domain errors at boundaries when useful, but p
 - Treat bugs as possible boundary, invariant, or state-model debt.
 - Make unsafe states unrepresentable where practical.
 
-## Agent-Generated Code Posture
+## Recurring Issues
 
-Bad code is not only technical debt. In an agent-first repository, bad code becomes local precedent for future agent runs.
-
-When a defect, review comment, or cleanup issue recurs:
-
-1. fix the code;
-2. identify the missing rule, invariant, evidence, validation, or boundary;
-3. update repository-local documentation;
-4. promote the rule into a test, lint, schema, harness, or CI gate when practical;
-5. update the quality or technical-debt ledger when the issue cannot be fixed immediately.
-
-Prompt-only rules are acceptable for judgment calls. Repeated correctness, security, boundary, validation, data-shape, and reliability rules should become mechanical.
-
-## Promotion Path
-
-Use this progression for recurring engineering guidance:
-
-1. human judgment or review feedback;
-2. documented principle;
-3. checklist or validation expectation;
-4. test, lint, schema, harness, or CI gate;
-5. cleanup check or quality-score item.
-
-Do not let recurring correctness rules remain only in chat, prompts, or review comments.
+When a defect or review comment reveals a missing invariant, boundary, evidence,
+or validation rule, fix the code and use `agent-harness-engineering` to promote
+recurring guidance into repository-local docs, tests, lints, schemas, harnesses,
+CI gates, or debt tracking.
 
 ## Merge Gate Posture
 

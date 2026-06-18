@@ -1,0 +1,7 @@
+interface:
+  display_name: "Realtime Agent Design"
+  short_description: "Design realtime tools, prompts, and state."
+  default_prompt: "Use $realtime-agent-design to design realtime voice-agent tools, prompts, confirmation logic, state, and validation."
+
+policy:
+  allow_implicit_invocation: true

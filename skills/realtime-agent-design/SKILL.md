@@ -7,15 +7,12 @@ description: "Use for designing, implementing, and prompting realtime voice agen
 
 This skill synthesizes the **Agent Architecture Principles** with the **Realtime Prompting Guide** (`gpt-realtime-2` / `gpt-realtime-1.5`) to ensure Codex designs safe, composable, and model-native conversational agents.
 
-## Pairing and Scope
+## Scope
 
-Pair with:
-
-- `ThePetitbonDoctrine` for fail-close/fail-hard posture;
-- `agent-harness-engineering` for repository-level validation loops, observability access, quality/debt docs, and cleanup;
-- `pagoda-framework` only when realtime behavior must be proven through Pagoda Outcome Contracts, Evidence Contracts, Trace Contracts, Scenario Oracles, or EDD harness execution.
-
-This skill owns realtime agent design. Pagoda owns independent E2E outcome proof. Do not embed Pagoda-specific harness concepts into runtime platform code.
+This skill owns realtime agent design. Use `pagoda-framework` only when realtime
+behavior must be proven through Pagoda contracts, traces, scenario oracles, or
+EDD harness execution. Do not embed Pagoda-specific harness concepts into
+runtime platform code.
 
 ## Core Principle
 
@@ -81,64 +78,12 @@ Do not validate realtime behavior only by assistant wording. Use replayable trac
 
 ---
 
-## Part 2: Realtime Prompting Guide (gpt-realtime-2 / 1.5)
+## Prompting Details
 
-### Recommended Prompt Structure
-Use short, labeled sections. The model should be able to find relevant instructions quickly:
-`# Role and Objective`, `# Personality and Tone`, `# Language`, `# Reasoning`, `# Message Channels`, `# Preambles`, `# Verbosity`, `# Tools`, `# Unclear Audio`, `# Entity Capture`, `# Long Context Behavior`, `# Escalation`
-
-### Set Reasoning Effort
-Start with `low` reasoning effort for most production voice agents. Tune up or down based on task complexity. Steer reasoning via the prompt:
-- Direct answers: do not reason.
-- Multi-step tasks or tool decisions: reason before acting.
-- Unclear audio: do not reason, ask for clarification.
-
-### Use Preambles Intentionally
-Preambles are short spoken updates (e.g., "I'll check that order now.") that keep the agent feeling responsive while reasoning or calling tools.
-- **Use when:** Calling a slow tool, checking records, or preparing an escalation.
-- **Do not use when:** The answer is direct, the user is just confirming, or audio is unclear.
-- **Style:** Keep it natural, short (one sentence), and describe the action, not the internal thought process. Avoid filler ("Let me think...").
-
-### Control Verbosity
-Define what "concise" means in context:
-- Direct answers: 1-2 short sentences.
-- Clarifying questions: Ask one question at a time.
-- Tool results: Summarize the result first, then give the next useful action.
-
-### Design Tool Behavior
-Set tool-call eagerness based on risk:
-- Read-only lookup: Call when intent is clear.
-- Write actions: Confirm amount, target, and consequence before calling.
-- **Tool Failures:** Explain the failure briefly, don't expose raw errors. Ask for correction if due to a bad identifier. Offer a retry or escalation path. Do not repeatedly call a failing tool with the same arguments.
-- **Tool Availability:** Do not invent or simulate tools. If a tool isn't in the list, state it's unavailable.
-
-### Handle Silence and Background Audio
-Provide a `wait_for_user` tool for when the audio is silence, background noise, or a side conversation. Instruct the model to call this tool to end the turn without speaking (e.g., do not say "I didn't catch that").
-
-### Message Channels
-- `commentary` channel: Used for preambles and intermediate updates.
-- `final_answer` channel: Used for the final user-facing response.
-Specify behavior by channel if needed.
-
-### Handle Unclear Audio
-Only act on audio understood with confidence. If unclear, ask a brief clarification (e.g., "Sorry, could you repeat that clearly?"). Do not guess, do not reason, and do not call tools when audio is cut off or noisy.
-
-### Capture Exact Entities
-For high-precision fields (order IDs, tracking numbers, emails):
-1. **Collect one at a time.**
-2. **Handle spelled-out characters:** Treat dictated sequences as compact values (e.g., "A B C one two" -> "ABC12").
-3. **Normalize numbers:** Convert spoken number phrases to digits.
-4. **Confirm before tools:** Read back numeric identifiers digit by digit. Confirm emails character by character. Do not use guessed or unconfirmed values.
-
-### Avoid Literal Instruction Traps
-`gpt-realtime-2` follows instructions literally. Avoid broad constraint words like `always`, `never`, or `only` unless truly required. Use precise scope (e.g., instead of "Always ask for confirmation," use "For write actions that modify user data, ask for confirmation before calling the tool").
-
-### Control Language and Accent Separately
-- **Language:** Default to English. Switch languages only if the user explicitly asks or uses a substantive utterance in another language. Do not switch based on accent, filler words, or names.
-- **Accent:** Provide specific prosody instructions (e.g., "Speak English with a light Australian accent. Keep speech easy to understand. Do not exaggerate.").
-
-### Maintain State in Long Sessions
-For dense, long sessions (up to 128k context), use a structured pattern to define current state vs. historical background. Explicitly declare what is the "Latest known state" vs. "Older background facts" so the model knows which sources to prioritize.
+For gpt-realtime-2 / gpt-realtime-1.5 prompt structure, reasoning effort,
+preambles, verbosity, tool behavior, unclear audio, exact entity capture,
+language/accent control, and long-context state, read
+`references/prompting-guide.md`.
 
 ---
 

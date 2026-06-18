@@ -1,19 +1,17 @@
 ---
 name: nodejs-microservice-structure
-description: "Use when creating, reviewing, or refactoring Node.js/TypeScript microservice folder structure, file naming, capability slicing, dependency direction, and Codex-friendly organization. Pair with ThePetitbonDoctrine, ddd-eda-architecture, and nodejs-microservice-best-practices as needed."
+description: "Use when creating, reviewing, or refactoring Node.js/TypeScript microservice folder structure, file naming, capability slicing, dependency direction, and Codex-friendly organization. Pair with the-petitbon-doctrine, ddd-eda-architecture, and nodejs-microservice-best-practices as needed."
 ---
 
 # Node.js Microservice Structure
 
 Govern folder layout, naming, layering, and dependency direction for Node.js/TypeScript microservices.
 
-## Precedence
+## Scope
 
-- Doctrine/fail-close posture: `ThePetitbonDoctrine`.
-- Bounded contexts/events: `ddd-eda-architecture`.
-- Runtime/config/logging/testing/Cloud Run/packages: `nodejs-microservice-best-practices`.
-- Agent harness/repository legibility: `agent-harness-engineering`.
-- This skill owns structure and naming.
+This skill owns folder layout, file naming, layering, and dependency direction.
+Pair with architecture, runtime, or repository-harness skills only when those
+concerns are directly affected.
 
 ## Core rule
 
@@ -172,56 +170,10 @@ Every structural violation finding should include:
 
 ## Naming
 
-Use PascalCase for primary named concepts.
-
-Required suffixes when applicable:
-
-```text
-Controller Routes Middleware ApplicationService Command Query Ports Contract Dto Mapper Repository Client Publisher Consumer Policy DomainService Event Error Type
-```
-
-Examples:
-
-```text
-BookingController.ts
-BookingRoutes.ts
-CreateBookingApplicationService.ts
-CreateBookingCommand.ts
-FindAvailabilityQuery.ts
-BookingPorts.ts
-CreateBookingRequestContract.ts
-BookingContractMapper.ts
-FirestoreBookingRepository.ts
-SchedulingHttpClient.ts
-BookingPolicy.ts
-BookingConflictError.ts
-```
-
-Avoid vague names:
-
-```text
-utils.ts helpers.ts common.ts types.ts interfaces.ts service.ts manager.ts processor.ts handler.ts misc.ts shared.ts
-```
-
-Use `Handler` only when qualified, such as `InboundCallWebhookHandler.ts`. Use `index.ts` only for intentional module entrypoints; avoid broad barrels.
-
-## Technical-layer smells
-
-These global folders are smells unless the service is tiny:
-
-```text
-src/controllers src/services src/repositories src/dtos src/types src/interfaces src/exceptions src/enums src/mappers src/middlewares
-```
-
-Prefer:
-
-- `exceptions/` -> `errors/`
-- `interfaces/` -> `contracts/` or `application/*Ports.ts`
-- `services/` -> `application/` or `domain/`
-- `types/` -> named files near owner
-- `enums/` -> domain value objects/literal unions near owner
-- `repositories/` -> `infrastructure/`
-- `middlewares/` -> `app/` or module `presentation/`
+Use PascalCase and explicit role suffixes for primary concepts. Avoid vague
+generic files or global technical-layer buckets unless the service is tiny. See
+`references/naming-and-smells.md` for suffixes, examples, and replacement
+patterns.
 
 ## Tests
 

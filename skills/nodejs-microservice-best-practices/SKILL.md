@@ -7,16 +7,11 @@ description: "Use for Node.js/TypeScript microservice runtime quality: service b
 
 Use this for service-internal correctness and operability.
 
-## Pairing and scope
+## Scope
 
-Pair with:
-
-- `ThePetitbonDoctrine` for green-field, fail-close, fail-hard posture
-- `nodejs-microservice-structure` for folders/naming/dependency direction
-- `ddd-eda-architecture` for ownership, contracts, and event flows
-- `agent-harness-engineering` for repository-level validation loops, observability access docs/checklists for coding agents, quality scorecards, and cleanup docs
-
-This skill owns runtime quality, not broad architecture or folder taxonomy.
+This skill owns service-internal runtime quality, not broad architecture, folder
+taxonomy, or repository-harness governance. Pair with the relevant specialized
+skill only when those concerns are directly affected.
 
 ## First read
 

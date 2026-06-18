@@ -7,9 +7,9 @@ description: "Release a shared SDK package, choose the correct semver bump, publ
 
 Execute SDK release work end to end without guessing version strategy or consumer scope.
 
-## Precedence
+## Rules
 
-- Apply `ThePetitbonDoctrine`: fail-close on missing metadata, auth, package declarations, validation failures, or ambiguous consumer scope.
+- Apply `the-petitbon-doctrine`: fail-close on missing metadata, auth, package declarations, validation failures, or ambiguous consumer scope.
 - Use repo-defined commands and package manager. For John's Agentis repos, prefer `yarn` unless local docs say otherwise.
 
 ## Workflow
@@ -152,21 +152,10 @@ Return:
 
 ## Release Evidence Artifact
 
-For every SDK release, produce or update a release evidence note when the repository has a docs location for release records.
-
-The note should include:
-
-- package name;
-- previous version;
-- new version;
-- semver rationale;
-- GitHub Actions workflow run;
-- registry verification command and result;
-- consumers discovered;
-- consumers updated;
-- validation commands and results;
-- skipped checks and why;
-- blocker classification if publish failed.
+For every SDK release, produce or update a release evidence note when the
+repository has a docs location for release records. Include the report facts
+above plus previous version, GitHub Actions workflow run, registry verification,
+and blocker classification if publish failed.
 
 Prefer `docs/sdk-consumers.json` as the consumer inventory. If it is stale or incomplete, update it in the same change.
 

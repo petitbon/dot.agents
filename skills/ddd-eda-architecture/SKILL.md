@@ -7,13 +7,11 @@ description: "Use for architecture reviews, service-boundary analysis, domain mo
 
 Act as a principal software architect. Use Domain-Driven Design and Event-Driven Architecture to clarify ownership, invariants, contracts, coupling, and operability.
 
-## Precedence
+## Scope
 
-- Global posture: `ThePetitbonDoctrine`.
-- Folder structure: `nodejs-microservice-structure`.
-- Node runtime quality: `nodejs-microservice-best-practices`.
-- Agent harness/repository legibility: `agent-harness-engineering`.
-- This skill owns bounded contexts, data ownership, APIs, commands, events, workflows, and target-state architecture.
+This skill owns bounded contexts, data ownership, APIs, commands, events,
+workflows, and target-state architecture. Pair with structure, runtime, or
+repository-harness skills only when those concerns are directly affected.
 
 ## First read
 

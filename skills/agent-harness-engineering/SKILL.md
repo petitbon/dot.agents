@@ -9,19 +9,17 @@ Use this skill to make a repository legible, governable, observable, validated, 
 
 This skill owns the repository operating layer for agents. It does not replace domain architecture, runtime engineering, realtime-agent design, SDK release workflows, or Pagoda evidence harnesses.
 
-## Precedence and Pairing
+## Scope
 
-- Global posture: `ThePetitbonDoctrine`.
-- Domain ownership and architecture: `ddd-eda-architecture`.
-- Node folder structure: `nodejs-microservice-structure`.
-- Node runtime quality and service-level observability implementation: `nodejs-microservice-best-practices`.
-- Realtime voice agents: `realtime-agent-design`.
-- SDK release workflows: `sdk-release-and-consumer-bump`.
-- Pagoda E2E outcome proof: `pagoda-framework`.
+Use this skill when the task involves repository guidance, agent instructions,
+docs topology, execution plans, validation loops, quality scoring, cleanup,
+custom lints, structural tests, or making application behavior directly
+inspectable by Codex.
 
-Use this skill when the task involves repository guidance, agent instructions, docs topology, execution plans, validation loops, quality scoring, cleanup, custom lints, structural tests, or making application behavior directly inspectable by Codex.
-
-Do not use this skill to change Pagoda Outcome Contracts, Evidence Contracts, Trace Contracts, Scenario Oracles, simulation-ai harness logic, EDD registry semantics, or Workbench/platform isolation unless the task also touches repository-level agent operations.
+Do not use this skill as the owner for domain architecture, service runtime
+implementation, realtime agent design, SDK release workflows, or Pagoda outcome
+proof. Pair with the relevant specialized skill when those concerns are in
+scope.
 
 ## Core Rule
 
@@ -198,23 +196,10 @@ Cleanup changes should be small, targeted, and behavior-preserving unless explic
 
 ## Boundary with Pagoda
 
-Pagoda is the independent E2E outcome-proof harness.
-
-`pagoda-framework` owns:
-
-- Outcome Contracts;
-- Evidence Contracts;
-- Fixture Contracts;
-- Trace Contracts;
-- Scenario Oracles;
-- EDD registry interpretation;
-- simulation-ai harness behavior;
-- evidence traces;
-- channel parity;
-- Workbench/platform isolation;
-- PASS / FAIL / SETUP_FAILED / OBSERVABILITY_FAILED / SCENARIO_INVALID semantics.
-
-This skill owns the repository operating system for coding agents. Do not move Pagoda responsibilities into this skill, and do not move this skill's general repository governance into Pagoda.
+`pagoda-framework` owns outcome proof: contracts, traces, scenario oracles, EDD
+registry interpretation, simulation-ai harness behavior, channel parity,
+Workbench/platform isolation, and run classification. This skill owns the
+repository operating layer for coding agents.
 
 ## Review Output
 

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Petitbon Doctrine"
+  short_description: "Apply fail-close engineering defaults."
+  default_prompt: "Use $the-petitbon-doctrine to apply John Petitbon's fail-close, fail-hard, simple target-state engineering posture."
+
+policy:
+  allow_implicit_invocation: true

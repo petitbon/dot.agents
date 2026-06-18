@@ -1,0 +1,7 @@
+interface:
+  display_name: "Node.js Runtime Quality"
+  short_description: "Improve service runtime and operability."
+  default_prompt: "Use $nodejs-microservice-best-practices to improve Node.js service bootstrap, config, errors, observability, Cloud Run posture, and tests."
+
+policy:
+  allow_implicit_invocation: true
