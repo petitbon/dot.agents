@@ -138,7 +138,7 @@ Track Pagoda-specific debt separately from general repository quality debt:
   SCENARIO_INVALID into ordinary FAIL.
 
 General quality scorecards and repository cleanup loops belong to
-`agent-harness-engineering`.
+`repo-agent-governance`.
 
 ## Working Principles
 

@@ -17,6 +17,10 @@ Use `pagoda-framework` when realtime behavior must be proven through Pagoda cont
 
 Do not embed Pagoda-specific harness concepts into runtime platform code.
 
+## Reference Loading
+
+Load `references/prompting-guide.md` when creating or updating realtime system prompts, model-specific prompt instructions, spoken preambles, unclear-audio handling, entity capture rules, or channel behavior.
+
 ## Core Principle
 
 ```text

@@ -15,6 +15,10 @@ Pair with architecture, runtime, or repository-governance skills only when those
 
 Do not use this skill as the primary owner for domain boundaries, runtime behavior, SDK release workflows, or Pagoda proof artifacts.
 
+## Reference Loading
+
+Load `references/naming-and-smells.md` when renaming files, reviewing vague names or global technical-layer buckets, or creating structural lint rules.
+
 ## Core Rule
 
 Prefer **business-capability-first** structure. Use flat technical layers only for tiny single-capability services.

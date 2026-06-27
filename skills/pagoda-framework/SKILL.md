@@ -52,6 +52,17 @@ Pagoda does not own general repository governance, architecture refactors, Node 
 
 EDD is a legacy alias for evidence-scenario outcome runs. Prefer `evidence scenarios` in new artifacts.
 
+## Reference Loading
+
+Load the narrow reference file when the task needs detail beyond this routing file:
+
+- `references/pagoda-framework.md` for Pagoda vocabulary and artifact responsibility routing.
+- `references/workbench-boundaries.md` for Workbench ownership, Agentis paths, and platform isolation.
+- `references/scenario-thinking.md` for scenario families, invariant properties, generators, counterexamples, and property-based tests.
+- `references/contracts-and-oracles.md` for contract shapes, trace clauses, evidence trust, result semantics, and oracle implementation.
+- `references/presentation-variance.md` for assistant wording, semantic presentation checks, and LLM judge protocol.
+- `references/implementation-guidance.md` for contract failure repair, implementation prompts, harness rules, channel parity, and Pagoda debt.
+
 ## Boundary With Product Architecture Skills
 
 Use product architecture skills, such as `booking-workflow-architecture`, for how Agentis workflows should be designed.
