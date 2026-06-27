@@ -1,7 +1,0 @@
-interface:
-  display_name: "DDD EDA Architecture"
-  short_description: "Model ownership, boundaries, and events."
-  default_prompt: "Use $ddd-eda-architecture to review ownership, bounded contexts, contracts, event flows, and target-state architecture."
-
-policy:
-  allow_implicit_invocation: true

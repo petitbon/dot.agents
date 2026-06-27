@@ -1,25 +1,33 @@
 ---
-name: agent-harness-engineering
-description: "Use for repository-local agent operating systems: AGENTS.md as a map, docs as system of record, execution plans, validation loops, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, golden principles, cleanup loops, and agent-legible repository design. Do not use as the primary skill for Pagoda Outcome Contracts, EDD harness execution, scenario oracles, or Workbench-owned evidence traces."
+name: repo-agent-governance
+description: "Use for repository-local agent governance: AGENTS.md as a map, docs as system of record, execution plans, validation registries, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, cleanup loops, skill inventory hygiene, and agent-legible repository design. Do not use as the primary skill for domain rules, Pagoda outcome proof, Node runtime implementation, or booking workflow design."
 ---
 
-# Agent Harness Engineering
+# Repo Agent Governance
 
 Use this skill to make a repository legible, governable, observable, validated, and maintainable for coding agents.
 
-This skill owns the repository operating layer for agents. It does not replace domain architecture, runtime engineering, realtime-agent design, SDK release workflows, or Pagoda evidence harnesses.
+This skill owns the repository operating layer for agents. It does not replace domain architecture, runtime engineering, realtime-agent design, SDK release workflows, booking workflow architecture, or Pagoda outcome proof.
 
 ## Scope
 
-Use this skill when the task involves repository guidance, agent instructions,
-docs topology, execution plans, validation loops, quality scoring, cleanup,
-custom lints, structural tests, or making application behavior directly
-inspectable by Codex.
+Use this skill when the task involves:
 
-Do not use this skill as the owner for domain architecture, service runtime
-implementation, realtime agent design, SDK release workflows, or Pagoda outcome
-proof. Pair with the relevant specialized skill when those concerns are in
-scope.
+- `AGENTS.md` design;
+- docs topology;
+- source-of-truth discovery;
+- execution plans;
+- validation registries;
+- quality scorecards;
+- cleanup loops;
+- technical-debt ledgers;
+- custom lints;
+- structural tests;
+- repository-local observability access;
+- making application behavior inspectable by Codex;
+- converting repeated agent guidance into reusable workflow infrastructure.
+
+Do not use this skill as the primary owner of the domain rule. Use it to make the rule discoverable, enforceable, and visible to future agents.
 
 ## Core Rule
 
@@ -27,7 +35,7 @@ Give agents a map, not a giant manual.
 
 Repository-local knowledge is the system of record. Anything a coding agent must know to preserve correctness, architecture, safety, quality, or validation should be discoverable in the repository.
 
-## AGENTS.md as Map
+## AGENTS.md As Map
 
 `AGENTS.md` should be short and stable. It should point to deeper source-of-truth files rather than duplicate them.
 
@@ -51,7 +59,7 @@ Avoid:
 - broad generic advice that belongs in skills;
 - instructions that cannot be mechanically verified.
 
-## Repository Knowledge as System of Record
+## Repository Knowledge As System Of Record
 
 Critical knowledge should live in versioned files such as:
 
@@ -82,23 +90,70 @@ Optimize for future agents being able to answer:
 
 Prefer boring, explicit, navigable structures over clever local abstractions.
 
-## Promotion Path
+## Agentic Workflow Systematization
 
-Recurring guidance should be promoted:
+When a task pattern repeats, convert it from ad hoc prompting into reusable workflow infrastructure.
 
-- review comment or human preference;
-- documented principle;
-- validation checklist;
-- test, lint, schema, harness, or CI gate where practical;
-- cleanup check or quality-score item.
+Promotion path:
 
-Do not leave repeated correctness, security, boundary, data-shape, naming, or validation rules as prompt-only guidance.
+1. one-off prompt or review comment;
+2. documented workflow note;
+3. skill, reference, checklist, repo-local command, or runbook;
+4. mechanical validation, lint, schema, harness, or CI gate where practical.
+
+Use skills for repeatable procedural context that agents need across tasks:
+
+- team standards;
+- repo conventions;
+- validation paths;
+- review routines;
+- release flows;
+- evidence requirements;
+- recurring investigation patterns;
+- safety and authority rules.
+
+Do not use skills as dumping grounds for broad manuals. A good skill makes a repeated delegation safer, faster, and more consistent.
+
+## Delegation Sizing
+
+Before large tasks, classify the delegation size:
+
+- **small**: local edit or focused review;
+- **medium**: multi-file change with clear validation;
+- **large**: architecture, cross-service, release, migration, harness, or workflow change;
+- **frontier**: ambiguous, high-risk, long-running, or multi-agent work.
+
+Large and frontier tasks require:
+
+- plan;
+- non-goals;
+- touched areas;
+- validation commands;
+- progress checkpoints;
+- reviewable evidence before completion is claimed.
+
+The first prompt in a long-running agent thread should define the broad outcome, constraints, ownership boundaries, and evidence expectations. Later turns should narrow, review, correct, or integrate.
+
+## Parallel Agent Work
+
+Parallel agent work is useful only when workstreams are independent and reviewable.
+
+Before splitting work across agents, define:
+
+- independent workstream boundaries;
+- shared files or contracts that must not be edited concurrently;
+- merge/integration owner;
+- validation required per workstream;
+- final integration validation;
+- conflict resolution rule.
+
+Do not parallelize work that shares one invariant, one transaction boundary, one state machine, or one fragile contract unless a human explicitly assigns an integration plan.
 
 ## Mechanical Enforcement
 
 When a rule matters, prefer mechanical enforcement.
 
-Architecture and structure skills define the domain, boundary, dependency, and folder rules. This skill owns the repository-level validation registry, discoverability, backlog tracking, and cross-repo agent operating layer for those checks.
+Architecture and structure skills define domain, boundary, dependency, and folder rules. This skill owns repository-level validation registry placement, discoverability, backlog tracking, and cross-repo agent operating layer for those checks.
 
 Candidate mechanisms:
 
@@ -113,8 +168,6 @@ Candidate mechanisms:
 - test harness assertions;
 - CI gates for high-risk behavior.
 
-Lint and test failure messages should tell a coding agent how to fix the violation.
-
 A good remediation message includes:
 
 1. violated rule;
@@ -127,7 +180,7 @@ A good remediation message includes:
 
 This skill owns repository-level observability access, documentation, checklists, and validation loops for agents.
 
-It does not own service implementation of logs, metrics, traces, readiness, or runtime evidence. Service implementation belongs to `nodejs-microservice-best-practices`.
+It does not own service implementation of logs, metrics, traces, readiness, or runtime evidence. Service implementation belongs to `nodejs-service-runtime`.
 
 For substantial runtime or UI work, make behavior observable to agents through:
 
@@ -141,7 +194,7 @@ For substantial runtime or UI work, make behavior observable to agents through:
 
 Do not claim runtime validation unless commands were run or evidence was inspected.
 
-## Plans as First-Class Artifacts
+## Plans As First-Class Artifacts
 
 Use lightweight plans for small changes and repository-local execution plans for complex work.
 
@@ -176,6 +229,20 @@ Track, where relevant:
 
 The scorecard is a navigation surface for agents and humans.
 
+## Skill Inventory Hygiene
+
+Periodically review skills for:
+
+- overlapping routing descriptions;
+- stale procedural guidance;
+- repeated instructions that should be references;
+- missing validation commands;
+- skills that are too broad to invoke reliably;
+- high-value recurring workflows that are still prompt-only;
+- instructions that should become repo-local checks.
+
+Prefer fewer, sharper skills over many overlapping manuals.
+
 ## Cleanup / Garbage Collection
 
 Agent-generated codebases accumulate drift because agents copy local patterns.
@@ -194,20 +261,19 @@ Use recurring cleanup tasks to scan for:
 
 Cleanup changes should be small, targeted, and behavior-preserving unless explicitly scoped otherwise.
 
-## Boundary with Pagoda
+## Boundary With Pagoda
 
-`pagoda-framework` owns outcome proof: contracts, traces, scenario oracles, EDD
-registry interpretation, simulation-ai harness behavior, channel parity,
-Workbench/platform isolation, and run classification. This skill owns the
-repository operating layer for coding agents.
+`pagoda-framework` owns outcome proof: contracts, traces, scenario oracles, evidence-scenario registry interpretation, simulation harness behavior, channel parity, Workbench/platform isolation, and run classification.
+
+This skill owns the repository operating layer for coding agents.
 
 ## Review Output
 
-For repository-harness reviews, report:
+For repository-governance reviews, report:
 
 1. current repository legibility;
 2. stale or missing source-of-truth docs;
-3. AGENTS.md size/scope issues;
+3. `AGENTS.md` size/scope issues;
 4. validation command gaps;
 5. mechanical enforcement opportunities;
 6. observability access gaps;
