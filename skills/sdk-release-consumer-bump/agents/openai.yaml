@@ -1,0 +1,7 @@
+interface:
+  display_name: "SDK Release Consumer Bump"
+  short_description: "Release SDKs and bump consumers."
+  default_prompt: "Use $sdk-release-consumer-bump to release an SDK and update the consumers that should move to the new version."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Agentis Engineering Doctrine"
+  short_description: "Apply fail-close engineering defaults."
+  default_prompt: "Use $agentis-engineering-doctrine to apply Agentis fail-close, fail-hard, simple target-state engineering posture."
+
+policy:
+  allow_implicit_invocation: true

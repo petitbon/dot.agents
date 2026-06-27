@@ -1,0 +1,7 @@
+interface:
+  display_name: "Domain Event Architecture"
+  short_description: "Model ownership, boundaries, and events."
+  default_prompt: "Use $domain-event-architecture to review ownership, bounded contexts, contracts, event flows, and target-state architecture."
+
+policy:
+  allow_implicit_invocation: true

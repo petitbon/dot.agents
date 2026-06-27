@@ -1,0 +1,7 @@
+interface:
+  display_name: "Booking Workflow Architecture"
+  short_description: "Govern booking workflow state and authority."
+  default_prompt: "Use $booking-workflow-architecture to design or review governed booking workflow state, proposal identity, confirmation readiness, conflict recovery, and authority ownership."
+
+policy:
+  allow_implicit_invocation: true
