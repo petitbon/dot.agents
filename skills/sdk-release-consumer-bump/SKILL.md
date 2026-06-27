@@ -18,7 +18,9 @@ Execute SDK release work end to end without guessing version strategy or consume
 
 For Agentis SDK repos, SDK publishing is owned by GitHub Actions.
 
-Do not run `yarn publish`, `yarn npm publish`, `npm publish`, or equivalent from the local machine unless the user explicitly requests local publishing for that turn.
+Do not run `yarn publish`, `yarn npm publish`, `npm publish`, or equivalent from the local machine.
+
+If a user requests local publishing, decline that path and use the declared GitHub Actions release flow instead.
 
 Every SDK code update that changes published package contents, generated types, runtime behavior, public API, package metadata, or distributed files requires a new package version.
 
@@ -44,7 +46,7 @@ If publishing cannot be completed, leave consumers untouched and report the bloc
 
 If consumer validation is needed before the workflow has published the package, state that validation is blocked unless the user explicitly approves a temporary local pack/link validation path. Do not commit temporary local package references, and do not edit consumer manifests or lockfiles for the unpublished version.
 
-Never add local registry auth config or tokens to make local SDK publishing work. Registry auth for SDK publishing belongs in GitHub Actions secrets and workflows.
+Never add local registry auth config or tokens for SDK release work. Registry auth for SDK publishing belongs in GitHub Actions secrets and workflows.
 
 ## 1. Establish Release Surface
 
@@ -93,7 +95,7 @@ Use the repo-defined GitHub Actions workflow by committing only the SDK version/
 
 Monitor the workflow until it reaches a terminal state, then verify registry availability for the exact version before touching consumers.
 
-Do not use the local publish command unless the user explicitly requested local publishing.
+Do not use local publish commands. Publishing must go through the declared GitHub Actions workflow.
 
 If workflow publishing fails, classify the blocker:
 

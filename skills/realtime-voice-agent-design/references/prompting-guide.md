@@ -1,7 +1,9 @@
 # Realtime Prompting Guide
 
-Use this reference when creating or updating gpt-realtime-2 or
-gpt-realtime-1.5 system prompts.
+Use this reference when creating or updating realtime system prompts.
+
+Verify model-specific behavior against current official OpenAI documentation or
+the owning runtime contract before relying on version-specific prompt guidance.
 
 ## Prompt Structure
 
@@ -83,10 +85,10 @@ For high-precision fields such as order IDs, tracking numbers, or emails:
 
 ## Literal Instruction Traps
 
-gpt-realtime-2 follows instructions literally. Avoid broad constraint words like
-`always`, `never`, or `only` unless truly required. Scope constraints precisely,
-such as "For write actions that modify user data, ask for confirmation before
-calling the tool."
+Realtime models can follow prompt constraints literally. Avoid broad constraint
+words like `always`, `never`, or `only` unless truly required. Scope constraints
+precisely, such as "For write actions that modify user data, ask for
+confirmation before calling the tool."
 
 ## Language And Accent
 

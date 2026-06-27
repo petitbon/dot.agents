@@ -1,6 +1,6 @@
 ---
 name: domain-event-architecture
-description: "Use for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, data ownership, command/API/event contracts, and target-state architecture in modular monoliths, microservices, and event-driven systems. Use when a task affects ownership, invariants, contracts, data ownership, event flows, bounded contexts, or cross-service coupling. For Agentis booking workflow-state questions, use booking-workflow-architecture as primary."
+description: "Use as the primary skill for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, data ownership, command/API/event contracts, and target-state architecture when those artifacts are directly affected. For Agentis booking workflow-state questions, use booking-workflow-architecture as primary."
 ---
 
 # Domain + Event Architecture

@@ -1,7 +1,7 @@
 interface:
   display_name: "Node.js Service Structure"
-  short_description: "Shape service folders and dependency flow."
-  default_prompt: "Use $nodejs-service-structure to review or refactor Node.js service layout, naming, layers, and dependency direction."
+  short_description: "Shape service folders and dependency flow when primary."
+  default_prompt: "Use $nodejs-service-structure when Node.js service layout, naming, layers, and dependency direction are the primary artifacts."
 
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

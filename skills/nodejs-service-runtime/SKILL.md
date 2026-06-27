@@ -1,6 +1,6 @@
 ---
 name: nodejs-service-runtime
-description: "Use for Node.js/TypeScript service-internal runtime quality: service bootstrap, handlers, adapters, configuration, dependency handling, validation, errors, logging, metrics, tracing, Cloud Run posture, package hygiene, agentic workload readiness, and tests. Do not use as the primary skill for architecture boundaries, folder structure, SDK release publishing, or Pagoda proof."
+description: "Use as the primary skill for Node.js/TypeScript service-internal runtime quality when those artifacts are directly affected: service bootstrap, handlers, adapters, configuration, dependency handling, validation, errors, logging, metrics, tracing, Cloud Run posture, package hygiene, agentic workload readiness, and tests. Do not use as the primary skill for architecture boundaries, folder structure, SDK release publishing, or Pagoda proof."
 ---
 
 # Node.js Service Runtime

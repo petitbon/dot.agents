@@ -1,7 +1,7 @@
 interface:
   display_name: "Repo Agent Governance"
-  short_description: "Guide agent-readable repos and checks."
-  default_prompt: "Use $repo-agent-governance to keep repository docs, validation, observability access, quality/debt tracking, and cleanup loops agent-legible."
+  short_description: "Guide agent-readable repos and checks when primary."
+  default_prompt: "Use $repo-agent-governance when repository docs, validation, observability access, quality/debt tracking, or cleanup loops are the primary artifacts."
 
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false

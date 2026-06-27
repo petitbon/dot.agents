@@ -1,11 +1,11 @@
 ---
 name: agentis-engineering-doctrine
-description: "Apply Agentis default engineering doctrine for code planning, implementation, and review: green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, delegated-production discipline, and no fallback success. Use for application code, services, APIs, domain logic, frontend/backend refactors, and architecture-adjacent implementation work. Do not use for pure copywriting or non-code analysis."
+description: "Apply Agentis engineering doctrine when a task directly needs code-planning, implementation, or review posture: green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, delegated-production discipline, and no fallback success. Do not use for pure copywriting, non-code analysis, or as a broad automatic companion to a more specific primary skill."
 ---
 
 # Agentis Engineering Doctrine
 
-Default all Agentis code work to this doctrine unless the user or repo-local instructions explicitly override it.
+Use this skill when the task directly needs Agentis engineering posture for code planning, implementation, or review.
 
 ## Core Rule
 

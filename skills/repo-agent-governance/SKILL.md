@@ -1,6 +1,6 @@
 ---
 name: repo-agent-governance
-description: "Use for repository-local agent governance: AGENTS.md as a map, docs as system of record, execution plans, validation registries, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, cleanup loops, skill inventory hygiene, and agent-legible repository design. Do not use as the primary skill for domain rules, Pagoda outcome proof, Node runtime implementation, or booking workflow design."
+description: "Use as the primary skill for repository-local agent governance when those artifacts are directly affected: AGENTS.md as a map, docs as system of record, execution plans, validation registries, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, cleanup loops, skill inventory hygiene, and agent-legible repository design. Do not use as the primary skill for domain rules, Pagoda outcome proof, Node runtime implementation, or booking workflow design."
 ---
 
 # Repo Agent Governance

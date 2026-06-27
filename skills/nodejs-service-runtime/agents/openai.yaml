@@ -1,7 +1,7 @@
 interface:
   display_name: "Node.js Service Runtime"
-  short_description: "Improve service runtime and operability."
-  default_prompt: "Use $nodejs-service-runtime to improve Node.js service bootstrap, config, errors, observability, Cloud Run posture, and tests."
+  short_description: "Improve service runtime when directly affected."
+  default_prompt: "Use $nodejs-service-runtime when Node.js service bootstrap, config, errors, observability, Cloud Run posture, or tests are directly affected."
 
 policy:
-  allow_implicit_invocation: true
+  allow_implicit_invocation: false
