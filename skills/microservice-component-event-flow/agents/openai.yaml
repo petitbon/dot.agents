@@ -1,0 +1,7 @@
+interface:
+  display_name: "Microservice Component Event Flow"
+  short_description: "Diagram one service's internal flow."
+  default_prompt: "Use $microservice-component-event-flow to create or update a Mermaid flowchart for one microservice's APIs, handlers, use cases, domain rules, persistence, clients, events, and ownership boundaries."
+
+policy:
+  allow_implicit_invocation: true

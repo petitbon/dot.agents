@@ -10,6 +10,7 @@ instruction repository, not a runtime service.
 | `agentis-engineering-doctrine` | Default engineering posture and fail-close doctrine | No |
 | `booking-workflow-architecture` | Booking workflow state, proposal identity, confirmation, recovery, and authority | Yes |
 | `domain-event-architecture` | Bounded contexts, ownership, contracts, commands, and events | No |
+| `microservice-component-event-flow` | Mermaid component/event-flow diagrams for one microservice's internal logic and boundaries | Yes |
 | `nodejs-service-runtime` | Node.js/TypeScript service runtime quality and operability | No |
 | `nodejs-service-structure` | Node.js/TypeScript service folder layout, naming, and dependency direction | No |
 | `pagoda-framework` | Pagoda outcome proof, contracts, traces, scenario oracles, and Workbench isolation | Yes |

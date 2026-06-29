@@ -51,7 +51,7 @@ for yaml in skills/*/agents/openai.yaml; do
   actual=$(awk '/allow_implicit_invocation:/ { print $2; exit }' "$yaml")
   expected=false
   case "$skill" in
-    booking-workflow-architecture|pagoda-framework|realtime-voice-agent-design|sdk-release-consumer-bump)
+    booking-workflow-architecture|microservice-component-event-flow|pagoda-framework|realtime-voice-agent-design|sdk-release-consumer-bump)
       expected=true
       ;;
   esac
