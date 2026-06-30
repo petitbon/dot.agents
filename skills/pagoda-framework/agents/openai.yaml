@@ -1,7 +1,0 @@
-interface:
-  display_name: "Pagoda Framework"
-  short_description: "Outcome proof and scenario oracles."
-  default_prompt: "Use $pagoda-framework for Workbench-owned outcome proof with Evidence Maps, scenario families, contracts, traces, oracles, LLM presentation variance, and Workbench/platform isolation."
-
-policy:
-  allow_implicit_invocation: true
