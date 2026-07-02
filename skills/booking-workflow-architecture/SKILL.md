@@ -1,6 +1,6 @@
 ---
 name: booking-workflow-architecture
-description: "Use for Agentis booking and scheduling product architecture: governed booking workflow design, proposal state, active proposal identity, confirmation readiness, conflict recovery, stale-state invalidation, retries, idempotent side effects, duplicate-safe commits, terminal completion, and service authority ownership. Do not use as the primary skill for Pagoda Evidence Maps, scenario families, trace/oracle contracts, or Workbench harness execution; use pagoda-framework for proof artifacts."
+description: "Use for Agentis booking and scheduling product architecture: governed booking workflow design, proposal state, active proposal identity, confirmation readiness, conflict recovery, stale-state invalidation, retries, idempotent side effects, duplicate-safe commits, terminal completion, and service authority ownership. Use agentis-realtime-authority-layer for cross-channel live tool surface ownership, Authority Runtime capability admission, resolver topology, and registry/finalization/evidence compliance. Do not use as the primary skill for Pagoda Evidence Maps, scenario families, trace/oracle contracts, or Workbench harness execution; use pagoda-framework for proof artifacts."
 ---
 
 # Booking Workflow Architecture
@@ -14,6 +14,12 @@ family, contract, oracle, trace, harness, or Workbench proof asset. Use
 `realtime-voice-agent-design` for realtime model prompting, tool schemas, voice
 behavior, conversational state exposure to the model, and guarded tool
 execution.
+
+Use `agentis-realtime-authority-layer` when the task is about how booking
+capabilities are exposed as realtime tools, routed through the Authority
+Runtime, finalized, evidenced, or validated across phone and browser chat. This
+skill remains primary for the booking frame, active proposal lifecycle,
+confirmation readiness, conflict recovery, and commit invariants.
 
 ## Reference Loading
 

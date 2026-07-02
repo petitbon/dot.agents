@@ -13,6 +13,9 @@ This skill owns service-internal runtime quality, not broad architecture, folder
 
 Pair with the relevant specialized skill only when those concerns are directly affected.
 
+Use `agentis-realtime-authority-layer` for semantic authority-runtime rules.
+This skill owns how a Node service implements those rules safely at runtime.
+
 ## First Read
 
 Inspect the smallest relevant set:

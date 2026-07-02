@@ -94,6 +94,10 @@ Examples:
 - realtime transport adapters belong at presentation/adapter boundaries;
 - evidence emitted for proof should be ordinary product evidence, not Pagoda harness logic.
 
+For Authority Runtime or capability resolver modules, follow
+`agentis-realtime-authority-layer` for ownership and this skill for module
+placement and dependency direction.
+
 ## First Read
 
 Inspect only what is needed:

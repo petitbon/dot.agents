@@ -29,6 +29,11 @@ Use this skill when the task involves:
 
 Do not use this skill as the primary owner of the domain rule. Use it to make the rule discoverable, enforceable, and visible to future agents.
 
+Use `agentis-realtime-authority-layer` as the domain/architecture source when
+creating `AGENTS.md`, validation registries, cleanup loops, or mechanical
+checks for realtime authority compliance. This skill owns discoverability and
+enforcement placement, not the realtime authority rule itself.
+
 ## Core Rule
 
 Give agents a map, not a giant manual.

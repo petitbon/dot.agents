@@ -1,6 +1,6 @@
 ---
 name: domain-event-architecture
-description: "Use as the primary skill for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, data ownership, command/API/event contracts, and target-state architecture when those artifacts are directly affected. For Agentis booking workflow-state questions, use booking-workflow-architecture as primary."
+description: "Use as the primary skill for architecture reviews, service-boundary analysis, domain modeling, event modeling, workflow design, data ownership, command/API/event contracts, and target-state architecture when those artifacts are directly affected. Use agentis-realtime-authority-layer when the primary concern is the Agentis realtime tool/authority ontology across SDK registry, adapters, resolvers, and domain authorities. For Agentis booking workflow-state questions, use booking-workflow-architecture as primary."
 ---
 
 # Domain + Event Architecture
@@ -180,6 +180,11 @@ Treat as findings:
 For Agentis booking/scheduling workflow-state questions, use `booking-workflow-architecture` as the primary skill.
 
 Use this skill when the task concerns broader bounded contexts, service ownership, data ownership, commands, events, contracts, or cross-service coupling around booking.
+
+For Agentis realtime authority ontology work, use
+`agentis-realtime-authority-layer` as primary. Use this skill when broader
+bounded context, command/event, or service-ownership analysis is needed beyond
+the realtime authority layer.
 
 ## Output For Substantial Reviews
 

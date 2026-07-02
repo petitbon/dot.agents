@@ -35,6 +35,10 @@ For any non-trivial delegated task, establish:
 - validation commands or evidence required before claiming completion;
 - review handoff artifacts for the human or next agent.
 
+For Agentis realtime authority implementation plans, defer capability
+ownership, registry, resolver, and finalization rules to
+`agentis-realtime-authority-layer`.
+
 The human role shifts toward delegation, supervision, verification, and integration. Make agent work reviewable, bounded, and evidence-backed.
 
 Do not optimize for apparent productivity by skipping verification, inventing success, hiding uncertainty, or making broad unreviewable changes.

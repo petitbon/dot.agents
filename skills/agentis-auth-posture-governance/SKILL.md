@@ -8,6 +8,12 @@ description: "Use as the primary skill for Agentis authentication and authorizat
 Use this skill to review or change Agentis auth posture across services,
 infrastructure, contracts, docs, and audit checks.
 
+Pair with `agentis-realtime-authority-layer` when a realtime authority change
+touches trusted context injection, external user context, internal
+service-to-service posture, or domain authorization boundaries. Auth posture
+owns provenance and authz posture; realtime authority owns capability
+admission, resolver routing, finalization, and evidence policy.
+
 ## First Reads
 
 Load these before making findings or edits:
