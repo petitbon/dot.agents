@@ -1,0 +1,7 @@
+interface:
+  display_name: "Agentis Realtime Authority Layer"
+  short_description: "Govern realtime tool authority and compliance."
+  default_prompt: "Use $agentis-realtime-authority-layer to design or review Agentis realtime tool registry, Authority Runtime admission, resolver routing, finalization, evidence, and adapter compliance."
+
+policy:
+  allow_implicit_invocation: false

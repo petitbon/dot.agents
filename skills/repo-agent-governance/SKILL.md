@@ -201,7 +201,7 @@ Do not claim runtime validation unless commands were run or evidence was inspect
 
 ## Plans As First-Class Artifacts
 
-Use lightweight plans for small changes and repository-local execution plans for complex work.
+Use lightweight plans for small changes and repository-local execution plans for complex work. For large, interruptible work, use `docs/task-checkpoint-template.md` or a child-repo equivalent so another agent can resume without chat history.
 
 A substantial plan should include:
 
@@ -266,9 +266,15 @@ Use recurring cleanup tasks to scan for:
 
 Cleanup changes should be small, targeted, and behavior-preserving unless explicitly scoped otherwise.
 
+## Rule Evidence Registry
+
+Keep important agent rules tied to proof. When adding or changing repository-governance rules, update `docs/rule-evidence-registry.md` if the rule should be discoverable as a durable harness guarantee.
+
+Each registry row should name the rule, owner, source, evidence command or review artifact, and whether enforcement is hard or soft.
+
 ## Boundary With Pagoda
 
-`pagoda-framework` owns outcome proof: contracts, traces, scenario oracles, evidence-scenario registry interpretation, simulation harness behavior, channel parity, Workbench/platform isolation, and run classification.
+`pagoda` owns outcome proof: contracts, traces, scenario oracles, evidence-scenario registry interpretation, simulation harness behavior, channel parity, Workbench/platform isolation, and run classification.
 
 This skill owns the repository operating layer for coding agents.
 

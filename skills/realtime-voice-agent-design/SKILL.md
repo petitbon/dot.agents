@@ -1,6 +1,6 @@
 ---
 name: realtime-voice-agent-design
-description: "Use for designing, implementing, and prompting realtime voice agents: model-native tool selection, realtime system prompts, tool schemas, conversational state exposure, confirmation behavior, voice ambiguity handling, guarded tool execution, and replay/eval validation. Use agentis-realtime-authority-layer for canonical realtime tool registry, Authority Runtime design, resolver topology, channel-specific live tool exposure, finalization/evidence policy, and cross-adapter compliance. Use booking-workflow-architecture for Agentis booking state-machine design. Use pagoda-framework for outcome-proof artifacts."
+description: "Use for designing, implementing, and prompting realtime voice agents: model-native tool selection, realtime system prompts, tool schemas, conversational state exposure, confirmation behavior, voice ambiguity handling, guarded tool execution, and replay/eval validation. Use agentis-realtime-authority-layer for canonical realtime tool registry, Authority Runtime design, resolver topology, channel-specific live tool exposure, finalization/evidence policy, and cross-adapter compliance. Use booking-workflow-architecture for Agentis booking state-machine design. Use pagoda for outcome-proof artifacts."
 ---
 
 # Realtime Voice Agent Design
@@ -18,7 +18,7 @@ evidence policy, or cross-adapter runtime enforcement.
 
 Use `booking-workflow-architecture` for Agentis booking state-machine design, active proposal lifecycle, confirmation readiness rules, conflict recovery, and terminal commit behavior.
 
-Use `pagoda-framework` when realtime behavior must be proven through Pagoda contracts, traces, scenario oracles, or evidence-scenario harness execution.
+Use `pagoda` when realtime behavior must be proven through Pagoda contracts, traces, scenario oracles, or evidence-scenario harness execution.
 
 Do not embed Pagoda-specific harness concepts into runtime platform code.
 

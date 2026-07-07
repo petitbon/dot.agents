@@ -12,7 +12,7 @@ Use this skill when working with a repo that has a `.pagoda/` project pack.
 1. Read `.pagoda/pagoda.target.json` first to identify paths, adapters, and supported channels.
 2. Read `.pagoda/evidence/registry.json` and `.pagoda/adapters/*/pagoda.adapter.json` before changing evidence codes or adapter capabilities.
 3. Read existing `.pagoda/scenarios/*/scenario.json` and `.pagoda/scenarios/*/evidence-map.json` before adding new scenarios. Legacy flat `*.scenario.json` and `*.evidence-map.json` files are still supported.
-4. Prefer `pagoda scenario create --root .pagoda --id <SCENARIO-ID> --title "<title>" --channel <channel>` for new scenarios, then edit the generated scenario and evidence map.
+4. Prefer `pagoda scenario create --root .pagoda --id <SCENARIO-ID> --title "<title>" --channel <channel> --interaction generated|agentic|none` for new scenarios, then edit the generated scenario and evidence map. Choose the interaction mode deliberately; default to `generated` unless the scenario needs caller-agent behavior.
 5. Run `pagoda compile --root .pagoda` after scenario or evidence-map changes. Outcome contracts are generated artifacts and should not be hand-edited.
 6. Run `pagoda validate --root .pagoda` before finishing.
 7. Run `pagoda adapter check --root .pagoda --adapter <adapter-id> --scenario <scenario-id>` before running a new or changed scenario.
@@ -38,8 +38,18 @@ brew install pagoda
 - Keep `labels.channels`, `channelContracts.channels`, and manifest `channels` consistent.
 - Keep `.pagoda/evidence/registry.json` aligned with scenario and adapter evidence codes.
 - Keep adapter `producesEvidenceCodes` aligned with the required setup, outcome, workflow, common, and channel evidence for scenarios it runs.
+- Use scenario `interaction` for generated user turns when present. Case ids are stable; `--seed` changes default ordering/template choice, not what `case-001` means.
 - Generated run artifacts under `.pagoda/artifacts/` are local output and should not be committed.
 - Do not hand-edit generated outcome contracts, reports, or run artifacts except while debugging generator output. Fix source scenarios, evidence maps, adapters, fixtures, or registries instead.
+
+## Interaction Mode Selection
+
+- Use `--interaction generated` by default for deterministic request/response scenarios where templated user turns are enough.
+- Use `--interaction agentic` when the user or caller needs a persona, private goal, follow-up behavior, corrections, acceptance or rejection, or confirmation verification.
+- Use `--interaction none` only for legacy scenarios, replay-only scenarios, or cases where the adapter supplies all execution input.
+- Before choosing `agentic`, confirm the selected adapter manifest declares `interactionModes` including `agentic`.
+- For generated scenarios, prefer slots and `seeded-pairwise` coverage over duplicating many near-identical scenarios.
+- For agentic scenarios, keep oracle proof in trusted adapter evidence; caller turns are execution input and artifact context, not PASS proof.
 
 ## Live Adapter Rules
 
@@ -47,6 +57,7 @@ brew install pagoda
 - Harness-side transcription or screen/audio capture is useful for debugging, but should be fallback evidence only when the platform has no canonical transcript or observable evidence.
 - Live adapters should wait for channel readiness before sending the user turn. For phone, wait for the initial greeting or session-ready signal so synthetic caller audio does not collide with startup audio.
 - Live adapters should end sessions after collecting required evidence. Close chat sessions, send phone stop/end events, and include end status in metadata.
+- Interactive adapter methods may receive an abort signal. Honor it during startup, observation, caller-turn sending, and finish work, and keep cleanup idempotent so late-created sessions can be released after timeout.
 - Keep transport details separate from trust details. For webhook drivers, the URL used to POST may differ from the URL used for request signing or public verification; sign against the target service's configured public URL.
 - Adapters may discover local env files, ADC, or repo-local harness config to make local validation ergonomic, but must fail closed with a concrete setup error when required trusted config cannot be resolved.
 - Preserve useful raw platform observations in artifacts or metadata for debugging, but translate only trusted canonical evidence into oracle inputs.
@@ -64,6 +75,7 @@ For each new scenario:
 - Add a channel contract for every supported channel the scenario declares.
 - Run `pagoda adapter check --root .pagoda --adapter <adapter-id> --scenario <scenario-id>` to find missing adapter capabilities.
 - Update the adapter only when it cannot yet emit the required canonical evidence codes.
+- For generated interaction scenarios, use `pagoda run --root .pagoda --scenario <scenario-id> --interaction-case case-001` to reproduce one case or `--interaction-cases all` for pairwise coverage.
 
 ## When Validation Fails
 
