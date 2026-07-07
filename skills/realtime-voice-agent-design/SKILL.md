@@ -73,6 +73,8 @@ Avoid:
 - English transcript matching as business logic;
 - duplicated semantic routing in application code.
 
+For realtime voice or text UX features, apply `agentis-engineering-doctrine` when the implementation starts depending on provider-output suppression, transcript matching, timing gates, adapter-local sentinel state, or repeated cleanup branches to remain coherent. Treat that as a control-stack smell and first consider deleting, simplifying, moving into a shared contract, or redesigning the feature at the owning layer.
+
 ## Tools Represent Business Capabilities
 
 Tools should be stable domain capabilities, not dialogue states.

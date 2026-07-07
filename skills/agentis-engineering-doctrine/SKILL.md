@@ -1,6 +1,6 @@
 ---
 name: agentis-engineering-doctrine
-description: "Apply Agentis engineering doctrine when a task directly needs code-planning, implementation, or review posture: green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, delegated-production discipline, and no fallback success. Do not use for pure copywriting, non-code analysis, or as a broad automatic companion to a more specific primary skill."
+description: "Apply Agentis engineering doctrine when a task directly needs code-planning, implementation, or review posture: green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, control-stack smell detection, delegated-production discipline, and no fallback success. Do not use for pure copywriting, non-code analysis, or as a broad automatic companion to a more specific primary skill."
 ---
 
 # Agentis Engineering Doctrine
@@ -82,6 +82,21 @@ Translate low-level failures into domain errors at boundaries when useful, but p
 - Make unsafe states unrepresentable where practical.
 - Prefer one normal path with explicit preconditions over many arrival-history-specific branches.
 - Prefer deletion over abstraction when deletion preserves the invariant.
+
+## Control-Stack Smell
+
+Treat escalating containment logic as evidence that the feature may be wrong.
+
+When a runtime, realtime, voice, text, or agentic feature requires repeated layers of suppression, sentinel state, timing windows, phrase matching, duplicate filtering, cleanup branches, or special-case state to keep it coherent, do not default to adding another control layer.
+
+Before adding more containment, explicitly propose one of:
+
+- delete the feature;
+- replace it with simpler product behavior;
+- move it into a first-class shared contract;
+- redesign it around the owning authority, state machine, or hard boundary.
+
+Do not confuse this smell with legitimate boundary controls such as authentication, schema validation, authorization, confirmation, policy checks, idempotency, durable domain state machines, or explicit recoverable failure states. Those controls enforce invariants directly; control-stack smell appears when code exists mainly to keep a feature from getting out of hand.
 
 ## No Fallback Success
 
