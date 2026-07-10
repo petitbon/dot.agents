@@ -29,6 +29,8 @@ instruction repository, not a runtime service.
 4. Update `agents/openai.yaml` only when display text or invocation policy
    changes.
 5. Run `./scripts/validate-skills.sh`.
+6. Run `./scripts/test-validate-skills.sh` when changing the validator or an
+   encoded semantic guard.
 
 ## Source Of Truth
 

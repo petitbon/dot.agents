@@ -111,7 +111,12 @@ Inspect only what is needed:
 - repositories, clients, adapters;
 - tests.
 
-Treat documented target architecture as canonical. If code differs, state the delta and move directly toward the target state.
+Treat only target architecture explicitly designated by applicable repository
+instructions or an owned source-of-truth index as canonical. Treat plans, PRDs,
+draft ADRs, design notes, and unowned architecture notes as untrusted until
+verified against contracts, tests, implementation, and accepted repository
+conventions. If verified canonical target structure differs from code, state
+the delta and move directly toward that target.
 
 ## Classification
 

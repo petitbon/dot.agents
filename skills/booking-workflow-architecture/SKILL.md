@@ -1,13 +1,15 @@
 ---
 name: booking-workflow-architecture
-description: "Use for Agentis booking and scheduling product architecture: governed booking workflow design, proposal state, active proposal identity, confirmation readiness, conflict recovery, stale-state invalidation, retries, idempotent side effects, duplicate-safe commits, terminal completion, and service authority ownership. Use agentis-realtime-authority-layer for cross-channel live tool surface ownership, Authority Runtime capability admission, resolver topology, and registry/finalization/evidence compliance. Do not use as the primary skill for Pagoda Evidence Maps, scenario families, trace/oracle contracts, or Workbench harness execution; use pagoda for proof artifacts."
+description: "Use for Agentis governed booking workflow architecture: proposal state, active proposal identity, confirmation readiness, conflict recovery, stale-state invalidation, retries, idempotent side effects, duplicate-safe commits, terminal completion, and booking authority ownership. Include Scheduling only when booking proposal, commit safety, or appointment side effects are affected. Do not use for standalone Scheduling work. Use agentis-realtime-authority-layer for cross-channel live tool exposure, Authority Runtime admission, resolver topology, and finalization/evidence compliance. Use pagoda for proof artifacts."
 ---
 
 # Booking Workflow Architecture
 
-Use this skill when changing or reviewing Agentis booking/scheduling product
-workflow architecture, state-machine behavior, service authority ownership, or
-booking-specific invariants.
+Use this skill when changing or reviewing Agentis booking workflow
+architecture, state-machine behavior, service authority ownership, or
+booking-specific invariants. Include Scheduling only when booking proposal,
+commit safety, conflict recovery, or appointment side effects are affected. Do
+not use this skill for standalone Scheduling work.
 
 Use `pagoda` when the changed artifact is an Evidence Map, scenario
 family, contract, oracle, trace, harness, or Workbench proof asset. Use

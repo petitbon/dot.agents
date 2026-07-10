@@ -32,11 +32,14 @@ Standard flow:
 2. Bump the SDK version intentionally.
 3. Run repo-defined SDK validation locally.
 4. Commit only the SDK code/version change.
-5. Push the SDK branch to GitHub.
-6. Monitor the GitHub Actions publish workflow until it succeeds.
-7. Verify the exact package version exists in the registry, for example with `yarn npm info`.
-8. Update downstream consumers to that exact published version and refresh lockfiles.
-9. Run repo-defined consumer validation.
+5. Inspect the declared GitHub Actions publish trigger.
+6. If the committed branch is a declared publish branch, push it. Otherwise,
+   intentionally dispatch a declared `workflow_dispatch` flow for that ref or
+   prepare a PR to the publish branch and report publishing blocked on merge.
+7. Locate the workflow run for the exact commit SHA and monitor it to terminal success.
+8. Verify the exact package version exists in the registry, for example with `yarn npm info`.
+9. Update downstream consumers to that exact published version and refresh lockfiles.
+10. Run repo-defined consumer validation.
 
 This release gate is mandatory before editing downstream consumer manifests or lockfiles.
 
@@ -87,13 +90,17 @@ Run repo-defined validation for build, lint, test, typecheck, generation, or pac
 
 If a check is absent, say so.
 
-Do not publish failing SDKs unless the user explicitly requests it.
+Failed required validation blocks publishing. Do not publish a failing SDK,
+and do not treat user instruction as an override for release integrity.
 
 ## 4. Publish Through Declared Path
 
-Use the repo-defined GitHub Actions workflow by committing only the SDK version/code change and pushing the current branch to GitHub.
+Use the repo-defined GitHub Actions workflow through one of its declared
+triggers. Do not assume that pushing a feature branch starts publishing.
 
-Monitor the workflow until it reaches a terminal state, then verify registry availability for the exact version before touching consumers.
+Bind the workflow run to the exact commit SHA. Monitor it until it reaches
+terminal success, then verify registry availability for the exact version
+before touching consumers.
 
 Do not use local publish commands. Publishing must go through the declared GitHub Actions workflow.
 
@@ -177,7 +184,7 @@ Return:
 - replacing workspace deps with registry versions;
 - changing import sites when only manifest versions needed changing;
 - sweeping unknown consumers into scope;
-- publishing with missing metadata/auth/validation unless explicitly instructed;
+- publishing with missing required metadata or auth, or after failed required validation;
 - committing local pack/link references;
 - adding registry auth tokens or local `.npmrc` secrets.
 

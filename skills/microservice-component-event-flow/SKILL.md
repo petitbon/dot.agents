@@ -149,6 +149,20 @@ Unless the user asks for more, output:
 2. the Mermaid diagram
 3. a brief notes section listing any assumptions, inferred items, uncertain items, or missing source evidence
 
+## Validation
+
+Render or parse the final Mermaid source before claiming completion.
+
+- Use the repository-declared Mermaid validation command when one exists.
+- Otherwise run `mmdc -i <diagram.mmd> -o <temporary-output.svg>` and verify the
+  output is non-empty.
+- Keep temporary render output outside tracked source unless the requested
+  artifact includes a rendered file.
+- If no Mermaid renderer or parser is available, report validation as skipped,
+  name the missing prerequisite, and provide the exact next validation command.
+  Do not install tooling automatically.
+- Correct every syntax or render failure before handoff.
+
 Example:
 
 ````markdown

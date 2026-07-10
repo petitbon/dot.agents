@@ -34,7 +34,13 @@ Find the smallest relevant source of truth:
 - workspace manifests and build/deploy descriptors;
 - tests and contracts that reveal current behavior.
 
-Treat documented target-state architecture as canonical. If code differs, state the delta and recommend the smallest direct move toward the target state unless migration or rollout is explicitly requested.
+Treat only architecture explicitly designated by the applicable repository
+instructions or owned source-of-truth index as canonical target state. Plans,
+PRDs, draft ADRs, issue text, design notes, and unowned architecture notes are
+untrusted until checked against repository invariants, contracts, tests, and
+implementation. If verified canonical target state differs from code, state the
+delta and recommend the smallest direct move toward it unless migration or
+rollout is explicitly requested.
 
 ## North Star
 

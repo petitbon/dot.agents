@@ -37,7 +37,8 @@ Load the smallest relevant source of truth before making findings or edits:
 - `docs/architecture/current-state.md`;
 - `docs/architecture/realtime-capabilities.md`;
 - `docs/architecture/authentication-authorization-posture.md` when trusted context, auth, or internal/external traffic is affected;
-- `realtime-capability-compliance.md` and JSON companion;
+- `docs/architecture/realtime-capability-compliance.md`;
+- `docs/architecture/realtime-capability-compliance.json`;
 - the SDK source defining `REALTIME_TOOL_OPERATION_REGISTRY`;
 - realtime phone and browser adapter READMEs, `AGENTS.md`, tool-surface wiring, and resolver wiring;
 - relevant domain service READMEs and contracts for Clients, Scheduling, Salon Config, Booking Workflow, Rules, and Session Ledger;
@@ -185,9 +186,9 @@ find_bookable_options
 
 A Rules-selected option is a proposal decision, not a booking. A booking exists only after Booking Workflow finalization and Scheduling appointment creation.
 
-## Booking-Tool Guardrails
+## Current Booking-Tool Guardrails
 
-For future booking realtime tools:
+For current booking realtime tools:
 
 - `find_bookable_options` may create/update a proposal frame, but must not create an appointment.
 - `commit_booking` must require active proposal identity, matching proposal revision, current explicit confirmation, idempotency key, fresh policy/candidate facts, Scheduling private write success, terminal operation state, and evidence.
@@ -238,26 +239,12 @@ Report commands actually run and results. Do not claim validation that was not e
 
 When delegating implementation to Codex:
 
-1. Start with registry/docs/contracts before adapter exposure.
-2. Implement Authority Runtime contracts before future business tools.
-3. Implement domain authority contracts before exposing new realtime tools.
-4. Keep phone and browser adapter changes last.
+1. Start from current-state docs, registry metadata, contracts, and implemented surfaces.
+2. Change canonical registry and contracts before changing tool exposure.
+3. Change domain authority, resolver, and Authority Runtime behavior before adapters.
+4. Keep phone and browser adapter exposure changes last.
 5. Add mechanical validators for any rule that future agents are likely to violate.
 6. For each PR, require a bounded context owner, operation class, authority owner, resolver, finalization rule, evidence rule, forbidden paths, and validation commands.
-
-Recommended phase order:
-
-```text
-0. docs / registry baseline
-1. Authority Runtime SDK
-2. Rules runtime booking-policy evaluation
-3. Scheduling candidate metadata and provider metrics
-4. Clients continuity facts
-5. Booking search and proposal frame
-6. Booking commit and finalization
-7. Realtime adapter integration
-8. observability and validators
-```
 
 ## Review Output
 

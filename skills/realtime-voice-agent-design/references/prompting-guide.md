@@ -2,8 +2,10 @@
 
 Use this reference when creating or updating realtime system prompts.
 
-Verify model-specific behavior against current official OpenAI documentation or
-the owning runtime contract before relying on version-specific prompt guidance.
+Before using model-specific guidance, identify the owning runtime and verify its
+contract. For OpenAI Realtime models, verify current behavior against the
+[official Realtime prompting guide](https://developers.openai.com/api/docs/guides/realtime-models-prompting).
+Do not apply OpenAI-specific settings or channel names to another provider.
 
 ## Prompt Structure
 
@@ -26,8 +28,9 @@ Use short labeled sections so the model can find instructions quickly:
 
 ## Reasoning Effort
 
-Start with `low` reasoning effort for most production voice agents. Tune based on
-task complexity:
+For OpenAI Realtime models that support configurable reasoning effort, start
+with `low` for most production voice agents and tune based on task complexity.
+For other models, use only settings declared by the owning runtime contract.
 
 - Direct answers: do not reason.
 - Multi-step tasks or tool decisions: reason before acting.
@@ -62,9 +65,11 @@ conversation. Instruct the model to call it to end the turn without speaking.
 ## Message Channels
 
 - `commentary`: preambles and intermediate updates.
-- `final_answer`: final user-facing response.
+- `final`: final user-facing response.
 
-Specify channel behavior only when the runtime uses channels.
+Specify channel behavior only when the runtime uses channels. In OpenAI
+Realtime API output, `final_answer` may appear as a response phase value; it is
+not the prompt channel name.
 
 ## Unclear Audio
 

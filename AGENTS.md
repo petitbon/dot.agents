@@ -43,6 +43,13 @@ Run:
 ./scripts/validate-skills.sh
 ```
 
+When changing `scripts/validate-skills.sh` or one of its semantic guards, also
+run:
+
+```sh
+./scripts/test-validate-skills.sh
+```
+
 Before claiming a skill cleanup is complete, report the validation command and
 result. For meaningful changes, include an evidence report that maps each rule
 or finding to a file or command result.
