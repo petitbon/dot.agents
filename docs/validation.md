@@ -28,9 +28,9 @@ The script verifies:
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
 - the SDK release skill does not allow local publishing;
 - implicit invocation policy matches the repository allowlist;
-- SDK release integrity, booking/Scheduling routing, source-precedence,
-  realtime current-state, prompt-channel, and Mermaid-render rules do not
-  regress;
+- proportional-design, SDK release integrity, booking/Scheduling routing,
+  source-precedence, realtime current-state, prompt-channel, and Mermaid-render
+  rules do not regress;
 - local README inventory is complete;
 - when the repository is inside the Agentis aggregator, root `AGENTS.md` and
   `skills-routing.md` contain every skill in their owned routing sections;

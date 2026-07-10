@@ -70,6 +70,10 @@ wrong_prompt=$(make_fixture wrong-prompt)
 replace_file "$wrong_prompt/.agents/skills/pagoda/agents/openai.yaml" 's/\$pagoda/\$wrong-skill/'
 expect_failure "wrong default prompt token" "$wrong_prompt" 'default_prompt must reference \$pagoda'
 
+missing_proportional_design=$(make_fixture missing-proportional-design)
+replace_file "$missing_proportional_design/.agents/skills/agentis-engineering-doctrine/SKILL.md" '/Do not split reads and writes into separate microservices/d'
+expect_failure "missing proportional-design guard" "$missing_proportional_design" 'read/write microservice split guard'
+
 missing_root_skill=$(make_fixture missing-root-skill)
 replace_file "$missing_root_skill/AGENTS.md" '/`pagoda`/d'
 expect_failure "root compact map drift" "$missing_root_skill" 'compact skill map missing `pagoda`'

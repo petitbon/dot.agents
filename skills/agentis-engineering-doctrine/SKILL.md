@@ -1,6 +1,6 @@
 ---
 name: agentis-engineering-doctrine
-description: "Apply Agentis engineering doctrine when a task directly needs code-planning, implementation, or review posture: green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, control-stack smell detection, delegated-production discipline, and no fallback success. Do not use for pure copywriting, non-code analysis, or as a broad automatic companion to a more specific primary skill."
+description: "Apply Agentis engineering doctrine when a task directly needs code-planning, implementation, solution design, or review posture: proportional design, no overengineering, no premature optimization, green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, control-stack smell detection, delegated-production discipline, and no fallback success. Do not use for pure copywriting, non-code analysis, or as a broad automatic companion to a more specific primary skill."
 ---
 
 # Agentis Engineering Doctrine
@@ -21,6 +21,9 @@ Build the clean target state directly. Do not create apparent progress by adding
 6. **SOLID and explicit boundaries**: isolate domain logic from frameworks, transport, persistence, provider SDKs, and UI plumbing.
 7. **Simplicity first**: prefer deletion, direct control flow, narrow APIs, fewer moving parts, and readable ownership.
 8. **Idempotent and stateless by default**: repeated effective requests must not duplicate side effects; do not use hidden process memory for correctness.
+9. **Proportional design**: implement the smallest holistic design that satisfies
+   current requirements and invariants. Do not overengineer or optimize for
+   hypothetical future needs unless the user explicitly requests that scope.
 
 ## Agentic Delegation Contract
 
@@ -82,6 +85,48 @@ Translate low-level failures into domain errors at boundaries when useful, but p
 - Make unsafe states unrepresentable where practical.
 - Prefer one normal path with explicit preconditions over many arrival-history-specific branches.
 - Prefer deletion over abstraction when deletion preserves the invariant.
+
+## Proportional Design And Optimization
+
+Apply proportional design when proposing solutions, planning or implementing
+fixes, writing code, and performing architecture or code reviews.
+
+A clean target state is not the largest, most distributed, or most abstract
+architecture available. It is the simplest end state that satisfies current
+requirements, preserves ownership and invariants, and has appropriate evidence
+for its risk.
+
+Unless the user explicitly requests an optimized or more distributed design, do
+not add components or boundaries for speculative scale, performance,
+extensibility, reuse, or organizational growth. Premature optimization and
+overengineering include:
+
+- creating services, queues, caches, replicas, indexes, background pipelines,
+  generalized frameworks, or extra abstraction layers without a current need;
+- adopting CQRS, event sourcing, sharding, separate read models, or distributed
+  coordination for hypothetical future traffic;
+- splitting a cohesive capability across deployment units when it has one
+  owner, one lifecycle, and shared invariants;
+- increasing operational surface merely to make an architecture appear more
+  scalable or sophisticated.
+
+Do not split reads and writes into separate microservices solely as a presumed
+optimization. Keep them in the same owning service unless an explicit user
+requirement or current evidence proves that independent ownership, scaling,
+deployment, compliance, availability, or runtime isolation justifies the split.
+
+Optimization requires at least one concrete driver:
+
+- an explicit user requirement;
+- a measured bottleneck or profile;
+- a defined SLO, capacity, latency, cost, or reliability constraint;
+- a proven ownership, compliance, deployment, or runtime-isolation boundary.
+
+When a concrete driver exists, state it, compare the simpler design with the
+optimized design, and implement only the complexity needed to satisfy that
+driver. User-requested optimization permits evaluating and implementing that
+scope; it does not permit violating ownership, correctness, or fail-close
+invariants.
 
 ## Control-Stack Smell
 
@@ -158,6 +203,8 @@ Doctrine-level service rules:
 When planning or writing code:
 
 - present the direct end-state solution first;
+- keep the design proportional to current requirements and identify the concrete
+  driver for every material optimization or new distributed boundary;
 - call out explicit failure points and errors;
 - avoid stopgaps, local workarounds, migrations, rollback paths, feature flags, compatibility shims, dual paths, and fallback success unless explicitly requested;
 - justify material choices using invariants, SOLID boundaries, simplicity, idempotency, statelessness, and fail-close behavior;
@@ -167,4 +214,8 @@ When planning or writing code:
 
 ## Definition of Done
 
-The change implements the target-state owner path, preserves explicit boundaries, rejects uncertain authority, avoids fabricated success, prevents duplicate side effects, remains reviewable, and is backed by the strongest practical evidence for its risk level.
+The change implements the simplest proportional target-state owner path,
+preserves explicit boundaries, rejects uncertain authority, avoids fabricated
+success and speculative optimization, prevents duplicate side effects, remains
+reviewable, and is backed by the strongest practical evidence for its risk
+level.

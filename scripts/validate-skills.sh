@@ -131,6 +131,9 @@ if grep -Eq 'Do not publish failing SDKs unless|publishing with missing[^.]*unle
 fi
 
 require_contains skills/booking-workflow-architecture/SKILL.md 'Do not use for standalone Scheduling work' "standalone Scheduling routing exclusion"
+require_contains skills/agentis-engineering-doctrine/SKILL.md '^## Proportional Design And Optimization$' "proportional-design doctrine section"
+require_contains skills/agentis-engineering-doctrine/SKILL.md 'premature optimization' "premature-optimization guard"
+require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not split reads and writes into separate microservices' "read/write microservice split guard"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.md' "canonical realtime compliance Markdown path"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.json' "canonical realtime compliance JSON path"
 if grep -Eq 'For future booking realtime tools|Recommended phase order' skills/agentis-realtime-authority-layer/SKILL.md; then
