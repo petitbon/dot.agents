@@ -20,7 +20,7 @@ require_file() {
   [ -f "$1" ] || error "missing required file: $1"
 }
 
-MAX_SKILL_LINES=320
+MAX_SKILL_LINES=240
 MIN_DESCRIPTION_CHARS=120
 MAX_DESCRIPTION_CHARS=700
 
@@ -134,6 +134,7 @@ require_contains skills/booking-workflow-architecture/SKILL.md 'Do not use for s
 require_contains skills/agentis-engineering-doctrine/SKILL.md '^## Proportional Design And Optimization$' "proportional-design doctrine section"
 require_contains skills/agentis-engineering-doctrine/SKILL.md 'premature optimization' "premature-optimization guard"
 require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not split reads and writes into separate microservices' "read/write microservice split guard"
+require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not trigger for ordinary implementation, planning, or' "doctrine implicit-routing exclusion"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.md' "canonical realtime compliance Markdown path"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.json' "canonical realtime compliance JSON path"
 if grep -Eq 'For future booking realtime tools|Recommended phase order' skills/agentis-realtime-authority-layer/SKILL.md; then
@@ -147,13 +148,21 @@ for architecture_skill in skills/domain-event-architecture/SKILL.md skills/nodej
   fi
 done
 
+require_contains skills/domain-event-architecture/SKILL.md 'Use agentis-realtime-authority-layer when the primary concern' "domain/realtime primary routing boundary"
+require_contains skills/repo-agent-governance/SKILL.md 'Do not use as the primary skill for domain rules' "governance/domain primary routing boundary"
+require_contains skills/pagoda/SKILL.md 'Do not install the CLI automatically' "Pagoda installation approval guard"
+require_contains skills/realtime-voice-agent-design/SKILL.md 'safe termination, a declared supported' "explicit realtime repeated-failure behavior"
+if grep -Fq 'safe fallback' skills/realtime-voice-agent-design/SKILL.md; then
+  error "skills/realtime-voice-agent-design/SKILL.md contains ambiguous safe-fallback wording"
+fi
+
 require_contains skills/realtime-voice-agent-design/references/prompting-guide.md 'https://developers\.openai\.com/api/docs/guides/realtime-models-prompting' "official Realtime prompting guide"
 require_contains skills/realtime-voice-agent-design/references/prompting-guide.md '^- `final`: final user-facing response\.$' "final prompt channel"
 if grep -Eq '^- `final_answer`:' skills/realtime-voice-agent-design/references/prompting-guide.md; then
   error "Realtime prompting guide treats final_answer as a prompt channel"
 fi
 
-require_contains skills/microservice-component-event-flow/SKILL.md 'mmdc -i' "Mermaid render validation command"
+require_contains skills/microservice-component-event-flow/references/mermaid-authoring-and-validation.md 'mmdc -i' "Mermaid render validation command"
 
 for yaml in skills/*/agents/openai.yaml; do
   skill=${yaml#skills/}

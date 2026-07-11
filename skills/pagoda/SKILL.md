@@ -18,7 +18,9 @@ Use this skill when working with a repo that has a `.pagoda/` project pack.
 7. Run `pagoda adapter check --root .pagoda --adapter <adapter-id> --scenario <scenario-id>` before running a new or changed scenario.
 8. Run the most relevant scenario command, usually `pagoda run --root .pagoda --scenario <scenario-id> --channel <channel>` or `pagoda run --root .pagoda --channel <channel>`.
 
-If `pagoda` is not installed globally, install the published CLI with Homebrew:
+If `pagoda` is unavailable, report the missing prerequisite and ask before
+changing global tooling. Do not install the CLI automatically. After explicit
+approval, install the published CLI with Homebrew:
 
 ```bash
 brew tap petitbon/pagoda https://github.com/petitbon/pagoda

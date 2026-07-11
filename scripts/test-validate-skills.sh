@@ -74,6 +74,14 @@ missing_metadata=$(make_fixture missing-metadata)
 replace_file "$missing_metadata/.agents/skills/pagoda/agents/openai.yaml" '/short_description:/d'
 expect_failure "missing interface metadata" "$missing_metadata" 'missing non-empty field: short_description'
 
+oversized_skill=$(make_fixture oversized-skill)
+i=0
+while [ "$i" -lt 150 ]; do
+  printf 'Additional manual detail that belongs in a reference.\n' >> "$oversized_skill/.agents/skills/repo-agent-governance/SKILL.md"
+  i=$((i + 1))
+done
+expect_failure "oversized skill entrypoint" "$oversized_skill" 'exceeds 240 lines'
+
 wrong_prompt=$(make_fixture wrong-prompt)
 replace_file "$wrong_prompt/.agents/skills/pagoda/agents/openai.yaml" 's/\$pagoda/\$wrong-skill/'
 expect_failure "wrong default prompt token" "$wrong_prompt" 'default_prompt must reference \$pagoda'
@@ -81,6 +89,18 @@ expect_failure "wrong default prompt token" "$wrong_prompt" 'default_prompt must
 implicit_skill_hidden=$(make_fixture implicit-skill-hidden)
 replace_file "$implicit_skill_hidden/.agents/skills/repo-agent-governance/agents/openai.yaml" 's/allow_implicit_invocation: true/allow_implicit_invocation: false/'
 expect_failure "implicit skill hidden" "$implicit_skill_hidden" 'expected true so every Agentis skill is exposed'
+
+doctrine_overtrigger=$(make_fixture doctrine-overtrigger)
+replace_file "$doctrine_overtrigger/.agents/skills/agentis-engineering-doctrine/SKILL.md" 's/Do not trigger for ordinary implementation, planning, or/Apply automatically to ordinary implementation, planning, and/'
+expect_failure "doctrine implicit overtrigger" "$doctrine_overtrigger" 'doctrine implicit-routing exclusion'
+
+domain_realtime_collision=$(make_fixture domain-realtime-collision)
+replace_file "$domain_realtime_collision/.agents/skills/domain-event-architecture/SKILL.md" 's/Use agentis-realtime-authority-layer when the primary concern/Use domain-event-architecture when the primary concern/'
+expect_failure "domain realtime routing collision" "$domain_realtime_collision" 'domain/realtime primary routing boundary'
+
+governance_domain_collision=$(make_fixture governance-domain-collision)
+replace_file "$governance_domain_collision/.agents/skills/repo-agent-governance/SKILL.md" 's/Do not use as the primary skill for domain rules/Use as the primary skill for domain rules/'
+expect_failure "governance domain routing collision" "$governance_domain_collision" 'governance/domain primary routing boundary'
 
 missing_proportional_design=$(make_fixture missing-proportional-design)
 replace_file "$missing_proportional_design/.agents/skills/agentis-engineering-doctrine/SKILL.md" '/Do not split reads and writes into separate microservices/d'
@@ -110,6 +130,14 @@ wrong_channel=$(make_fixture wrong-channel)
 printf '\n- `final_answer`: final user-facing response.\n' >> "$wrong_channel/.agents/skills/realtime-voice-agent-design/references/prompting-guide.md"
 expect_failure "Realtime prompt channel drift" "$wrong_channel" 'treats final_answer as a prompt channel'
 
+ambiguous_realtime_fallback=$(make_fixture ambiguous-realtime-fallback)
+replace_file "$ambiguous_realtime_fallback/.agents/skills/realtime-voice-agent-design/SKILL.md" 's/safe termination, a declared supported/safe fallback, a declared supported/'
+expect_failure "ambiguous realtime fallback" "$ambiguous_realtime_fallback" 'ambiguous safe-fallback wording'
+
+automatic_pagoda_install=$(make_fixture automatic-pagoda-install)
+replace_file "$automatic_pagoda_install/.agents/skills/pagoda/SKILL.md" '/Do not install the CLI automatically/d'
+expect_failure "automatic Pagoda installation" "$automatic_pagoda_install" 'Pagoda installation approval guard'
+
 stale_realtime=$(make_fixture stale-realtime)
 printf '\nFor future booking realtime tools:\n' >> "$stale_realtime/.agents/skills/agentis-realtime-authority-layer/SKILL.md"
 expect_failure "stale realtime rollout guidance" "$stale_realtime" 'stale future-tool or fixed-phase guidance'
@@ -119,7 +147,7 @@ replace_file "$unsafe_source_precedence/.agents/skills/domain-event-architecture
 expect_failure "unsafe architecture source precedence" "$unsafe_source_precedence" 'untrusted plan/design-note guard'
 
 missing_mermaid_validation=$(make_fixture missing-mermaid-validation)
-replace_file "$missing_mermaid_validation/.agents/skills/microservice-component-event-flow/SKILL.md" '/mmdc -i/d'
+replace_file "$missing_mermaid_validation/.agents/skills/microservice-component-event-flow/references/mermaid-authoring-and-validation.md" '/mmdc -i/d'
 expect_failure "missing Mermaid render validation" "$missing_mermaid_validation" 'Mermaid render validation command'
 
 printf 'Skill validator regression tests passed.\n'

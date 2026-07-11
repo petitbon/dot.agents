@@ -1,11 +1,14 @@
 ---
 name: agentis-engineering-doctrine
-description: "Apply Agentis engineering doctrine when a task directly needs code-planning, implementation, solution design, or review posture: proportional design, no overengineering, no premature optimization, green-field target state, fail-close safety, fail-hard errors, SOLID boundaries, simplicity, idempotency, statelessness, control-stack smell detection, delegated-production discipline, and no fallback success. Do not use for pure copywriting, non-code analysis, or as a broad automatic companion to a more specific primary skill."
+description: "Use as the primary skill only when the user or repository task explicitly asks to establish, change, audit, or apply Agentis engineering doctrine: proportional design, no overengineering, no premature optimization, target-state and fail-close posture, idempotency, statelessness, control-stack smell detection, delegated-production discipline, or no fallback success. Do not trigger for ordinary implementation, planning, or review work merely because these principles apply; use the narrower artifact-owning skill instead."
 ---
 
 # Agentis Engineering Doctrine
 
-Use this skill when the task directly needs Agentis engineering posture for code planning, implementation, or review.
+Use this skill only when engineering doctrine itself is the primary artifact or
+explicit review lens. Do not trigger for ordinary implementation, planning, or
+review work merely because the doctrine applies; use the narrower
+artifact-owning skill instead.
 
 ## Core Rule
 

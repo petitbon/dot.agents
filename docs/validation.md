@@ -22,7 +22,7 @@ The script verifies:
   fields, and the prompt references the correct skill token;
 - skill descriptions are long enough to route reliably but stay within the
   repository budget;
-- `SKILL.md` files stay compact enough that detailed manuals belong in
+- `SKILL.md` files stay within 240 lines so detailed manuals remain in
   `references/`;
 - bundled `references/...` paths mentioned by a skill exist;
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
@@ -31,8 +31,9 @@ The script verifies:
 - every Agentis skill opts into implicit invocation so all skill metadata is
   exposed in the default model context;
 - proportional-design, SDK release integrity, booking/Scheduling routing,
-  source-precedence, realtime current-state, prompt-channel, and Mermaid-render
-  rules do not regress;
+  implicit-routing boundaries, source-precedence, realtime current-state,
+  explicit repeated-failure behavior, Pagoda installation approval,
+  prompt-channel, and Mermaid-render rules do not regress;
 - local README inventory is complete;
 - when the repository is inside the Agentis aggregator, root `AGENTS.md` and
   `skills-routing.md` contain every skill in their owned routing sections;
