@@ -25,6 +25,14 @@ make_fixture() {
   cp "$AGGREGATOR_ROOT/AGENTS.md" "$fixture/AGENTS.md"
   cp "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" "$fixture/WORKSPACE_CONTEXT.md"
   cp "$AGGREGATOR_ROOT/skills-routing.md" "$fixture/skills-routing.md"
+  mkdir -p "$fixture/sdks"
+  for sdk_dir in "$AGGREGATOR_ROOT"/sdks/*; do
+    [ -d "$sdk_dir" ] || continue
+    target_dir="$fixture/sdks/${sdk_dir##*/}"
+    mkdir -p "$target_dir"
+    [ ! -f "$sdk_dir/AGENTS.md" ] || cp "$sdk_dir/AGENTS.md" "$target_dir/AGENTS.md"
+    [ ! -f "$sdk_dir/README.md" ] || cp "$sdk_dir/README.md" "$target_dir/README.md"
+  done
   cp -R "$ROOT" "$fixture/.agents"
   rm -rf "$fixture/.agents/.git"
   git -C "$fixture/.agents" init -q
@@ -85,6 +93,14 @@ expect_failure "root primary map drift" "$missing_primary_skill" 'primary skill 
 unsafe_release=$(make_fixture unsafe-release)
 printf '\nDo not publish failing SDKs unless the user explicitly requests it.\n' >> "$unsafe_release/.agents/skills/sdk-release-consumer-bump/SKILL.md"
 expect_failure "release validation override" "$unsafe_release" 'release-integrity or publish-trigger exception'
+
+sdk_local_publish_exception=$(make_fixture sdk-local-publish-exception)
+printf '\nSDK publishing is owned by GitHub Actions unless the user explicitly requests local publishing.\n' >> "$sdk_local_publish_exception/sdks/agentis-realtime-sdk/AGENTS.md"
+expect_failure "SDK local-publishing exception" "$sdk_local_publish_exception" 'permits local SDK publishing'
+
+sdk_local_publish_command=$(make_fixture sdk-local-publish-command)
+printf '\n- `yarn publish`\n' >> "$sdk_local_publish_command/sdks/agentis-data-types-sdk/README.md"
+expect_failure "SDK local publish command" "$sdk_local_publish_command" 'presents a local SDK publish command'
 
 wrong_channel=$(make_fixture wrong-channel)
 printf '\n- `final_answer`: final user-facing response.\n' >> "$wrong_channel/.agents/skills/realtime-voice-agent-design/references/prompting-guide.md"

@@ -26,7 +26,8 @@ The script verifies:
   `references/`;
 - bundled `references/...` paths mentioned by a skill exist;
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
-- the SDK release skill does not allow local publishing;
+- the SDK release skill and SDK repository guidance do not allow or present
+  local publishing; publishing stays owned by declared GitHub Actions workflows;
 - implicit invocation policy matches the repository allowlist;
 - proportional-design, SDK release integrity, booking/Scheduling routing,
   source-precedence, realtime current-state, prompt-channel, and Mermaid-render

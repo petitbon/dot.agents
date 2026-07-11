@@ -180,6 +180,16 @@ if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then
       require_section_contains "$AGGREGATOR_ROOT/skills-routing.md" "## Primary Skill Map" "## Realtime Authority Handoffs" "$token" "primary skill map"
     done
   fi
+
+  for guidance in "$AGGREGATOR_ROOT"/sdks/*/AGENTS.md "$AGGREGATOR_ROOT"/sdks/*/README.md; do
+    [ -f "$guidance" ] || continue
+    if grep -Eiq 'unless (the )?user explicitly requests local|if (the )?user explicitly requests local|local publish(ing)? (is )?(allowed|permitted)' "$guidance"; then
+      error "$guidance permits local SDK publishing; use the declared GitHub Actions workflow"
+    fi
+    if grep -Eq '^[[:space:]]*-[[:space:]]+`?(yarn( npm)?|npm)[[:space:]]+publish(`|[[:space:]]|$)' "$guidance"; then
+      error "$guidance presents a local SDK publish command; use the declared GitHub Actions workflow"
+    fi
+  done
 else
   note "aggregator routing files unavailable; skipped root skill-inventory parity"
 fi
