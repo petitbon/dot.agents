@@ -78,6 +78,10 @@ wrong_prompt=$(make_fixture wrong-prompt)
 replace_file "$wrong_prompt/.agents/skills/pagoda/agents/openai.yaml" 's/\$pagoda/\$wrong-skill/'
 expect_failure "wrong default prompt token" "$wrong_prompt" 'default_prompt must reference \$pagoda'
 
+implicit_skill_hidden=$(make_fixture implicit-skill-hidden)
+replace_file "$implicit_skill_hidden/.agents/skills/repo-agent-governance/agents/openai.yaml" 's/allow_implicit_invocation: true/allow_implicit_invocation: false/'
+expect_failure "implicit skill hidden" "$implicit_skill_hidden" 'expected true so every Agentis skill is exposed'
+
 missing_proportional_design=$(make_fixture missing-proportional-design)
 replace_file "$missing_proportional_design/.agents/skills/agentis-engineering-doctrine/SKILL.md" '/Do not split reads and writes into separate microservices/d'
 expect_failure "missing proportional-design guard" "$missing_proportional_design" 'read/write microservice split guard'

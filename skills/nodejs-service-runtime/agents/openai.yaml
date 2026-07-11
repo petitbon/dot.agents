@@ -4,4 +4,4 @@ interface:
   default_prompt: "Use $nodejs-service-runtime when Node.js service bootstrap, config, errors, observability, Cloud Run posture, or tests are directly affected."
 
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

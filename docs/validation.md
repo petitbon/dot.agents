@@ -28,7 +28,8 @@ The script verifies:
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
 - the SDK release skill and SDK repository guidance do not allow or present
   local publishing; publishing stays owned by declared GitHub Actions workflows;
-- implicit invocation policy matches the repository allowlist;
+- every Agentis skill opts into implicit invocation so all skill metadata is
+  exposed in the default model context;
 - proportional-design, SDK release integrity, booking/Scheduling routing,
   source-precedence, realtime current-state, prompt-channel, and Mermaid-render
   rules do not regress;

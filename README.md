@@ -7,17 +7,17 @@ instruction repository, not a runtime service.
 
 | Skill | Primary ownership | Implicit invocation |
 | --- | --- | --- |
-| `agentis-auth-posture-governance` | Authentication/authz posture, flat internal trust, auth audit drift, and validation | No |
-| `agentis-engineering-doctrine` | Proportional design, no premature optimization, and fail-close engineering posture | No |
+| `agentis-auth-posture-governance` | Authentication/authz posture, flat internal trust, auth audit drift, and validation | Yes |
+| `agentis-engineering-doctrine` | Proportional design, no premature optimization, and fail-close engineering posture | Yes |
 | `booking-workflow-architecture` | Booking workflow state, proposal identity, confirmation, recovery, and authority | Yes |
-| `domain-event-architecture` | Bounded contexts, ownership, contracts, commands, and events | No |
-| `agentis-realtime-authority-layer` | Realtime tool registry, Authority Runtime admission, resolver routing, finalization, evidence, and compliance | No |
+| `domain-event-architecture` | Bounded contexts, ownership, contracts, commands, and events | Yes |
+| `agentis-realtime-authority-layer` | Realtime tool registry, Authority Runtime admission, resolver routing, finalization, evidence, and compliance | Yes |
 | `microservice-component-event-flow` | Mermaid component/event-flow diagrams for one microservice's internal logic and boundaries | Yes |
-| `nodejs-service-runtime` | Node.js/TypeScript service runtime quality and operability | No |
-| `nodejs-service-structure` | Node.js/TypeScript service folder layout, naming, and dependency direction | No |
+| `nodejs-service-runtime` | Node.js/TypeScript service runtime quality and operability | Yes |
+| `nodejs-service-structure` | Node.js/TypeScript service folder layout, naming, and dependency direction | Yes |
 | `pagoda` | Pagoda outcome proof, contracts, traces, scenario oracles, and Workbench isolation | Yes |
 | `realtime-voice-agent-design` | Realtime voice-agent tools, prompts, state, confirmation, and guarded execution | Yes |
-| `repo-agent-governance` | Repository operating layer, skill hygiene, validation, docs, and cleanup loops | No |
+| `repo-agent-governance` | Repository operating layer, skill hygiene, validation, docs, and cleanup loops | Yes |
 | `sdk-release-consumer-bump` | SDK versioning, GitHub Actions publishing flow, registry verification, and consumer bumps | Yes |
 
 ## Maintenance Workflow

@@ -20,10 +20,11 @@ CodeSight/CodeGraph source map.
 - Move detailed manuals, examples, and long checklists into `references/`.
 - Use exactly one primary skill for a task. Pair skills only when the task
   directly changes artifacts owned by the paired skill.
-- Broad governance, architecture, runtime, structure, and doctrine skills must
-  not rely on implicit invocation.
-- Narrow task-specific skills may allow implicit invocation when their routing
-  description is precise.
+- Every Agentis skill is exposed for implicit invocation so its routing metadata
+  is available in the default model context.
+- Keep every routing description precise. Broad governance, architecture,
+  runtime, structure, and doctrine skills must state when they are primary and
+  identify narrower skills that take precedence.
 - Every referenced `references/...` file must exist.
 
 ## Safety Rules

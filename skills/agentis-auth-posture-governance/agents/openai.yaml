@@ -4,4 +4,4 @@ interface:
   default_prompt: "Use $agentis-auth-posture-governance to review Agentis authentication and authorization posture for service, infra, docs, and audit drift."
 
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

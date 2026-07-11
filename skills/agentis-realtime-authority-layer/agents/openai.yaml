@@ -4,4 +4,4 @@ interface:
   default_prompt: "Use $agentis-realtime-authority-layer to design or review Agentis realtime tool registry, Authority Runtime admission, resolver routing, finalization, evidence, and adapter compliance."
 
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

@@ -159,13 +159,7 @@ for yaml in skills/*/agents/openai.yaml; do
   skill=${yaml#skills/}
   skill=${skill%%/*}
   actual=$(awk '/allow_implicit_invocation:/ { print $2; exit }' "$yaml")
-  expected=false
-  case "$skill" in
-    booking-workflow-architecture|microservice-component-event-flow|pagoda|realtime-voice-agent-design|sdk-release-consumer-bump)
-      expected=true
-      ;;
-  esac
-  [ "$actual" = "$expected" ] || error "$yaml has allow_implicit_invocation: $actual; expected $expected"
+  [ "$actual" = true ] || error "$yaml has allow_implicit_invocation: $actual; expected true so every Agentis skill is exposed"
 done
 
 if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then

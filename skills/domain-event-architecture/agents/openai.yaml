@@ -4,4 +4,4 @@ interface:
   default_prompt: "Use $domain-event-architecture when ownership, bounded contexts, contracts, event flows, or target-state architecture are the primary artifacts."
 
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

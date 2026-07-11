@@ -4,4 +4,4 @@ interface:
   default_prompt: "Use $agentis-engineering-doctrine when the task needs proportional, simple, fail-close target-state engineering without premature optimization."
 
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true
