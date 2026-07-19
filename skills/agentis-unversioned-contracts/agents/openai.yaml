@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agentis Unversioned Contracts"
+  short_description: "Prevent versioned contracts and compatibility paths."
+  default_prompt: "Use $agentis-unversioned-contracts to keep Agentis contracts current-only and reject versioned names, wire selectors, compatibility branches, and retired migrations."
