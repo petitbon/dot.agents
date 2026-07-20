@@ -8,7 +8,8 @@ instruction repository, not a runtime service.
 | Skill | Primary ownership | Implicit invocation |
 | --- | --- | --- |
 | `agentis-auth-posture-governance` | Authentication/authz posture, flat internal trust, auth audit drift, and validation | Yes |
-| `agentis-engineering-doctrine` | Proportional design, no premature optimization, and fail-close engineering posture | Yes |
+| `agentis-engineering-doctrine` | Proportional design, maintenance-window cutovers, no premature optimization, and fail-close engineering posture | Yes |
+| `agentis-unversioned-contracts` | Current-only contracts, retired compatibility removal, and offline cutover boundaries | Yes |
 | `booking-workflow-architecture` | Booking workflow state, proposal identity, confirmation, recovery, and authority | Yes |
 | `domain-event-architecture` | Bounded contexts, ownership, contracts, commands, and events | Yes |
 | `agentis-realtime-authority-layer` | Realtime tool registry, Authority Runtime admission, resolver routing, finalization, evidence, and compliance | Yes |

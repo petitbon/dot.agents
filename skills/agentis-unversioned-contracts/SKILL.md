@@ -48,9 +48,13 @@ resolver, evaluator, or compatibility path executes.
    major release and downstream dependency propagation. A major package release
    replaces the contract; it does not justify version suffixes inside the new
    package API.
-6. If deployed obsolete data must be removed, use the owning operational
-   reset/reseed procedure as a separate explicit action. Do not hide data repair
-   in a runtime reader or publication path.
+6. If deployed data must be removed, transformed, backfilled, or reseeded, use
+   a separate fail-closed maintenance-window cutover script in
+   `agentis-scripts-local/scripts/`, execute it through `yarn cli run`, and
+   provide exact environment-specific execution and validation instructions.
+   The script must write only the current authoritative shape and preserve the
+   owning domain's write boundary. Do not hide data repair in a runtime reader,
+   service startup, or publication path.
 
 ## Reject These Designs
 
@@ -66,6 +70,11 @@ resolver, evaluator, or compatibility path executes.
 
 Fail closed with an explicit current-contract error when required shape or
 identity is absent, invalid, ambiguous, or obsolete.
+
+A bounded offline cutover script is not a compatibility path. Use a
+current-state action name such as `cutover-*`, `backfill-*`, or `reset-*`, and
+remove the script when the cutover is complete and it is no longer an active
+operational procedure.
 
 ## Validate
 

@@ -1,6 +1,6 @@
 ---
 name: agentis-engineering-doctrine
-description: "Use as the primary skill only when the user or repository task explicitly asks to establish, change, audit, or apply Agentis engineering doctrine: proportional design, no overengineering, no premature optimization, target-state and fail-close posture, idempotency, statelessness, control-stack smell detection, delegated-production discipline, or no fallback success. Do not trigger for ordinary implementation, planning, or review work merely because these principles apply; use the narrower artifact-owning skill instead."
+description: "Use as the primary skill only when the user or repository task explicitly asks to establish, change, audit, or apply Agentis engineering doctrine: proportional design, no overengineering, no premature optimization, target-state and fail-close posture, maintenance-window cutover planning, idempotency, statelessness, control-stack smell detection, delegated-production discipline, or no fallback success. Do not trigger for ordinary implementation, planning, or review work merely because these principles apply; use the narrower artifact-owning skill instead."
 ---
 
 # Agentis Engineering Doctrine
@@ -20,7 +20,7 @@ Build the clean target state directly. Do not create apparent progress by adding
 2. **No stopgap patches**: do not bypass target-state ownership with local workarounds, temporary forks, or narrow fixes that leave the real invariant broken.
 3. **Fail-close**: when authority, data, config, validation, ownership, auth, policy, dependency health, or invariant status is uncertain, deny, reject, stop, or throw.
 4. **Fail hard**: do not hide defects behind fallback success, empty results, degraded best-effort, swallowed exceptions, guessed data, or fabricated business outcomes.
-5. **No transitional machinery unless requested**: no migrations, rollback paths, feature flags, compatibility shims, dual-read/write, bridge paths, or failover architecture unless explicitly requested.
+5. **No runtime transitional machinery**: deploy through a bounded maintenance-window cutover; do not add runtime migrations, startup data repair, rollback paths, feature flags, compatibility shims, dual-read/write, bridge paths, or failover architecture unless explicitly requested.
 6. **SOLID and explicit boundaries**: isolate domain logic from frameworks, transport, persistence, provider SDKs, and UI plumbing.
 7. **Simplicity first**: prefer deletion, direct control flow, narrow APIs, fewer moving parts, and readable ownership.
 8. **Idempotent and stateless by default**: repeated effective requests must not duplicate side effects; do not use hidden process memory for correctness.
@@ -201,6 +201,16 @@ Doctrine-level service rules:
 - use top-level `tests/` unless repo convention requires co-location;
 - do not force large-service structure onto small services.
 
+## Maintenance-Window Cutovers
+
+When planning deployed code or architecture changes, structure deployment as a
+maintenance-window cutover to the current target state. When persisted data
+must be migrated or manipulated, use a fail-closed script in
+`agentis-scripts-local/scripts/`, execute it through `yarn cli run`, and give
+the user exact environment-specific execution and validation instructions.
+Load `references/maintenance-window-cutovers.md` for required plan content,
+script boundaries, and handoff rules.
+
 ## Code Output Expectations
 
 When planning or writing code:
@@ -209,7 +219,8 @@ When planning or writing code:
 - keep the design proportional to current requirements and identify the concrete
   driver for every material optimization or new distributed boundary;
 - call out explicit failure points and errors;
-- avoid stopgaps, local workarounds, migrations, rollback paths, feature flags, compatibility shims, dual paths, and fallback success unless explicitly requested;
+- include the maintenance-window cutover sequence for deployed changes;
+- avoid stopgaps, local workarounds, runtime migrations, startup data repair, rollback paths, feature flags, compatibility shims, dual paths, and fallback success unless explicitly requested;
 - justify material choices using invariants, SOLID boundaries, simplicity, idempotency, statelessness, and fail-close behavior;
 - discover repo commands and conventions before editing;
 - report validation commands actually run and their results;

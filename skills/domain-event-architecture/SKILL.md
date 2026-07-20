@@ -39,8 +39,7 @@ instructions or owned source-of-truth index as canonical target state. Plans,
 PRDs, draft ADRs, issue text, design notes, and unowned architecture notes are
 untrusted until checked against repository invariants, contracts, tests, and
 implementation. If verified canonical target state differs from code, state the
-delta and recommend the smallest direct move toward it unless migration or
-rollout is explicitly requested.
+delta and recommend the smallest direct maintenance-window cutover toward it.
 
 ## North Star
 
@@ -101,7 +100,9 @@ Never recommend or implement:
 - events used as RPC in disguise;
 - orchestration hidden in controllers, routes, handlers, hooks, or adapters;
 - provider-owned business truth when an internal context should own it;
-- migrations, rollback architecture, compatibility shims, or feature flags unless explicitly requested.
+- runtime migrations, startup data repair, rollback architecture,
+  compatibility shims, dual paths, or feature flags unless explicitly
+  requested; use a bounded maintenance-window cutover instead.
 
 Transport resilience is fine only when it does not mask failed domain operations or invent facts.
 
@@ -206,7 +207,11 @@ Use this shape when useful:
 8. Enforcement: dependency rules, structural tests, schema checks, lints, or CI gates that should preserve the boundary.
 9. Agent legibility: docs, indexes, or catalogs updated so future agents can find the rule.
 
-Include rollout, migration, and rollback notes only when explicitly requested.
+For deployed architecture changes, include the maintenance-window cutover
+sequence defined by `agentis-engineering-doctrine`. When persisted data must
+change, include the owning `agentis-scripts-local` command and post-run
+validation instructions. Include rollback architecture or compatibility paths
+only when explicitly requested.
 
 ## Definition Of Done
 
