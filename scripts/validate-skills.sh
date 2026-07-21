@@ -150,7 +150,6 @@ done
 
 require_contains skills/domain-event-architecture/SKILL.md 'Use agentis-realtime-authority-layer when the primary concern' "domain/realtime primary routing boundary"
 require_contains skills/repo-agent-governance/SKILL.md 'Do not use as the primary skill for domain rules' "governance/domain primary routing boundary"
-require_contains skills/pagoda/SKILL.md 'Do not install the CLI automatically' "Pagoda installation approval guard"
 require_contains skills/realtime-voice-agent-design/SKILL.md 'safe termination, a declared supported' "explicit realtime repeated-failure behavior"
 if grep -Fq 'safe fallback' skills/realtime-voice-agent-design/SKILL.md; then
   error "skills/realtime-voice-agent-design/SKILL.md contains ambiguous safe-fallback wording"
@@ -195,10 +194,6 @@ if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then
   done
 else
   note "aggregator routing files unavailable; skipped root skill-inventory parity"
-fi
-
-if grep -R --exclude='validate-skills.sh' "pagoda-framework" AGENTS.md README.md docs skills >/dev/null 2>&1; then
-  error "repository references stale skill name pagoda-framework; use pagoda"
 fi
 
 require_file docs/validation.md

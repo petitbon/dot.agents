@@ -1,6 +1,6 @@
 ---
 name: realtime-voice-agent-design
-description: "Use for designing, implementing, and prompting realtime voice agents: model-native tool selection, realtime system prompts, tool schemas, conversational state exposure, confirmation behavior, voice ambiguity handling, guarded tool execution, and replay/eval validation. Use agentis-realtime-authority-layer for canonical realtime tool registry, Authority Runtime design, resolver topology, channel-specific live tool exposure, finalization/evidence policy, and cross-adapter compliance. Use booking-workflow-architecture for Agentis booking state-machine design. Use pagoda for outcome-proof artifacts."
+description: "Use for designing, implementing, and prompting realtime voice agents: model-native tool selection, realtime system prompts, tool schemas, conversational state exposure, confirmation behavior, voice ambiguity handling, guarded tool execution, and replay/eval validation. Use agentis-realtime-authority-layer for canonical realtime tool registry, Authority Runtime design, resolver topology, channel-specific live tool exposure, finalization/evidence policy, and cross-adapter compliance. Use booking-workflow-architecture for Agentis booking state-machine design."
 ---
 
 # Realtime Voice Agent Design
@@ -18,10 +18,9 @@ Use another primary skill for:
 
 - registry, channel exposure, resolver, finalization, evidence, and runtime
   admission: `agentis-realtime-authority-layer`;
-- booking proposal/confirmation/commit state: `booking-workflow-architecture`;
-- Pagoda contracts, traces, scenarios, and adapters: `pagoda`.
+- booking proposal/confirmation/commit state: `booking-workflow-architecture`.
 
-Keep Pagoda-specific harness concepts out of platform runtime code.
+Keep test-harness concepts out of platform runtime code.
 
 ## Reference Loading
 
@@ -86,7 +85,8 @@ For behavior-changing prompt, tool, state, policy, or confirmation work:
 - prove governed writes cannot occur before server confirmation;
 - cover ambiguity, unclear audio, missing fields, tool failure, and policy
   rejection;
-- use Pagoda only when Pagoda evidence or harness behavior is directly changed.
+- keep deterministic integration evidence at the owning service or contract
+  boundary.
 
 Report commands and evidence actually inspected.
 

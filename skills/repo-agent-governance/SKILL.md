@@ -1,6 +1,6 @@
 ---
 name: repo-agent-governance
-description: "Use as the primary skill for repository-local agent governance when those artifacts are directly affected: AGENTS.md as a map, docs as system of record, execution plans, validation registries, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, cleanup loops, skill inventory hygiene, and agent-legible repository design. Do not use as the primary skill for domain rules, Pagoda outcome proof, Node runtime implementation, or booking workflow design."
+description: "Use as the primary skill for repository-local agent governance when those artifacts are directly affected: AGENTS.md as a map, docs as system of record, execution plans, validation registries, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, cleanup loops, skill inventory hygiene, and agent-legible repository design. Do not use as the primary skill for domain rules, product outcome behavior, Node runtime implementation, or booking workflow design."
 ---
 
 # Repo Agent Governance
@@ -16,7 +16,7 @@ mechanical check placement, observability access, quality/debt tracking,
 cleanup loops, or skill hygiene.
 
 Do not use it as the primary owner of domain rules, runtime implementation,
-realtime behavior, SDK releases, booking workflows, or Pagoda outcome proof.
+realtime behavior, SDK releases, booking workflows, or product outcome behavior.
 Use it to make an owning skill's rule discoverable, enforceable, and visible.
 
 For realtime authority governance, take the rule from
@@ -84,11 +84,11 @@ When adding or changing a durable governance rule, update
 `docs/rule-evidence-registry.md` or the repository equivalent with owner,
 source, evidence command/artifact, and enforcement level.
 
-## Boundary With Pagoda
+## Boundary With Product Evidence
 
-`pagoda` owns outcome contracts, traces, scenario oracles, evidence translation,
-channel parity, Workbench isolation, and run classification. This skill owns
-the coding-agent operating layer around those artifacts.
+Domain, runtime, and architecture skills own behavioral evidence requirements.
+This skill owns repository placement, discoverability, and mechanical execution
+of the smallest deterministic tests or checks that enforce those requirements.
 
 ## Review Output
 

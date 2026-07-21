@@ -71,7 +71,7 @@ printf '%s\n' "$standalone_output" | grep -Fq 'skipped root skill-inventory pari
 printf 'PASS: standalone fixture\n'
 
 missing_metadata=$(make_fixture missing-metadata)
-replace_file "$missing_metadata/.agents/skills/pagoda/agents/openai.yaml" '/short_description:/d'
+replace_file "$missing_metadata/.agents/skills/repo-agent-governance/agents/openai.yaml" '/short_description:/d'
 expect_failure "missing interface metadata" "$missing_metadata" 'missing non-empty field: short_description'
 
 oversized_skill=$(make_fixture oversized-skill)
@@ -83,8 +83,8 @@ done
 expect_failure "oversized skill entrypoint" "$oversized_skill" 'exceeds 240 lines'
 
 wrong_prompt=$(make_fixture wrong-prompt)
-replace_file "$wrong_prompt/.agents/skills/pagoda/agents/openai.yaml" 's/\$pagoda/\$wrong-skill/'
-expect_failure "wrong default prompt token" "$wrong_prompt" 'default_prompt must reference \$pagoda'
+replace_file "$wrong_prompt/.agents/skills/repo-agent-governance/agents/openai.yaml" 's/\$repo-agent-governance/\$wrong-skill/'
+expect_failure "wrong default prompt token" "$wrong_prompt" 'default_prompt must reference \$repo-agent-governance'
 
 implicit_skill_hidden=$(make_fixture implicit-skill-hidden)
 replace_file "$implicit_skill_hidden/.agents/skills/repo-agent-governance/agents/openai.yaml" 's/allow_implicit_invocation: true/allow_implicit_invocation: false/'
@@ -107,12 +107,12 @@ replace_file "$missing_proportional_design/.agents/skills/agentis-engineering-do
 expect_failure "missing proportional-design guard" "$missing_proportional_design" 'read/write microservice split guard'
 
 missing_root_skill=$(make_fixture missing-root-skill)
-replace_file "$missing_root_skill/AGENTS.md" '/`pagoda`/d'
-expect_failure "root compact map drift" "$missing_root_skill" 'compact skill map missing `pagoda`'
+replace_file "$missing_root_skill/AGENTS.md" '/`repo-agent-governance`/d'
+expect_failure "root compact map drift" "$missing_root_skill" 'compact skill map missing `repo-agent-governance`'
 
 missing_primary_skill=$(make_fixture missing-primary-skill)
-replace_file "$missing_primary_skill/skills-routing.md" '/| `pagoda` |/d'
-expect_failure "root primary map drift" "$missing_primary_skill" 'primary skill map missing `pagoda`'
+replace_file "$missing_primary_skill/skills-routing.md" '/| `repo-agent-governance` |/d'
+expect_failure "root primary map drift" "$missing_primary_skill" 'primary skill map missing `repo-agent-governance`'
 
 unsafe_release=$(make_fixture unsafe-release)
 printf '\nDo not publish failing SDKs unless the user explicitly requests it.\n' >> "$unsafe_release/.agents/skills/sdk-release-consumer-bump/SKILL.md"
@@ -133,10 +133,6 @@ expect_failure "Realtime prompt channel drift" "$wrong_channel" 'treats final_an
 ambiguous_realtime_fallback=$(make_fixture ambiguous-realtime-fallback)
 replace_file "$ambiguous_realtime_fallback/.agents/skills/realtime-voice-agent-design/SKILL.md" 's/safe termination, a declared supported/safe fallback, a declared supported/'
 expect_failure "ambiguous realtime fallback" "$ambiguous_realtime_fallback" 'ambiguous safe-fallback wording'
-
-automatic_pagoda_install=$(make_fixture automatic-pagoda-install)
-replace_file "$automatic_pagoda_install/.agents/skills/pagoda/SKILL.md" '/Do not install the CLI automatically/d'
-expect_failure "automatic Pagoda installation" "$automatic_pagoda_install" 'Pagoda installation approval guard'
 
 stale_realtime=$(make_fixture stale-realtime)
 printf '\nFor future booking realtime tools:\n' >> "$stale_realtime/.agents/skills/agentis-realtime-authority-layer/SKILL.md"

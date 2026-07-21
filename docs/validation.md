@@ -32,12 +32,11 @@ The script verifies:
   exposed in the default model context;
 - proportional-design, SDK release integrity, booking/Scheduling routing,
   implicit-routing boundaries, source-precedence, realtime current-state,
-  explicit repeated-failure behavior, Pagoda installation approval,
-  prompt-channel, and Mermaid-render rules do not regress;
+  explicit repeated-failure behavior, prompt-channel, and Mermaid-render rules
+  do not regress;
 - local README inventory is complete;
 - when the repository is inside the Agentis aggregator, root `AGENTS.md` and
   `skills-routing.md` contain every skill in their owned routing sections;
-- stale skill names such as retired Pagoda aliases are not referenced;
 - rule/evidence and checkpoint governance docs exist and reference the skill
   validation command;
 - secondary harness docs defer to `AGENTS.md` and do not duplicate stale skill

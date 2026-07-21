@@ -22,7 +22,7 @@ This skill owns:
 - context maps;
 - target-state architecture.
 
-Pair with structure, runtime, repository-governance, booking, realtime, or Pagoda skills only when those artifacts are directly affected.
+Pair with structure, runtime, repository-governance, booking, or realtime skills only when those artifacts are directly affected.
 
 ## First Read
 

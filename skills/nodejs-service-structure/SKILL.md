@@ -12,7 +12,7 @@ direction for Node.js/TypeScript services.
 
 Use this skill when structure itself is the primary artifact. Do not use it as
 the primary owner for domain boundaries, runtime behavior, SDK releases,
-repository governance, or Pagoda proof.
+repository governance, or cross-service outcome proof.
 
 Pair another skill only when its owned artifact also changes:
 
@@ -76,7 +76,7 @@ Use explicit business names instead of generic technical buckets.
 Do not create a generic `agents/` or `ai/` bucket for business behavior. Place
 agent-facing use cases inside the capability that owns the state, rule,
 contract, or side effect. Keep realtime transport in presentation/adapters and
-ordinary product evidence outside Pagoda harness logic.
+product evidence in the smallest owning test or integration boundary.
 
 ## Source Precedence
 

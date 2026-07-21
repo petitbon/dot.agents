@@ -113,7 +113,7 @@ For architecture work, produce:
 - idempotency and duplicate-safety design;
 - terminal-state handling;
 - service-boundary implications;
-- evidence needed for Pagoda proof, when relevant.
+- deterministic integration evidence, when relevant.
 
 For repair work, produce:
 
