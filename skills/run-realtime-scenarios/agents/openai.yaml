@@ -1,0 +1,7 @@
+interface:
+  display_name: "Run Realtime Scenarios"
+  short_description: "Run governed phone and browser scenario tests."
+  default_prompt: "Use $run-realtime-scenarios to execute and evidence a governed Agentis phone or browser-chat scenario in dev."
+
+policy:
+  allow_implicit_invocation: true

@@ -17,6 +17,7 @@ instruction repository, not a runtime service.
 | `nodejs-service-runtime` | Node.js/TypeScript service runtime quality and operability | Yes |
 | `nodejs-service-structure` | Node.js/TypeScript service folder layout, naming, and dependency direction | Yes |
 | `realtime-voice-agent-design` | Realtime voice-agent tools, prompts, state, confirmation, and guarded execution | Yes |
+| `run-realtime-scenarios` | Deployed dev phone/browser scenario execution, evidence, bounded retries, and cleanup | Yes |
 | `repo-agent-governance` | Repository operating layer, skill hygiene, validation, docs, and cleanup loops | Yes |
 | `sdk-release-consumer-bump` | SDK versioning, GitHub Actions publishing flow, registry verification, and consumer bumps | Yes |
 
