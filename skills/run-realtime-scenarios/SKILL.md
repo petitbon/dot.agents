@@ -30,6 +30,55 @@ assistant prose, or mock tests with authority-backed product evidence.
 Generated maps and copied plans aid navigation only. Current source, contracts,
 scenario docs, and backend evidence decide behavior.
 
+## Supported Runner
+
+For the dev `find-bookable-options` scenario, use the maintained
+`agentis-scripts-local` runner. Do not recreate its browser HTTP/SSE flow,
+Twilio request, preflight, polling, evidence evaluation, or CSV update in ad hoc
+shell or inline Node commands:
+
+```bash
+cd agentis-scripts-local
+yarn cli run --env dev run-realtime-scenario -- \
+  --scenario find-bookable-options \
+  --channel browser-chat \
+  --service-name "<speakable service>" \
+  --start-date <YYYY-MM-DD> \
+  --end-date <YYYY-MM-DD>
+```
+
+Phone execution requires explicit acknowledgment of the exact number of paid,
+recorded calls:
+
+```bash
+yarn cli run --env dev run-realtime-scenario -- \
+  --scenario find-bookable-options \
+  --channel phone \
+  --service-name "<speakable service>" \
+  --start-date <YYYY-MM-DD> \
+  --end-date <YYYY-MM-DD> \
+  --confirm-phone-calls 1
+```
+
+The current supported phone path deliberately records `Blocked` after Twilio
+transport completion because there is no owner API for Twilio Call SID to Call
+Session correlation. Resolve the matching Call Session id through the
+Conversations UI, then resume evidence collection without placing another call:
+
+```bash
+yarn cli run --env dev run-realtime-scenario -- \
+  --scenario find-bookable-options \
+  --channel phone \
+  --resume-run-label <run-label> \
+  --call-session-id <call-session-id>
+```
+
+Use `--trials` only when the user explicitly requests repeated trials. The
+runner reuses one bounded preflight snapshot, runs sequentially, stops on the
+first `Fail` or `Blocked`, and never retries automatically. For capabilities
+not yet supported by this runner, follow the manual workflow in this skill;
+never force them through the supported scenario or weaken their evidence rules.
+
 ## On-Demand And Outcome Isolation
 
 Run a scenario only in direct response to an explicit user request for that
@@ -98,6 +147,10 @@ the mutation guard under test. For mutations, present and hear the complete
 active proposal first, then collect one current explicit confirmation. Never
 pre-script a blind confirmation for an option or warning that has not actually
 been heard.
+
+When the selected scenario is supported by the maintained runner above, its
+command is mandatory. A runner `Fail` or `Blocked` remains terminal for that
+request and does not authorize a manual fallback or another attempt.
 
 ### 4. Collect Independent Evidence
 
