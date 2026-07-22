@@ -60,24 +60,22 @@ yarn cli run --env dev run-realtime-scenario -- \
   --confirm-phone-calls 1
 ```
 
-The current supported phone path deliberately records `Blocked` after Twilio
-transport completion because there is no owner API for Twilio Call SID to Call
-Session correlation. Resolve the matching Call Session id through the
-Conversations UI, then resume evidence collection without placing another call:
-
-```bash
-yarn cli run --env dev run-realtime-scenario -- \
-  --scenario find-bookable-options \
-  --channel phone \
-  --resume-run-label <run-label> \
-  --call-session-id <call-session-id>
-```
+The supported phone path automatically resolves the Twilio CallSid through Call
+Session's private business/location-scoped correlation API while the call and
+recording complete. It then reads the ended debug bundle and evaluates the
+phone evidence in the same run. A bounded correlation or evidence timeout is
+terminal `Blocked` evidence and must not cause a replacement call or manual
+correlation fallback.
 
 Use `--trials` only when the user explicitly requests repeated trials. The
 runner reuses one bounded preflight snapshot, runs sequentially, stops on the
 first `Fail` or `Blocked`, and never retries automatically. For capabilities
 not yet supported by this runner, follow the manual workflow in this skill;
 never force them through the supported scenario or weaken their evidence rules.
+
+Bounded polling for correlation, transport completion, recording readiness, or
+the ended debug bundle belongs to one declared attempt and is not a scenario
+retry. It must never create another session, turn, call, or governed mutation.
 
 ## On-Demand And Outcome Isolation
 
@@ -156,8 +154,9 @@ request and does not authorize a manual fallback or another attempt.
 
 Capture transport ids and timestamps, Session Ledger/debug-bundle evidence,
 tool dispatch and outcome evidence, finalization evidence, and owner-domain
-read-after-write evidence when applicable. Correlate through supported APIs or
-the Conversations UI. Never substitute a direct Firestore query.
+read-after-write evidence when applicable. Correlate through supported APIs;
+use the Conversations UI only for capabilities without a maintained supported
+resolver. Never substitute a direct Firestore query.
 
 ### 5. Decide And Stop
 

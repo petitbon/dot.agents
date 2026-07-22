@@ -82,13 +82,13 @@ a failure. Do not infer tool success from the assistant's wording.
 
 ## Session Correlation
 
-Prefer a supported CallSid-to-session API when one exists. Otherwise locate the
-phone session in Conversations using location, channel, and exact start time,
-then use its `callSessionId` with:
+For the maintained proposal runner, resolve the CallSid through Call Session's
+private business/location-scoped API while Twilio completion and recording
+polling continue. Use the returned `callSessionId` with:
 
 `GET /v1/conversation/sessions/:callSessionId/debug-bundle`
 
 Do not query `realtime_phone_calls`, timeline collections, transcript
-collections, or turn metrics directly. If the Conversations UI cannot expose
-the matching session and no supported lookup exists, mark tool-level evidence
-`Skipped` and record the missing correlation surface.
+collections, or turn metrics directly. Do not fall back to guessed time-window
+matching when the supported resolver returns a conflict or times out; record
+the run as `Blocked` and stop without another call.
