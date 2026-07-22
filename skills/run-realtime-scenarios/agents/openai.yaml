@@ -1,7 +1,7 @@
 interface:
   display_name: "Run Realtime Scenarios"
   short_description: "Run, evidence, and record realtime scenarios."
-  default_prompt: "Use $run-realtime-scenarios to run one requested Agentis phone or browser-chat scenario in dev, record the latest outcome, and stop without automatic investigation or remediation."
+  default_prompt: "Use $run-realtime-scenarios to run one requested Agentis phone or browser-chat scenario in dev, upsert its latest CSV outcome, and stop without automatic investigation or remediation."
 
 policy:
   allow_implicit_invocation: true

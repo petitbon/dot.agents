@@ -95,7 +95,7 @@ authorization from before option presentation as confirmation evidence.
 ## 8. Outcome Isolation
 
 - The scenario request authorizes only execution, required evidence collection,
-  the latest-run Markdown update, and cleanup explicitly authorized before the
+  the latest-run CSV row upsert, and cleanup explicitly authorized before the
   run.
 - Do not inspect additional source or logs to diagnose a terminal result beyond
   the evidence surfaces required by the canonical scenario.

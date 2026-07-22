@@ -80,58 +80,50 @@ Lead with `Pass`, `Fail`, or `Blocked`, then provide:
 Never report “booked,” “canceled,” or “rescheduled” without owner-domain
 terminal evidence.
 
-## Latest-Run Markdown Record
+## Per-Scenario Latest-Run CSV Record
 
-After every attempted phone or browser-chat scenario, overwrite this workspace
-file:
+After every attempted phone or browser-chat scenario, upsert one row in:
 
-`docs/capabilities/scenarios/last-run.md`
+`docs/capabilities/scenarios/last-runs.csv`
 
-Keep only the latest run; do not append history. Update it after the cleanup or
-preservation decision and before the final response. A failed preflight after a
-run label is assigned still produces a `Blocked` record. If later debug-bundle
-or owner evidence changes the verdict, replace the record with the corrected
-outcome.
+Treat scenario identity as the normalized `(scenario, channel)` pair. Replace
+the matching row in place and preserve every unrelated row. Append only when no
+matching pair exists. A failed preflight after a run label is assigned still
+produces a `Blocked` row. If later evidence changes the verdict, replace that
+same row.
 
-Use this shape:
+The CSV header is fixed and ordered:
 
-```markdown
-# Last Realtime Scenario Run
+```csv
+scenario,operation,channel,environment,run_label,result,session_id,transport_id,recording_id,request_summary,tool_calls,authority_outcome,caller_visible_result,writes,cleanup,gaps
+```
 
-- Scenario: <human name>
-- Operation: `<CANONICAL_OPERATION>`
-- Channel: `phone` | `browser-chat`
-- Environment: `dev`
-- Run label: `<label>`
-- Started: `<UTC>` (`<local time and timezone>`)
-- Ended: `<UTC>` (`<local time and timezone>`)
-- Result: **Pass** | **Fail** | **Blocked**
+Populate every field. Use `unavailable`, `not started`, `not applicable`,
+`None.`, or another explicit safe summary instead of leaving ambiguous blanks.
+Keep detailed timestamps, evidence tables, and retry explanations in the user
+handoff; use `run_label` for the compact row's run correlation.
 
-## Correlation
+Invoke the bundled helper from the workspace root with all fields:
 
-- Session: `<opaque id or unavailable>`
-- Transport: `<opaque call/chat id or unavailable>`
-- Recording: `<opaque id, not a media URL, or not applicable>`
-
-## Outcome
-
-- Customer request: <concise natural-language summary>
-- Tool calls: <names and counts>
-- Authority outcome: <terminal/declared outcome or unavailable>
-- Caller-visible result: <concise grounded summary>
-- Writes: <verified writes or none>
-- Cleanup: <verified result, preservation decision, expiry, or not applicable>
-- Retries: <count and reason>
-
-## Evidence
-
-| Guarantee / Rule | Evidence | Result |
-| --- | --- | --- |
-| <assertion> | <source> | Pass / Fail / Skipped |
-
-## Gaps
-
-<None, or concrete missing evidence and next validation step.>
+```bash
+python3 .agents/skills/run-realtime-scenarios/scripts/upsert_last_run_csv.py \
+  --csv docs/capabilities/scenarios/last-runs.csv \
+  --scenario "<human name>" \
+  --operation "<CANONICAL_OPERATION>" \
+  --channel "<phone|browser-chat>" \
+  --environment dev \
+  --run-label "<label>" \
+  --result "<Pass|Fail|Blocked>" \
+  --session-id "<opaque id or unavailable>" \
+  --transport-id "<opaque id or unavailable>" \
+  --recording-id "<opaque id or not applicable>" \
+  --request-summary "<concise natural-language request>" \
+  --tool-calls "<names and counts>" \
+  --authority-outcome "<declared outcome or unavailable>" \
+  --caller-visible-result "<concise grounded summary>" \
+  --writes "<verified writes or none>" \
+  --cleanup "<verified cleanup, preservation, expiry, or not applicable>" \
+  --gaps "<none or concrete missing evidence>"
 ```
 
 Sanitize before writing:
@@ -145,10 +137,11 @@ Sanitize before writing:
 - keep `Skipped` inside evidence rows; the overall result remains `Pass`,
   `Fail`, or `Blocked`.
 
-Treat this file as a replaceable operational index to the latest evidence, not
-as domain truth, confirmation, authorization, or a historical audit ledger.
+Treat each row as a replaceable operational index to the latest evidence for
+one scenario/channel pair, not as domain truth, confirmation, authorization, or
+a historical audit ledger.
 
-Updating this file is the only automatic workspace side effect of outcome
+Upserting this CSV is the only automatic workspace side effect of outcome
 handling. Do not commit or push it during the scenario run unless the user
 separately requests publication. Do not let any recorded result trigger source
 inspection, investigation, remediation, code or architecture changes,

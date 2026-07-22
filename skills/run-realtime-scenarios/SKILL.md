@@ -1,6 +1,6 @@
 ---
 name: run-realtime-scenarios
-description: "Use as the primary skill for on-demand execution and evidence of deployed dev Agentis phone or browser-chat scenarios: synthetic Twilio, live chat, proposals, explicitly authorized mutations, Session Ledger correlation, recordings, cleanup, and the latest-run Markdown record. Trigger only when a user asks Codex to run, fake, exercise, or verify a realtime capability end to end. Record and hand off the outcome; never automatically investigate, retry, remediate, change code or architecture, or publish. Do not use for unit tests, prompt or registry design, or architecture-only review."
+description: "Use as the primary skill for on-demand execution and evidence of deployed dev Agentis phone or browser-chat scenarios: synthetic Twilio, live chat, proposals, explicitly authorized mutations, Session Ledger correlation, recordings, cleanup, and the per-scenario latest-run CSV record. Trigger only when a user asks Codex to run, fake, exercise, or verify a realtime capability end to end. Record and hand off the outcome; never automatically investigate, retry, remediate, change code or architecture, or publish. Do not use for unit tests, prompt or registry design, or architecture-only review."
 ---
 
 # Run Realtime Scenarios
@@ -37,7 +37,7 @@ scenario and channel. Never run scenarios automatically after code changes,
 deployments, monitoring events, another scenario outcome, or validation work.
 
 Treat the outcome as test evidence only. After collecting required evidence,
-updating the latest-run Markdown file, and completing any already-authorized
+upserting the scenario's latest-run CSV row, and completing any already-authorized
 cleanup, stop and hand the result to the user. A `Pass`, `Fail`, or `Blocked`
 outcome does not authorize:
 
@@ -51,8 +51,8 @@ outcome does not authorize:
 Require a separate user request before diagnosing or fixing an outcome. Route
 that new task through its own applicable skill and authorization gates.
 
-Outcome handling must have no side effects beyond overwriting
-`docs/capabilities/scenarios/last-run.md`. Do not commit or push that record
+Outcome handling must have no side effects beyond upserting one row in
+`docs/capabilities/scenarios/last-runs.csv`. Do not commit or push that record
 unless the user separately requests publication. The scenario execution itself
 may perform only the declared test effect of the exact capability the user
 requested. A proposal scenario authorizes only its short-lived proposal. Require
@@ -122,18 +122,30 @@ the exact target, run the cleanup once, and verify removal. If the user
 explicitly asks to preserve the dev fixture, leave it intact and report its
 identity and cleanup obligation.
 
-### 7. Record The Latest Outcome
+### 7. Upsert The Latest Outcome
 
-After every attempted scenario reaches `Pass`, `Fail`, or `Blocked`, overwrite
-`docs/capabilities/scenarios/last-run.md` with the latest result. Do this after
-the cleanup decision and before the final user handoff. If later evidence
-changes the verdict, update the same file. Follow the required schema and
-sanitization rules in `references/evidence-and-cleanup.md`.
+After every attempted scenario reaches `Pass`, `Fail`, or `Blocked`, upsert its
+row in `docs/capabilities/scenarios/last-runs.csv`. Match an existing row by
+scenario and channel so a browser-chat rerun does not erase the phone result.
+Replace the matching row in place; append only when that scenario/channel pair
+does not exist. Do this after the cleanup decision and before the final user
+handoff. If later evidence changes the verdict, replace the same row.
 
-The latest-run file is an operational evidence summary, not business authority
-or authorization. Do not silently omit it when execution or evidence fails. If
-the file cannot be updated, report the scenario verdict and the outcome-record
-write failure separately; the scenario task remains incomplete.
+Use the bundled CSV-aware helper; do not edit CSV with string concatenation:
+
+```bash
+python3 .agents/skills/run-realtime-scenarios/scripts/upsert_last_run_csv.py \
+  --csv docs/capabilities/scenarios/last-runs.csv \
+  <all required row fields>
+```
+
+Follow the exact fields, invocation, and sanitization rules in
+`references/evidence-and-cleanup.md`.
+
+The CSV row is an operational evidence summary, not business authority or
+authorization. Do not silently omit it when execution or evidence fails. If
+the row cannot be updated, report the scenario verdict and outcome-record write
+failure separately; the scenario task remains incomplete.
 
 ## Non-Negotiable Rules
 
@@ -151,10 +163,10 @@ write failure separately; the scenario task remains incomplete.
   assistant prose.
 - Never leave a material dev write unexplained or without a recorded cleanup
   decision.
-- Never finish a scenario run without updating the canonical latest-run file.
+- Never finish a scenario run without upserting the canonical latest-run CSV row.
 - Never investigate, diagnose, remediate, or change code or architecture
   automatically because of a scenario outcome.
-- Never commit or push the latest-run record without a separate user request.
+- Never commit or push the latest-run CSV without a separate user request.
 - Never rerun a scenario automatically after a terminal outcome.
 
 ## Required Handoff
@@ -162,4 +174,4 @@ write failure separately; the scenario task remains incomplete.
 Lead with the verdict. Include scenario, environment, channel, timestamps,
 transport/session ids, heard transcript summary, backend evidence, writes,
 cleanup, retries, and gaps. Use the evidence-table format in
-`references/evidence-and-cleanup.md`, and link the updated latest-run file.
+`references/evidence-and-cleanup.md`, and link the updated latest-run CSV.
