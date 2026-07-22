@@ -42,9 +42,11 @@ Create the call with Twilio's Calls REST API:
 - `RecordingChannels=dual`;
 - a bounded `TimeLimit`.
 
-The request should include canonical service display names, an explicit window,
-provider preference if relevant, and “do not book anything.” Do not pack
-multiple hypothetical answers into the first turn.
+Speak exactly one short, natural customer request from the canonical scenario.
+Do not add test instructions such as “only find options,” “do not book,” or
+“this is optional.” Do not pack multiple hypothetical answers into the first
+turn. End a proposal-only call after the grounded response; without a later
+explicit confirmation, no mutation may execute.
 
 Poll the Call resource at short intervals until `completed`, `busy`, `failed`,
 `no-answer`, or `canceled`. Bound the overall deadline and communicate status at
@@ -90,4 +92,3 @@ Do not query `realtime_phone_calls`, timeline collections, transcript
 collections, or turn metrics directly. If the Conversations UI cannot expose
 the matching session and no supported lookup exists, mark tool-level evidence
 `Skipped` and record the missing correlation surface.
-

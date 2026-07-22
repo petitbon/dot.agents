@@ -1,6 +1,6 @@
 ---
 name: run-realtime-scenarios
-description: "Use as the primary skill for executing and evidencing Agentis realtime capability scenarios against deployed dev phone or browser-chat surfaces, including synthetic Twilio calls, live chat turns, proposal and governed mutation flows, Conversations/Session Ledger correlation, recordings, bounded retries, and cleanup. Trigger when a user asks Codex to run, fake, exercise, or verify a realtime capability end to end. Do not use for unit tests, prompt design, capability-registry design, or architecture-only review."
+description: "Use as the primary skill for executing and evidencing Agentis realtime capability scenarios against deployed dev phone or browser-chat surfaces, including synthetic Twilio calls, live chat turns, proposal and governed mutation flows, Conversations/Session Ledger correlation, recordings, bounded retries, cleanup, and the persisted latest-run Markdown outcome. Trigger when a user asks Codex to run, fake, exercise, or verify a realtime capability end to end. Do not use for unit tests, prompt design, capability-registry design, or architecture-only review."
 ---
 
 # Run Realtime Scenarios
@@ -63,10 +63,12 @@ Use the deployed adapter, not a mocked media socket, local unit test, direct
 domain API, or fabricated transcript. Follow the documented turns and answer at
 most the allowed clarifications.
 
-For proposal-only runs, explicitly prohibit booking. For mutations, present and
-hear the complete active proposal first, then collect a current explicit
-confirmation. Never pre-script a blind confirmation for an option or warning
-that has not actually been heard.
+Use only the natural customer language in the canonical scenario. For
+proposal-only runs, end after the grounded answer; absence of confirmation is
+the mutation guard under test. For mutations, present and hear the complete
+active proposal first, then collect one current explicit confirmation. Never
+pre-script a blind confirmation for an option or warning that has not actually
+been heard.
 
 ### 4. Collect Independent Evidence
 
@@ -91,6 +93,19 @@ the exact target, run the cleanup once, and verify removal. If the user
 explicitly asks to preserve the dev fixture, leave it intact and report its
 identity and cleanup obligation.
 
+### 7. Record The Latest Outcome
+
+After every attempted scenario reaches `Pass`, `Fail`, or `Blocked`, overwrite
+`docs/capabilities/scenarios/last-run.md` with the latest result. Do this after
+the cleanup decision and before the final user handoff. If later evidence
+changes the verdict, update the same file. Follow the required schema and
+sanitization rules in `references/evidence-and-cleanup.md`.
+
+The latest-run file is an operational evidence summary, not business authority
+or authorization. Do not silently omit it when execution or evidence fails. If
+the file cannot be updated, report the scenario verdict and the outcome-record
+write failure separately; the scenario task remains incomplete.
+
 ## Non-Negotiable Rules
 
 - Never run `gcloud`.
@@ -107,11 +122,11 @@ identity and cleanup obligation.
   assistant prose.
 - Never leave a material dev write unexplained or without a recorded cleanup
   decision.
+- Never finish a scenario run without updating the canonical latest-run file.
 
 ## Required Handoff
 
 Lead with the verdict. Include scenario, environment, channel, timestamps,
 transport/session ids, heard transcript summary, backend evidence, writes,
 cleanup, retries, and gaps. Use the evidence-table format in
-`references/evidence-and-cleanup.md`.
-
+`references/evidence-and-cleanup.md`, and link the updated latest-run file.

@@ -19,7 +19,8 @@ Use this reference only for deployed browser-chat scenarios.
 3. Answer only authority-required clarification in a new typed turn.
 4. Observe streamed text, but wait for finalized text and authority evidence
    before treating the response as usable.
-5. For proposal-only scenarios, explicitly prohibit booking.
+5. For proposal-only scenarios, stop after the grounded answer. Do not add
+   test-control language to the user turn.
 6. For mutations, confirm only after the complete finalized proposal and
    warnings are rendered in the current session.
 
@@ -46,4 +47,3 @@ prove domain success. Raw authority ids must not leak into caller-visible text.
 Stop on malformed or unfinalized output, wrong-location scope, auth ambiguity,
 missing session correlation, duplicated dispatch, or a write narrated before
 terminal evidence. Apply the shared retry budget from `execution-gates.md`.
-

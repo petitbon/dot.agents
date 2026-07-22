@@ -65,7 +65,7 @@ exists, leave the fixture intact, report it, and mark cleanup `Skipped`.
 
 ## Final Report
 
-Lead with `Pass`, `Fail`, or `Blocked/Skipped`, then provide:
+Lead with `Pass`, `Fail`, or `Blocked`, then provide:
 
 - capability, scenario, channel, environment, location label;
 - UTC and local timestamps;
@@ -80,3 +80,70 @@ Lead with `Pass`, `Fail`, or `Blocked/Skipped`, then provide:
 Never report “booked,” “canceled,” or “rescheduled” without owner-domain
 terminal evidence.
 
+## Latest-Run Markdown Record
+
+After every attempted phone or browser-chat scenario, overwrite this workspace
+file:
+
+`docs/capabilities/scenarios/last-run.md`
+
+Keep only the latest run; do not append history. Update it after the cleanup or
+preservation decision and before the final response. A failed preflight after a
+run label is assigned still produces a `Blocked` record. If later debug-bundle
+or owner evidence changes the verdict, replace the record with the corrected
+outcome.
+
+Use this shape:
+
+```markdown
+# Last Realtime Scenario Run
+
+- Scenario: <human name>
+- Operation: `<CANONICAL_OPERATION>`
+- Channel: `phone` | `browser-chat`
+- Environment: `dev`
+- Run label: `<label>`
+- Started: `<UTC>` (`<local time and timezone>`)
+- Ended: `<UTC>` (`<local time and timezone>`)
+- Result: **Pass** | **Fail** | **Blocked**
+
+## Correlation
+
+- Session: `<opaque id or unavailable>`
+- Transport: `<opaque call/chat id or unavailable>`
+- Recording: `<opaque id, not a media URL, or not applicable>`
+
+## Outcome
+
+- Customer request: <concise natural-language summary>
+- Tool calls: <names and counts>
+- Authority outcome: <terminal/declared outcome or unavailable>
+- Caller-visible result: <concise grounded summary>
+- Writes: <verified writes or none>
+- Cleanup: <verified result, preservation decision, expiry, or not applicable>
+- Retries: <count and reason>
+
+## Evidence
+
+| Guarantee / Rule | Evidence | Result |
+| --- | --- | --- |
+| <assertion> | <source> | Pass / Fail / Skipped |
+
+## Gaps
+
+<None, or concrete missing evidence and next validation step.>
+```
+
+Sanitize before writing:
+
+- never persist credentials, auth headers, bearer values, full E.164 numbers,
+  email addresses, recording media URLs, or raw secret-file paths;
+- use opaque call, recording, session, proposal, operation, and visit ids only
+  when they materially aid correlation;
+- summarize dialogue instead of storing a full transcript;
+- identify evidence sources without copying large debug bundles;
+- keep `Skipped` inside evidence rows; the overall result remains `Pass`,
+  `Fail`, or `Blocked`.
+
+Treat this file as a replaceable operational index to the latest evidence, not
+as domain truth, confirmation, authorization, or a historical audit ledger.
