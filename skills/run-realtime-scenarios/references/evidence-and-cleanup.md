@@ -147,3 +147,9 @@ Sanitize before writing:
 
 Treat this file as a replaceable operational index to the latest evidence, not
 as domain truth, confirmation, authorization, or a historical audit ledger.
+
+Updating this file is the only automatic workspace side effect of outcome
+handling. Do not commit or push it during the scenario run unless the user
+separately requests publication. Do not let any recorded result trigger source
+inspection, investigation, remediation, code or architecture changes,
+deployment, issue creation, or another scenario attempt.

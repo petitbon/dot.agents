@@ -1,6 +1,6 @@
 ---
 name: run-realtime-scenarios
-description: "Use as the primary skill for executing and evidencing Agentis realtime capability scenarios against deployed dev phone or browser-chat surfaces, including synthetic Twilio calls, live chat turns, proposal and governed mutation flows, Conversations/Session Ledger correlation, recordings, bounded retries, cleanup, and the persisted latest-run Markdown outcome. Trigger when a user asks Codex to run, fake, exercise, or verify a realtime capability end to end. Do not use for unit tests, prompt design, capability-registry design, or architecture-only review."
+description: "Use as the primary skill for on-demand execution and evidence of deployed dev Agentis phone or browser-chat scenarios: synthetic Twilio, live chat, proposals, explicitly authorized mutations, Session Ledger correlation, recordings, cleanup, and the latest-run Markdown record. Trigger only when a user asks Codex to run, fake, exercise, or verify a realtime capability end to end. Record and hand off the outcome; never automatically investigate, retry, remediate, change code or architecture, or publish. Do not use for unit tests, prompt or registry design, or architecture-only review."
 ---
 
 # Run Realtime Scenarios
@@ -29,6 +29,35 @@ assistant prose, or mock tests with authority-backed product evidence.
 
 Generated maps and copied plans aid navigation only. Current source, contracts,
 scenario docs, and backend evidence decide behavior.
+
+## On-Demand And Outcome Isolation
+
+Run a scenario only in direct response to an explicit user request for that
+scenario and channel. Never run scenarios automatically after code changes,
+deployments, monitoring events, another scenario outcome, or validation work.
+
+Treat the outcome as test evidence only. After collecting required evidence,
+updating the latest-run Markdown file, and completing any already-authorized
+cleanup, stop and hand the result to the user. A `Pass`, `Fail`, or `Blocked`
+outcome does not authorize:
+
+- root-cause investigation or additional source, log, architecture, or contract
+  exploration beyond evidence required by the scenario;
+- code, prompt, configuration, data, contract, documentation, infrastructure,
+  or architecture changes;
+- deployments, releases, issues, pull requests, commits, pushes, cleanup not
+  authorized before the run, or another scenario attempt.
+
+Require a separate user request before diagnosing or fixing an outcome. Route
+that new task through its own applicable skill and authorization gates.
+
+Outcome handling must have no side effects beyond overwriting
+`docs/capabilities/scenarios/last-run.md`. Do not commit or push that record
+unless the user separately requests publication. The scenario execution itself
+may perform only the declared test effect of the exact capability the user
+requested. A proposal scenario authorizes only its short-lived proposal. Require
+separate explicit authorization for client creation, follow-up creation,
+booking, cancellation, reschedule, or cleanup.
 
 ## Workflow
 
@@ -77,13 +106,13 @@ tool dispatch and outcome evidence, finalization evidence, and owner-domain
 read-after-write evidence when applicable. Correlate through supported APIs or
 the Conversations UI. Never substitute a direct Firestore query.
 
-### 5. Decide And Bound Retries
+### 5. Decide And Stop
 
 Evaluate every required scenario assertion as `Pass`, `Fail`, or `Skipped`.
-`Skipped` requires a concrete reason and next validation step. Allow at most one
-corrective retry for a fixture unless the user expressly authorizes more. Stop
-when failures repeat, calls terminate progressively earlier, correlation is
-missing, or evidence cannot distinguish success from narration.
+`Skipped` requires a concrete reason and next validation step. Run once by
+default. Do not retry because the outcome is `Fail` or `Blocked`; another
+attempt requires a new user request. Stop when a call terminates, correlation
+is missing, or evidence cannot distinguish success from narration.
 
 ### 6. Verify And Clean Up
 
@@ -123,6 +152,10 @@ write failure separately; the scenario task remains incomplete.
 - Never leave a material dev write unexplained or without a recorded cleanup
   decision.
 - Never finish a scenario run without updating the canonical latest-run file.
+- Never investigate, diagnose, remediate, or change code or architecture
+  automatically because of a scenario outcome.
+- Never commit or push the latest-run record without a separate user request.
+- Never rerun a scenario automatically after a terminal outcome.
 
 ## Required Handoff
 

@@ -13,6 +13,10 @@ Read this reference before any external phone call or browser-chat session.
   yet been presented and heard.
 - Do not expand from one channel, location, client, or capability to another
   without a scenario reason.
+- Allow only the declared test effect of the exact requested capability. A
+  proposal scenario authorizes only its short-lived proposal. Require separate
+  explicit authorization for client creation, follow-up creation, booking,
+  cancellation, reschedule, or cleanup state.
 
 ## 2. Credential Safety
 
@@ -77,14 +81,27 @@ Before `commit_booking`, cancellation, or reschedule:
 Never use a prerecorded blanket “yes,” a timed future confirmation, or a generic
 authorization from before option presentation as confirmation evidence.
 
-## 7. Retry Budget
+## 7. Retry Boundary
 
-- Initial attempt plus one corrective retry is the default maximum.
+- One user-requested attempt is the default and maximum.
+- Do not rerun after `Pass`, `Fail`, or `Blocked` without a new user request.
 - Do not retry a mutation blindly.
 - Stop immediately for credential leakage, ambiguous identity, wrong
   environment, unexpected existing data, missing correlation, or evidence of a
   possible unverified write.
-- Stop after repeated runtime termination, silence, progressively shorter
-  calls, or identical authority failure. Report the failure instead of calling
-  again.
+- Report runtime termination, silence, missing evidence, or authority failure
+  instead of automatically calling again.
 
+## 8. Outcome Isolation
+
+- The scenario request authorizes only execution, required evidence collection,
+  the latest-run Markdown update, and cleanup explicitly authorized before the
+  run.
+- Do not inspect additional source or logs to diagnose a terminal result beyond
+  the evidence surfaces required by the canonical scenario.
+- Do not change code, prompts, contracts, configuration, data, infrastructure,
+  or architecture in response to the result.
+- Do not create issues, pull requests, commits, pushes, deployments, or follow-up
+  investigations from the result.
+- Record the outcome, report it, and stop. Diagnosis or remediation requires a
+  separate user request.
