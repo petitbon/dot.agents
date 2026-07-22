@@ -141,8 +141,8 @@ Treat each row as a replaceable operational index to the latest evidence for
 one scenario/channel pair, not as domain truth, confirmation, authorization, or
 a historical audit ledger.
 
-Upserting this CSV is the only automatic workspace side effect of outcome
-handling. Do not commit or push it during the scenario run unless the user
-separately requests publication. Do not let any recorded result trigger source
-inspection, investigation, remediation, code or architecture changes,
-deployment, issue creation, or another scenario attempt.
+Upsert this CSV after every attempted scenario. When scenario execution is part
+of an active implementation, debugging, or validation task, the result may
+guide proportionate source inspection, remediation, another evidence run, and
+normal publication of the task's scoped changes. Do not broaden the active task
+or treat the CSV as authority for unrelated actions.

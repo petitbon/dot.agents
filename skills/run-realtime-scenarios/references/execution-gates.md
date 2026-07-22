@@ -2,27 +2,27 @@
 
 Read this reference before any external phone call or browser-chat session.
 
-## 1. Authorization And Scope
+## 1. Standing Authorization And Scope
 
 - Default to the configured dev environment.
-- Require explicit user authorization before a call that incurs cost, a
-  recording, client creation, appointment mutation, cancellation, reschedule,
-  or cleanup.
-- Treat authorization for a proposal-only test as insufficient for booking.
-- Treat authorization to book as insufficient to confirm an option that has not
-  yet been presented and heard.
+- Development phone scenarios have standing repository-owner authorization,
+  including recorded calls that incur charges, dedicated fixture creation, the
+  declared test effect, and owner-governed cleanup. Do not ask for renewed
+  authorization or add an approval/count/spending gate.
+- Standing execution authorization is not booking confirmation evidence. An
+  appointment mutation still requires the exact option and warnings to be
+  presented and heard before the caller confirms them in the current session.
 - Do not expand from one channel, location, client, or capability to another
   without a scenario reason.
-- Allow only the declared test effect of the exact requested capability. A
-  proposal scenario authorizes only its short-lived proposal. Require separate
-  explicit authorization for client creation, follow-up creation, booking,
-  cancellation, reschedule, or cleanup state.
+- Allow only the declared test effect of the selected capability and its
+  dedicated dev fixtures. A proposal scenario creates only its short-lived
+  proposal; mutation scenarios follow their governed confirmation contracts.
 
 ## 2. Credential Safety
 
 - Use the current environment loader in `agentis-scripts-local`; do not parse or
   echo secret files with broad shell searches.
-- Use `dot.dev.env` only when the user explicitly authorizes that source.
+- Load the configured dev profile through the maintained environment loader.
 - Keep Twilio, Firebase, OpenAI, Gemini, and service tokens in memory.
 - Print only sanitized counts, statuses, opaque call/session ids, and offer
   display names. Do not print auth headers or full E.164 numbers.
@@ -54,13 +54,13 @@ Fail closed on missing, null, ambiguous, stale, or contradictory facts.
   unclaimed synthetic ANI that the scenario intentionally creates as a test
   client.
 - Stop on `AMBIGUOUS` or an unexpected existing client match.
-- Do not use a salon or provider business phone as an arbitrary client identity
-  without explicit fixture ownership.
+- Do not use a salon or provider business phone as an arbitrary client identity;
+  use a dedicated fixture identity.
 
 ## 5. Recording And Privacy
 
 - Label synthetic calls as synthetic canaries.
-- Use recording only in dev and only with authorization.
+- Use recording only in dev for the selected synthetic scenario.
 - For human participants, establish applicable consent before recording.
 - Prefer in-memory transcription. Do not leave downloaded recordings or
   transcripts in the repository.
@@ -83,8 +83,9 @@ authorization from before option presentation as confirmation evidence.
 
 ## 7. Retry Boundary
 
-- One user-requested attempt is the default and maximum.
-- Do not rerun after `Pass`, `Fail`, or `Blocked` without a new user request.
+- One attempt is the default.
+- Make another attempt only when evidence shows it can materially validate a
+  fix or resolve a transient condition; do not retry merely to seek a Pass.
 - Do not retry a mutation blindly.
 - Stop immediately for credential leakage, ambiguous identity, wrong
   environment, unexpected existing data, missing correlation, or evidence of a
@@ -94,14 +95,10 @@ authorization from before option presentation as confirmation evidence.
 
 ## 8. Outcome Isolation
 
-- The scenario request authorizes only execution, required evidence collection,
-  the latest-run CSV row upsert, and cleanup explicitly authorized before the
-  run.
-- Do not inspect additional source or logs to diagnose a terminal result beyond
-  the evidence surfaces required by the canonical scenario.
-- Do not change code, prompts, contracts, configuration, data, infrastructure,
-  or architecture in response to the result.
-- Do not create issues, pull requests, commits, pushes, deployments, or follow-up
-  investigations from the result.
-- Record the outcome, report it, and stop. Diagnosis or remediation requires a
-  separate user request.
+- Standing authorization covers execution, required evidence collection,
+  latest-run CSV upsert, dedicated dev fixtures, and owner-governed cleanup.
+- When the active task includes implementation, debugging, or validation, use
+  terminal evidence to guide proportionate diagnosis, remediation, and
+  revalidation without requesting renewed phone-call authorization.
+- Do not broaden the active task, run production, bypass owner APIs, or make
+  unrelated product or infrastructure changes because of a scenario outcome.

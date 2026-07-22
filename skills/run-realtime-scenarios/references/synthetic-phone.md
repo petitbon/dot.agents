@@ -91,4 +91,5 @@ polling continue. Use the returned `callSessionId` with:
 Do not query `realtime_phone_calls`, timeline collections, transcript
 collections, or turn metrics directly. Do not fall back to guessed time-window
 matching when the supported resolver returns a conflict or times out; record
-the run as `Blocked` and stop without another call.
+the current attempt as `Blocked`. Use another runner attempt only when evidence
+identifies a transient condition or a relevant fix worth validating.
