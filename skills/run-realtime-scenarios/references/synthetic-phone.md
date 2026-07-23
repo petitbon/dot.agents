@@ -12,6 +12,11 @@ carrier path was exercised.
 Static TwiML is suitable for a proposal-only request. It is not an interactive
 booking confirmer because fixed pauses cannot prove what was heard.
 
+Use an Alfred Hitchcock film character whenever the scenario supplies a client
+name, and use an email in the `@trimpulse.ai` domain. Availability, booking,
+and reschedule utterances must use one supported open-ended date preference and
+must never include an end date.
+
 ## Read-Only Preflight
 
 1. Load the dev environment through `agentis-scripts-local/src/script-env.ts`.
@@ -67,6 +72,9 @@ prewritten `<Say>Yes</Say>`. Timing is not evidence that an option was heard.
 
 If no interactive caller is available, stop after the proposal and report that
 the mutation scenario is blocked by the confirmation harness.
+
+Preserve every record created or changed by the attempt. Never invoke
+post-scenario cleanup.
 
 ## Recording Evidence
 

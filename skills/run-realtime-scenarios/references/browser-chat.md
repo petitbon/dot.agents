@@ -11,6 +11,10 @@ Use this reference only for deployed browser-chat scenarios.
   internal service credentials.
 - Start a fresh session unless the canonical scenario explicitly requires an
   existing active proposal or appointment.
+- Use an Alfred Hitchcock film character whenever the scenario supplies a
+  client name, and use an email in the `@trimpulse.ai` domain.
+- Use one supported open-ended date preference for availability, booking, and
+  reschedule scenarios; never type an end date.
 
 ## Execution
 
@@ -23,6 +27,8 @@ Use this reference only for deployed browser-chat scenarios.
    test-control language to the user turn.
 6. For mutations, confirm only after the complete finalized proposal and
    warnings are rendered in the current session.
+7. Preserve every created or changed dev record and report its opaque identity.
+   Never run post-scenario cleanup.
 
 Do not call Booking, Scheduling, Rules, Service Catalog, Clients, or Salon
 Config directly as a substitute for the browser adapter. Owner API reads may be

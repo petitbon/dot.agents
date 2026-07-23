@@ -1,4 +1,4 @@
-# Evidence, Verdict, And Cleanup
+# Evidence, Verdict, And Preservation
 
 Read this reference before issuing the final scenario verdict.
 
@@ -28,7 +28,7 @@ Evaluate the exact canonical scenario. At minimum report:
 - domain write count and idempotency;
 - absence of forbidden writes;
 - recording/rendering actually heard or seen;
-- cleanup result or explicit preservation decision.
+- explicit preservation decision and retained fixture identities.
 
 Transport `completed` means only that the transport completed.
 `NO_AVAILABILITY` fails a positive `PROPOSAL_READY` fixture even when the
@@ -44,24 +44,25 @@ Use concrete rows such as:
 | Scheduling supplied candidates | Debug bundle dependency/tool evidence | Session Ledger debug bundle | Pass/Fail/Skipped |
 | Proposal was heard before confirmation | Ordered recording/transcript evidence | Recording + Session Ledger | Pass/Fail |
 | One governed write occurred | Booking terminal evidence and Scheduling visit | Owner APIs | Pass/Fail/Skipped |
-| Cleanup removed the exact fixture | Preview, command, read-after-delete | Owner runbook/script | Pass/Fail/Skipped |
+| Scenario records were preserved | Owner read-after-write and retained opaque ids | Owner APIs | Pass/Fail/Skipped |
 
 `Skipped` must identify the missing surface and the next exact validation step.
 
-## Cleanup
+## Preservation
 
-For a created dev visit:
+For every scenario-created or changed dev record:
 
-1. verify the exact visit through Scheduling;
-2. locate the current owner-orchestrated cleanup runbook;
-3. preview the exact environment, business, location, client, visit, and time;
-4. run only the documented `agentis-scripts-local` command through
-   `yarn cli run`;
-5. verify the visit is absent and no unrelated record changed.
+1. verify the exact owner-domain state;
+2. retain the client, appointment, visit, proposal, operation, follow-up, and
+   session records;
+3. record the opaque identities needed to inspect the retained fixture;
+4. write the preservation decision into the fixed CSV `cleanup` field;
+5. do not invoke `clear-bookings`, an owner cleanup command, direct deletion,
+   acknowledgment-as-cleanup, or a reset.
 
-Do not delete through Firestore, the adapter, or an improvised direct service
-write. Do not clean up an ambiguous target. If no governed cleanup command
-exists, leave the fixture intact, report it, and mark cleanup `Skipped`.
+Preservation applies to `Pass`, `Fail`, and `Blocked` attempts. If a write may
+have occurred but owner state is unavailable, report the retained state as
+unverified and name the next owner read; never delete to remove the ambiguity.
 
 ## Final Report
 
@@ -71,7 +72,7 @@ Lead with `Pass`, `Fail`, or `Blocked`, then provide:
 - UTC and local timestamps;
 - opaque Call/Recording/Session/Proposal/Visit ids as applicable;
 - concise caller and assistant turn summary;
-- writes and cleanup;
+- writes and preservation;
 - retry count;
 - evidence table;
 - observability or harness gaps;
@@ -82,7 +83,8 @@ terminal evidence.
 
 ## Per-Scenario Latest-Run CSV Record
 
-After every attempted phone or browser-chat scenario, upsert one row in:
+After every attempted phone or browser-chat scenario and its preservation
+decision, upsert one row in:
 
 `docs/capabilities/scenarios/last-runs.csv`
 
@@ -122,7 +124,7 @@ python3 .agents/skills/run-realtime-scenarios/scripts/upsert_last_run_csv.py \
   --authority-outcome "<declared outcome or unavailable>" \
   --caller-visible-result "<concise grounded summary>" \
   --writes "<verified writes or none>" \
-  --cleanup "<verified cleanup, preservation, expiry, or not applicable>" \
+  --cleanup "<verified preservation, expiry, or not applicable>" \
   --gaps "<none or concrete missing evidence>"
 ```
 
