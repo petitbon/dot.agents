@@ -56,7 +56,7 @@ yarn cli run --env dev run-realtime-scenario -- \
   --scenario find-bookable-options \
   --channel phone \
   --service-name "<speakable service>" \
-  --date-preference "any Tuesday"
+  --date-preference "any day in the afternoon"
 ```
 
 The supported phone path automatically resolves the Twilio CallSid through Call
@@ -125,14 +125,23 @@ labels, staff names, invented names, or another email domain.
 
 For availability, booking, and reschedule requests, use one open-ended
 preference through `--date-preference`. Supported forms are `any day` or
-`any <weekday>`, optionally followed by `in the morning`, `in the afternoon`,
-or `in the evening`. Never give the caller a start/end date range or an end
-date. Internal preflight may inspect the bounded authoritative booking horizon;
-that implementation bound must not become caller language.
+`next <weekday>`, optionally followed by `in the morning`, `in the afternoon`,
+or `in the evening`. Do not use `any <weekday>` because the current temporal
+contract cannot represent all weekday occurrences. Never give the caller a
+start/end date range or an end date. Internal preflight may inspect the bounded
+authoritative booking horizon; that implementation bound must not become caller
+language.
 
 Do not turn an exploratory `NO_AVAILABILITY`, clarification, or runtime failure
 into a positive scenario pass. A positive scenario must meet its documented
 precondition before execution.
+
+For Provider Availability, let maintained preflight resolve `next <weekday>`
+and speak the resulting exact local date. For appointment-backed mutations,
+use the owner-backed list ordinal, local date/time, and provider names selected
+by the runner. Do not send a final confirmation until the preceding evidence
+contains the selected Booking proposal or an explicit cancellation
+confirmation prompt.
 
 ### 3. Run One Channel Faithfully
 
