@@ -7,8 +7,9 @@ Read this reference before any external phone call or browser-chat session.
 - Default to the configured dev environment.
 - Development phone scenarios have standing repository-owner authorization,
   including recorded calls that incur charges, dedicated fixture creation, the
-  declared test effect, and explicit fixture preservation. Do not ask for renewed
-  authorization or add an approval/count/spending gate.
+  declared test effect, evidence preservation, and exact-fixture
+  terminalization. Do not ask for renewed authorization or add an
+  approval/count/spending gate.
 - Standing execution authorization is not booking confirmation evidence. An
   appointment mutation still requires the exact option and warnings to be
   presented and heard before the caller confirms them in the current session.
@@ -17,8 +18,9 @@ Read this reference before any external phone call or browser-chat session.
 - Allow only the declared test effect of the selected capability and its
   dedicated dev fixtures. A proposal scenario creates only its short-lived
   proposal; mutation scenarios follow their governed confirmation contracts.
-- Preserve every scenario-created or changed dev record. Never invoke cleanup
-  after a scenario.
+- Preserve audit evidence and the stable client persona. After evidence is
+  durable, terminalize only the exact active visit fixture through Booking and
+  verify Scheduling. Never use broad cleanup or direct deletion.
 
 ## 2. Credential Safety
 
@@ -103,7 +105,8 @@ authorization from before option presentation as confirmation evidence.
 ## 8. Outcome Isolation
 
 - Standing authorization covers execution, required evidence collection,
-  latest-run CSV upsert, dedicated dev fixtures, and explicit preservation.
+  latest-run CSV upsert, dedicated dev fixtures, exact-fixture
+  terminalization, and preservation of audit evidence.
 - When the active task includes implementation, debugging, or validation, use
   terminal evidence to guide proportionate diagnosis, remediation, and
   revalidation without requesting renewed phone-call authorization.

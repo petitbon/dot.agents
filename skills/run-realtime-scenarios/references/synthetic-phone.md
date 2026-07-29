@@ -73,8 +73,10 @@ prewritten `<Say>Yes</Say>`. Timing is not evidence that an option was heard.
 If no interactive caller is available, stop after the proposal and report that
 the mutation scenario is blocked by the confirmation harness.
 
-Preserve every record created or changed by the attempt. Never invoke
-post-scenario cleanup.
+Persist evidence before teardown. Preserve the stable client plus Session
+Ledger, Booking, Scheduling, proposal, operation, and terminal appointment
+records. Terminalize only the exact active visit fixture through Booking and
+verify Scheduling; never use broad cleanup or direct deletion.
 
 ## Recording Evidence
 

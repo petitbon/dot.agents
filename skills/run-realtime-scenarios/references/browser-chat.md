@@ -27,8 +27,10 @@ Use this reference only for deployed browser-chat scenarios.
    test-control language to the user turn.
 6. For mutations, confirm only after the complete finalized proposal and
    warnings are rendered in the current session.
-7. Preserve every created or changed dev record and report its opaque identity.
-   Never run post-scenario cleanup.
+7. Persist the evidence row, then terminalize only the exact active visit
+   fixture through Booking and verify Scheduling. Preserve the stable client,
+   Session Ledger, Booking, Scheduling, proposal, operation, and terminal
+   appointment evidence. Never use broad cleanup or direct deletion.
 
 Do not call Booking, Scheduling, Rules, Service Catalog, Clients, or Salon
 Config directly as a substitute for the browser adapter. Owner API reads may be

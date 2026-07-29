@@ -1,6 +1,6 @@
 ---
 name: run-realtime-scenarios
-description: "Use as the primary skill for execution and evidence of deployed dev Agentis phone or browser-chat scenarios: synthetic Twilio, live chat, proposals, governed test mutations, Session Ledger correlation, recordings, preserved fixtures, and the per-scenario latest-run CSV record. Development phone scenarios have standing repository-owner authorization and may run when reasonably necessary to implement, debug, validate, or complete the active task. Do not use for unit tests, prompt or registry design, or architecture-only review."
+description: "Use as the primary skill for execution and evidence of deployed dev Agentis phone or browser-chat scenarios: synthetic Twilio, live chat, proposals, governed test mutations, Session Ledger correlation, recordings, exact per-trial fixture teardown, and the per-scenario latest-run CSV record. Development phone scenarios have standing repository-owner authorization and may run when reasonably necessary to implement, debug, validate, or complete the active task. Do not use for unit tests, prompt or registry design, or architecture-only review."
 ---
 
 # Run Realtime Scenarios
@@ -14,7 +14,7 @@ assistant prose, or mock tests with authority-backed product evidence.
 - Load `references/synthetic-phone.md` for Twilio or phone scenarios.
 - Load `references/browser-chat.md` for deployed browser-chat scenarios.
 - Always load `references/evidence-and-cleanup.md` before issuing a verdict or
-  recording the preservation decision for a governed write.
+  recording the exact-fixture teardown decision for a governed write.
 
 ## Source Of Truth
 
@@ -72,6 +72,8 @@ task. There is no phone call-count or spending gate. The runner reuses one
 bounded preflight snapshot, runs sequentially, and stops on the first `Fail` or
 `Blocked`. Additional attempts are separate evidence runs and should be made
 only when engineering evidence shows they are useful rather than gratuitous.
+Appointment-backed trials receive separate exact fixture leases; neither
+preflight nor active visits are reused across trials.
 
 Bounded polling for correlation, transport completion, recording readiness, or
 the ended debug bundle belongs to one declared attempt and is not a scenario
@@ -84,7 +86,7 @@ development phone scenarios, including recorded calls that incur charges,
 whenever Codex reasonably determines they are needed to implement, debug,
 validate, or complete the active task. This authorization persists across
 sessions and includes dedicated dev fixture creation, the declared test effect,
-evidence collection, and explicit fixture preservation. Do not add or consult an
+evidence collection, and exact-fixture terminalization. Do not add or consult an
 approval flag, prompt, token, environment gate, acknowledgment file, call-count
 limit, or monetary cap.
 
@@ -105,7 +107,7 @@ Record:
 - channel: phone or browser chat;
 - capability and exact canonical scenario;
 - proposal-only versus governed mutation;
-- expected positive fixture and preservation requirement;
+- expected positive fixture and exact-fixture teardown requirement;
 - whether the caller is human or synthetic.
 
 Default to dev. Do not run production or a governed mutation merely because the
@@ -116,7 +118,8 @@ user asked for generic testing.
 Resolve configuration through authoritative APIs. Confirm active offers,
 channel enablement, runtime enablement, timezone, provider/capability facts, and
 an expected-valid search window. For writes, prove a dedicated test client and
-a fixture that is safe to retain.
+an exact per-trial fixture that can be terminalized through its owner after
+evidence is durable.
 
 Whenever a scenario supplies a client identity, use an Alfred Hitchcock film
 character for the client name and an email in the `@trimpulse.ai` domain. Use
@@ -178,14 +181,25 @@ a fix or resolve a transient condition. Stop the current attempt when a call
 terminates, correlation is missing, or evidence cannot distinguish success
 from narration.
 
-### 6. Verify And Preserve
+### 6. Verify, Persist Evidence, And Terminalize The Exact Fixture
 
-For writes, verify the exact owner-domain result and preserve every created or
-changed dev record. Never invoke `clear-bookings`, an owner cleanup command,
-fixture deletion, acknowledgment-as-cleanup, or a reset after a scenario.
-Record the opaque client, session, proposal, operation, visit, appointment, or
-follow-up identities needed to explain what remains. Treat preservation as the
-required cleanup decision in the fixed latest-run CSV `cleanup` field.
+For writes, verify the exact owner-domain result. Persist the scenario evidence
+row before teardown. Preserve the stable client plus Session Ledger, Booking,
+Scheduling, proposal, operation, follow-up, and terminal appointment records.
+
+For every appointment-backed trial, terminalize only the exact active visit
+created or selected by that trial through Booking, then verify through
+Scheduling that no fixture item remains active. A booking commit tears down its
+committed visit; a reschedule tears down the replacement visit; a cancellation
+tears down any remaining booked item in its original visit; read-only
+appointment scenarios tear down the prepared visit. Update the same evidence
+row with the teardown result.
+
+Never invoke `clear-bookings`, direct deletion, broad owner cleanup, arbitrary
+visit discovery, acknowledgment-as-cleanup, or a reset. If the exact target is
+missing or ambiguous, an owner call fails, or verification cannot prove the
+terminal state, change the result to `Blocked` and retain the identities needed
+to diagnose the exact remaining visit.
 
 ### 7. Upsert The Latest Outcome
 
@@ -193,8 +207,9 @@ After every attempted scenario reaches `Pass`, `Fail`, or `Blocked`, upsert its
 row in `docs/capabilities/scenarios/last-runs.csv`. Match an existing row by
 scenario and channel so a browser-chat rerun does not erase the phone result.
 Replace the matching row in place; append only when that scenario/channel pair
-does not exist. Do this after the preservation decision and before the final user
-handoff. If later evidence changes the verdict, replace the same row.
+does not exist. Persist it before fixture teardown, then replace it with the
+verified teardown result before the final user handoff. If later evidence
+changes the verdict, replace the same row.
 
 Use the bundled CSV-aware helper; do not edit CSV with string concatenation:
 
@@ -226,9 +241,9 @@ failure separately; the scenario task remains incomplete.
 - Never accept a static future acknowledgment of unknown warnings.
 - Never claim a scenario passed from Twilio `completed`, a recording alone, or
   assistant prose.
-- Never run cleanup after a scenario.
-- Never leave a material dev write unexplained or without a recorded
-  preservation decision and retained fixture identities.
+- Never use broad cleanup, direct deletion, or an ambiguous fixture target.
+- Never leave a material dev write unexplained or without a recorded exact
+  owner-domain teardown decision and retained evidence identities.
 - Never finish a scenario run without upserting the canonical latest-run CSV row.
 - Never use a terminal outcome alone as evidence that another call will be
   useful; inspect the active task and available evidence first.
@@ -237,5 +252,6 @@ failure separately; the scenario task remains incomplete.
 
 Lead with the verdict. Include scenario, environment, channel, timestamps,
 transport/session ids, heard transcript summary, backend evidence, writes,
-preservation, retries, and gaps. Use the evidence-table format in
+exact-fixture teardown, preserved audit evidence, retries, and gaps. Use the
+evidence-table format in
 `references/evidence-and-cleanup.md`, and link the updated latest-run CSV.

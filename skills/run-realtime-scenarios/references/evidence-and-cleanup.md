@@ -1,4 +1,4 @@
-# Evidence, Verdict, And Preservation
+# Evidence, Verdict, And Exact-Fixture Teardown
 
 Read this reference before issuing the final scenario verdict.
 
@@ -28,7 +28,7 @@ Evaluate the exact canonical scenario. At minimum report:
 - domain write count and idempotency;
 - absence of forbidden writes;
 - recording/rendering actually heard or seen;
-- explicit preservation decision and retained fixture identities.
+- explicit exact-fixture teardown decision and retained evidence identities.
 
 Transport `completed` means only that the transport completed.
 `NO_AVAILABILITY` fails a positive `PROPOSAL_READY` fixture even when the
@@ -44,25 +44,31 @@ Use concrete rows such as:
 | Scheduling supplied candidates | Debug bundle dependency/tool evidence | Session Ledger debug bundle | Pass/Fail/Skipped |
 | Proposal was heard before confirmation | Ordered recording/transcript evidence | Recording + Session Ledger | Pass/Fail |
 | One governed write occurred | Booking terminal evidence and Scheduling visit | Owner APIs | Pass/Fail/Skipped |
-| Scenario records were preserved | Owner read-after-write and retained opaque ids | Owner APIs | Pass/Fail/Skipped |
+| Exact fixture was terminalized | Booking cancellation plus Scheduling owner verification | Owner APIs | Pass/Fail/Skipped |
+| Audit evidence was preserved | Session, proposal, operation, and terminal owner records remain addressable | Owner APIs / Session Ledger | Pass/Fail/Skipped |
 
 `Skipped` must identify the missing surface and the next exact validation step.
 
-## Preservation
+## Evidence Preservation And Fixture Teardown
 
-For every scenario-created or changed dev record:
+For every attempted scenario:
 
 1. verify the exact owner-domain state;
-2. retain the client, appointment, visit, proposal, operation, follow-up, and
-   session records;
-3. record the opaque identities needed to inspect the retained fixture;
-4. write the preservation decision into the fixed CSV `cleanup` field;
-5. do not invoke `clear-bookings`, an owner cleanup command, direct deletion,
-   acknowledgment-as-cleanup, or a reset.
+2. persist the evidence row before teardown;
+3. retain the stable client plus Session Ledger, Booking, Scheduling, proposal,
+   operation, follow-up, and terminal appointment records;
+4. identify the exact active visit created or selected by the trial;
+5. terminalize only that visit's active appointment items through Booking;
+6. verify through Scheduling that no item in that exact visit remains active;
+7. update the same CSV row's `cleanup` field with the exact teardown result;
+8. never invoke `clear-bookings`, direct deletion, broad cleanup, arbitrary
+   visit discovery, acknowledgment-as-cleanup, or a reset.
 
-Preservation applies to `Pass`, `Fail`, and `Blocked` attempts. If a write may
-have occurred but owner state is unavailable, report the retained state as
-unverified and name the next owner read; never delete to remove the ambiguity.
+This lifecycle applies to `Pass`, `Fail`, and `Blocked` attempts whenever an
+exact fixture lease exists. If a write may have occurred but the exact target
+or owner state is unavailable, change the result to `Blocked`, preserve the
+available evidence, and name the next owner read. Never guess a visit or delete
+records to remove ambiguity.
 
 ## Final Report
 
@@ -72,7 +78,7 @@ Lead with `Pass`, `Fail`, or `Blocked`, then provide:
 - UTC and local timestamps;
 - opaque Call/Recording/Session/Proposal/Visit ids as applicable;
 - concise caller and assistant turn summary;
-- writes and preservation;
+- writes, exact-fixture teardown, and preserved audit evidence;
 - retry count;
 - evidence table;
 - observability or harness gaps;
@@ -83,8 +89,8 @@ terminal evidence.
 
 ## Per-Scenario Latest-Run CSV Record
 
-After every attempted phone or browser-chat scenario and its preservation
-decision, upsert one row in:
+After every attempted phone or browser-chat scenario, upsert one row before
+fixture teardown and replace it with the verified teardown result in:
 
 `docs/capabilities/scenarios/last-runs.csv`
 
@@ -124,7 +130,7 @@ python3 .agents/skills/run-realtime-scenarios/scripts/upsert_last_run_csv.py \
   --authority-outcome "<declared outcome or unavailable>" \
   --caller-visible-result "<concise grounded summary>" \
   --writes "<verified writes or none>" \
-  --cleanup "<verified preservation, expiry, or not applicable>" \
+  --cleanup "<verified exact-fixture terminalization, expiry, or not applicable>" \
   --gaps "<none or concrete missing evidence>"
 ```
 
