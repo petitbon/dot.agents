@@ -46,3 +46,14 @@ Record synchronous evidence before async projection:
 Do not block realtime turns on timeline projections, analytics, exports, or
 debug materialization. Do block user-facing success on required backend
 finalization.
+
+## Debug Bundle Review Baselines
+
+- Combined multi-provider presentation such as `with Norman and Norma` is not
+  a defect merely because it does not map each service to a provider. Report it
+  only when authority evidence is missing, inconsistent, or proves that the
+  spoken provider facts are wrong.
+- A serialized `timelineEntries` array is not defective merely because its
+  `seq` values are not monotonically ordered. Report ordering only when the
+  bundle contains concrete missing, duplicated, contradictory, or causally
+  invalid evidence.
