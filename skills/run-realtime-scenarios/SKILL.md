@@ -135,6 +135,11 @@ start/end date range or an end date. Internal preflight may inspect the bounded
 authoritative booking horizon; that implementation bound must not become caller
 language.
 
+Named-provider recovery is the exception: do not pass `--date-preference`.
+Maintained preflight scans the following salon-local Monday-Sunday week, selects
+the first governed slot with both required recovery branches, and derives the
+caller's `next <weekday>` wording from that exact slot.
+
 Do not turn an exploratory `NO_AVAILABILITY`, clarification, or runtime failure
 into a positive scenario pass. A positive scenario must meet its documented
 precondition before execution.
