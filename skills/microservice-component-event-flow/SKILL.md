@@ -44,8 +44,8 @@ but unproven as inferred or uncertain.
 6. Identify emitted events and their topics or queues.
 7. Identify forbidden paths, especially direct writes into another owner's
    domain.
-8. Use CodeSight and CodeGraph first when available, then verify exact details
-   from source, contracts, and tests.
+8. Use CodeGraph first when available, then verify exact details from source,
+   contracts, and tests.
 
 Avoid implementation noise such as every DTO, mapper, helper, logger, or config
 constant unless it is architecturally important.

@@ -36,5 +36,5 @@ instruction repository, not a runtime service.
 ## Source Of Truth
 
 `AGENTS.md` defines local authoring and validation rules. `docs/validation.md`
-describes the validation checks. Generated CodeSight and CodeGraph files are not
+describes the validation checks. Generated analysis and CodeGraph files are not
 tracked in this repository.
