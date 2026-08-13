@@ -1,6 +1,6 @@
 ---
 name: agentis-auth-posture-governance
-description: "Use as the primary skill for Agentis authentication and authorization posture audits, architecture reviews, service-auth drift checks, or changes involving API Gateway user auth, Cloud Run IAM service authenticity, runtime service accounts, service allowlists, inbound service-token verification, x-serverless-authorization, Firebase custom-claims bootstrap, or authz SDK role/resource enforcement. Use repo-agent-governance when the primary artifact is only repository validation plumbing."
+description: "Use for Agentis auth/authz posture audits or changes to API Gateway user auth, Cloud Run IAM authenticity, runtime service accounts, service allowlists, inbound tokens, x-serverless-authorization, Firebase claims, or authz SDK enforcement. Use repo-agent-governance only for validation plumbing."
 ---
 
 # Agentis Auth Posture Governance

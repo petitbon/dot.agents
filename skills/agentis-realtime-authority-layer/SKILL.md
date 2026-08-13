@@ -1,6 +1,6 @@
 ---
 name: agentis-realtime-authority-layer
-description: "Use as the primary skill for the Agentis Realtime Authority Layer Ontology: canonical realtime tool registry, channel-specific live tool exposure for phone/browser chat, Authority Runtime design, capability manifests, resolver topology, finalization/evidence policy, governed mutation admission, Rules runtime booking-policy evaluation, and cross-adapter compliance. Use realtime-voice-agent-design for prompt/model behavior, booking-workflow-architecture for booking proposal/commit state-machine detail, and repo-agent-governance for repository-local enforcement plumbing."
+description: "Use for the Agentis realtime authority ontology: canonical live-tool registry, channel exposure, Authority Runtime admission, capability manifests, resolver routing, governed mutations, Rules booking policy, finalization, evidence, and adapter compliance. Use narrower voice, booking, or repository skills for their owned artifacts."
 ---
 
 # Agentis Realtime Authority Layer

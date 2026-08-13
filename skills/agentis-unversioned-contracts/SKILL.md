@@ -1,6 +1,6 @@
 ---
 name: agentis-unversioned-contracts
-description: Enforce Agentis current-only, unversioned code and contract design. Use when creating, changing, reviewing, or removing SDK types, event envelopes, commands, payloads, DTOs, schemas, serialized wire contracts, persisted document shapes, contract parsers, compatibility logic, or migration entry points. Reject V1/V2/V3-style code and type identifiers, version-selector fields, legacy aliases, compatibility branches, and retired-shape migrations. Do not use for HTTP /v1 routes, package semver and release publishing, domain revision/provenance fields, or third-party generated contracts.
+description: "Use for Agentis current-only SDK types, DTOs, schemas, wire or persisted contracts, parsers, compatibility removal, and cutover entrypoints. Reject V1/V2 identifiers, selector fields, legacy aliases, compatibility branches, and retired-shape migrations. Excludes HTTP /v1 routes, package semver, revisions, and generated third-party contracts."
 ---
 
 # Agentis Unversioned Contracts

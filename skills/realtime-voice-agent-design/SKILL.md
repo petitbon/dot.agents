@@ -1,6 +1,6 @@
 ---
 name: realtime-voice-agent-design
-description: "Use for designing, implementing, and prompting realtime voice agents: model-native tool selection, realtime system prompts, tool schemas, conversational state exposure, confirmation behavior, voice ambiguity handling, guarded tool execution, and replay/eval validation. Use agentis-realtime-authority-layer for canonical realtime tool registry, Authority Runtime design, resolver topology, channel-specific live tool exposure, finalization/evidence policy, and cross-adapter compliance. Use booking-workflow-architecture for Agentis booking state-machine design."
+description: "Use for realtime voice-agent model behavior: prompts, model-native tool selection, schemas, state exposure, confirmation, ambiguity, guarded execution, and replay/evals. Use realtime authority for tool registry, admission, and finalization; use booking workflow architecture for booking state."
 ---
 
 # Realtime Voice Agent Design

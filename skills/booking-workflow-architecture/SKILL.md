@@ -1,9 +1,12 @@
 ---
 name: booking-workflow-architecture
-description: "Use for Agentis governed booking workflow architecture: proposal state, active proposal identity, confirmation readiness, conflict recovery, stale-state invalidation, retries, idempotent side effects, duplicate-safe commits, terminal completion, and booking authority ownership. Include Scheduling only when booking proposal, commit safety, or appointment side effects are affected. Do not use for standalone Scheduling work. Use agentis-realtime-authority-layer for cross-channel live tool exposure, Authority Runtime admission, resolver topology, and finalization/evidence compliance."
+description: "Use for Agentis booking proposal state, active identity, confirmation readiness, conflict recovery, stale invalidation, retry/idempotency, duplicate-safe commit, terminal completion, and booking authority. Excludes standalone Scheduling; use realtime authority for cross-channel tool exposure, admission, and finalization."
 ---
 
 # Booking Workflow Architecture
+
+Do not use for standalone Scheduling work. Use this skill only when booking
+proposal, commit safety, or appointment side effects are affected.
 
 Use this skill when changing or reviewing Agentis booking workflow
 architecture, state-machine behavior, service authority ownership, or

@@ -1,6 +1,6 @@
 ---
 name: sdk-release-consumer-bump
-description: "Release a shared SDK package, choose the correct semver bump, publish through the declared authority, verify registry availability, and update downstream consumers. Use for SDK repos/workspace packages, publish-version conflicts, registry verification, and consumer dependency propagation."
+description: "Use to release a shared SDK through its declared authority, choose semver, verify registry availability, and bump downstream consumers. Covers publish conflicts and consumer propagation."
 ---
 
 # SDK Release Consumer Bump

@@ -21,9 +21,10 @@ The script verifies:
 - interface metadata has non-empty display, description, and default-prompt
   fields, and the prompt references the correct skill token;
 - skill descriptions are long enough to route reliably but stay within the
-  repository budget;
-- `SKILL.md` files stay within 240 lines so detailed manuals remain in
-  `references/`;
+  350-character per-skill and 4,000-character aggregate budgets;
+- general `SKILL.md` files stay within 8,000 bytes and the doctrine, domain
+  architecture, Node runtime, and scenario routers stay within 6,144 bytes;
+- declared phase-specific skill/reference bundles stay within 16,384 bytes;
 - bundled `references/...` paths mentioned by a skill exist;
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
 - the SDK release skill and SDK repository guidance do not allow or present
@@ -35,8 +36,10 @@ The script verifies:
   explicit repeated-failure behavior, prompt-channel, and Mermaid-render rules
   do not regress;
 - local README inventory is complete;
-- when the repository is inside the Agentis aggregator, root `AGENTS.md` and
-  `skills-routing.md` contain every skill in their owned routing sections;
+- when the repository is inside the Agentis aggregator, root `AGENTS.md` stays
+  within 3,072 bytes, every root-plus-child instruction chain stays within
+  7,168 bytes, root links to `skills-routing.md`, and that canonical routing map
+  contains every skill;
 - rule/evidence and checkpoint governance docs exist and reference the skill
   validation command;
 - secondary harness docs defer to `AGENTS.md` and do not duplicate stale skill

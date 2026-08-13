@@ -80,7 +80,26 @@ while [ "$i" -lt 150 ]; do
   printf 'Additional manual detail that belongs in a reference.\n' >> "$oversized_skill/.agents/skills/repo-agent-governance/SKILL.md"
   i=$((i + 1))
 done
-expect_failure "oversized skill entrypoint" "$oversized_skill" 'exceeds 240 lines'
+expect_failure "oversized skill entrypoint" "$oversized_skill" 'exceeds 8000 byte entrypoint budget'
+
+oversized_router=$(make_fixture oversized-router)
+i=0
+while [ "$i" -lt 80 ]; do
+  printf 'Detailed doctrine guidance belongs in a phase reference.\n' >> "$oversized_router/.agents/skills/agentis-engineering-doctrine/SKILL.md"
+  i=$((i + 1))
+done
+expect_failure "oversized router entrypoint" "$oversized_router" 'exceeds 6144 byte entrypoint budget'
+
+oversized_description=$(make_fixture oversized-description)
+replace_file "$oversized_description/.agents/skills/repo-agent-governance/SKILL.md" 's/^description: .*/description: "Use this routing description for repository governance work while repeating enough unnecessary metadata to exceed the compact implicit-context budget. Use it for maps, docs, validation, observability, quality, cleanup, worktrees, checks, skills, plans, and every other repository concern even when a narrower owner applies, because this deliberately oversized fixture must fail the per-skill description budget guard."/'
+expect_failure "oversized skill description" "$oversized_description" 'description exceeds 350 chars'
+
+oversized_description_catalog=$(make_fixture oversized-description-catalog)
+for skill_file in "$oversized_description_catalog"/.agents/skills/*/SKILL.md; do
+  replacement='Use this skill for its declared Agentis artifact and preserve precise primary routing boundaries. This fixture intentionally fills the safe per-skill description allowance with repeated routing detail while remaining under the individual maximum so the aggregate implicit-context catalog budget must reject the combined descriptions rather than one entry.'
+  replace_file "$skill_file" "s|^description: .*|description: $replacement|"
+done
+expect_failure "oversized description catalog" "$oversized_description_catalog" 'skill descriptions total [0-9]+ chars; exceeds 4000'
 
 wrong_prompt=$(make_fixture wrong-prompt)
 replace_file "$wrong_prompt/.agents/skills/repo-agent-governance/agents/openai.yaml" 's/\$repo-agent-governance/\$wrong-skill/'
@@ -103,12 +122,12 @@ replace_file "$governance_domain_collision/.agents/skills/repo-agent-governance/
 expect_failure "governance domain routing collision" "$governance_domain_collision" 'governance/domain primary routing boundary'
 
 missing_proportional_design=$(make_fixture missing-proportional-design)
-replace_file "$missing_proportional_design/.agents/skills/agentis-engineering-doctrine/SKILL.md" '/Do not split reads and writes into separate microservices/d'
+replace_file "$missing_proportional_design/.agents/skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md" '/Do not split reads and writes into separate microservices/d'
 expect_failure "missing proportional-design guard" "$missing_proportional_design" 'read/write microservice split guard'
 
-missing_root_skill=$(make_fixture missing-root-skill)
-replace_file "$missing_root_skill/AGENTS.md" '/`repo-agent-governance`/d'
-expect_failure "root compact map drift" "$missing_root_skill" 'compact skill map missing `repo-agent-governance`'
+missing_root_routing_link=$(make_fixture missing-root-routing-link)
+replace_file "$missing_root_routing_link/AGENTS.md" '/`skills-routing.md`/d'
+expect_failure "root routing link drift" "$missing_root_routing_link" 'canonical skills-routing link'
 
 missing_primary_skill=$(make_fixture missing-primary-skill)
 replace_file "$missing_primary_skill/skills-routing.md" '/| `repo-agent-governance` |/d'
@@ -139,8 +158,33 @@ printf '\nFor future booking realtime tools:\n' >> "$stale_realtime/.agents/skil
 expect_failure "stale realtime rollout guidance" "$stale_realtime" 'stale future-tool or fixed-phase guidance'
 
 unsafe_source_precedence=$(make_fixture unsafe-source-precedence)
-replace_file "$unsafe_source_precedence/.agents/skills/domain-event-architecture/SKILL.md" '/untrusted until/d'
+replace_file "$unsafe_source_precedence/.agents/skills/domain-event-architecture/references/architecture-source-and-workflow.md" '/untrusted until/d'
 expect_failure "unsafe architecture source precedence" "$unsafe_source_precedence" 'untrusted plan/design-note guard'
+
+oversized_root_agents=$(make_fixture oversized-root-agents)
+i=0
+while [ "$i" -lt 80 ]; do
+  printf 'Root manuals belong in owned references instead of automatic context.\n' >> "$oversized_root_agents/AGENTS.md"
+  i=$((i + 1))
+done
+expect_failure "oversized root instructions" "$oversized_root_agents" 'AGENTS.md is [0-9]+ bytes; exceeds 3072'
+
+oversized_active_chain=$(make_fixture oversized-active-chain)
+mkdir -p "$oversized_active_chain/services/context-heavy"
+i=0
+while [ "$i" -lt 100 ]; do
+  printf 'Child guidance must remain a compact owner map with local exceptions.\n' >> "$oversized_active_chain/services/context-heavy/AGENTS.md"
+  i=$((i + 1))
+done
+expect_failure "oversized active instruction chain" "$oversized_active_chain" 'instruction chain; exceeds 7168'
+
+oversized_phase_bundle=$(make_fixture oversized-phase-bundle)
+i=0
+while [ "$i" -lt 180 ]; do
+  printf 'Verdict detail belongs in a narrower evidence artifact.\n' >> "$oversized_phase_bundle/.agents/skills/run-realtime-scenarios/references/evidence-and-cleanup.md"
+  i=$((i + 1))
+done
+expect_failure "oversized phase context" "$oversized_phase_bundle" 'realtime scenario verdict phase context bundle is [0-9]+ bytes; exceeds 16384'
 
 missing_mermaid_validation=$(make_fixture missing-mermaid-validation)
 replace_file "$missing_mermaid_validation/.agents/skills/microservice-component-event-flow/references/mermaid-authoring-and-validation.md" '/mmdc -i/d'

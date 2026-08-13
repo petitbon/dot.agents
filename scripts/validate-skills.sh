@@ -20,9 +20,16 @@ require_file() {
   [ -f "$1" ] || error "missing required file: $1"
 }
 
-MAX_SKILL_LINES=240
 MIN_DESCRIPTION_CHARS=120
-MAX_DESCRIPTION_CHARS=700
+MAX_DESCRIPTION_CHARS=350
+MAX_TOTAL_DESCRIPTION_CHARS=4000
+MAX_SKILL_BYTES=8000
+MAX_ROUTER_SKILL_BYTES=6144
+MAX_ROOT_AGENTS_BYTES=3072
+MAX_ACTIVE_AGENTS_CHAIN_BYTES=7168
+MAX_PHASE_CONTEXT_BYTES=16384
+
+description_total=0
 
 require_contains() {
   file=$1
@@ -41,6 +48,22 @@ require_nonempty_yaml_field() {
     '""'|"''") value= ;;
   esac
   [ -n "$value" ] || error "$file missing non-empty field: $key"
+}
+
+check_context_bundle() {
+  label=$1
+  shift
+  total=0
+  for file in "$@"; do
+    [ -f "$file" ] || {
+      error "$label missing context file: $file"
+      return
+    }
+    bytes=$(wc -c < "$file" | tr -d ' ')
+    total=$((total + bytes))
+  done
+  [ "$total" -le "$MAX_PHASE_CONTEXT_BYTES" ] ||
+    error "$label context bundle is $total bytes; exceeds $MAX_PHASE_CONTEXT_BYTES"
 }
 
 yaml_field_value() {
@@ -84,11 +107,19 @@ for dir in skills/*; do
 
     description=$(awk '/^description: / { sub(/^description: /, ""); print; exit }' "$skill_file")
     description_chars=$(printf '%s' "$description" | wc -c | tr -d ' ')
+    description_total=$((description_total + description_chars))
     [ "$description_chars" -ge "$MIN_DESCRIPTION_CHARS" ] || error "$skill_file description is too short for reliable routing"
     [ "$description_chars" -le "$MAX_DESCRIPTION_CHARS" ] || error "$skill_file description exceeds $MAX_DESCRIPTION_CHARS chars"
 
-    skill_lines=$(wc -l < "$skill_file" | tr -d ' ')
-    [ "$skill_lines" -le "$MAX_SKILL_LINES" ] || error "$skill_file exceeds $MAX_SKILL_LINES lines; move detail to references/"
+    skill_bytes=$(wc -c < "$skill_file" | tr -d ' ')
+    skill_budget=$MAX_SKILL_BYTES
+    case "$skill" in
+      agentis-engineering-doctrine|domain-event-architecture|nodejs-service-runtime|run-realtime-scenarios)
+        skill_budget=$MAX_ROUTER_SKILL_BYTES
+        ;;
+    esac
+    [ "$skill_bytes" -le "$skill_budget" ] ||
+      error "$skill_file is $skill_bytes bytes; exceeds $skill_budget byte entrypoint budget"
 
     if grep -Eq 'TODO|TBD|FIXME' "$skill_file"; then
       error "$skill_file contains unresolved TODO/TBD/FIXME guidance"
@@ -116,6 +147,42 @@ for dir in skills/*; do
   fi
 done
 
+[ "$description_total" -le "$MAX_TOTAL_DESCRIPTION_CHARS" ] ||
+  error "skill descriptions total $description_total chars; exceeds $MAX_TOTAL_DESCRIPTION_CHARS"
+
+check_context_bundle "engineering doctrine delegation phase" \
+  skills/agentis-engineering-doctrine/SKILL.md \
+  skills/agentis-engineering-doctrine/references/delegation-and-failure-semantics.md
+check_context_bundle "engineering doctrine design phase" \
+  skills/agentis-engineering-doctrine/SKILL.md \
+  skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md
+check_context_bundle "domain architecture source phase" \
+  skills/domain-event-architecture/SKILL.md \
+  skills/domain-event-architecture/references/architecture-source-and-workflow.md
+check_context_bundle "domain architecture modeling phase" \
+  skills/domain-event-architecture/SKILL.md \
+  skills/domain-event-architecture/references/modeling-and-coupling-review.md
+check_context_bundle "Node runtime implementation phase" \
+  skills/nodejs-service-runtime/SKILL.md \
+  skills/nodejs-service-runtime/references/implementation-runtime-rules.md
+check_context_bundle "Node runtime observability phase" \
+  skills/nodejs-service-runtime/SKILL.md \
+  skills/nodejs-service-runtime/references/observability-and-cloud-run.md
+check_context_bundle "realtime scenario preflight phase" \
+  skills/run-realtime-scenarios/SKILL.md \
+  skills/run-realtime-scenarios/references/execution-gates.md
+check_context_bundle "realtime scenario phone execution phase" \
+  skills/run-realtime-scenarios/SKILL.md \
+  skills/run-realtime-scenarios/references/runner-invocation.md \
+  skills/run-realtime-scenarios/references/synthetic-phone.md
+check_context_bundle "realtime scenario browser execution phase" \
+  skills/run-realtime-scenarios/SKILL.md \
+  skills/run-realtime-scenarios/references/runner-invocation.md \
+  skills/run-realtime-scenarios/references/browser-chat.md
+check_context_bundle "realtime scenario verdict phase" \
+  skills/run-realtime-scenarios/SKILL.md \
+  skills/run-realtime-scenarios/references/evidence-and-cleanup.md
+
 tracked_noise=$(git ls-files | grep -E '(^|/)\.DS_Store$|^\.codesight/|^\.codegraph/' || true)
 if [ -n "$tracked_noise" ]; then
   printf '%s\n' "$tracked_noise" >&2
@@ -131,9 +198,9 @@ if grep -Eq 'Do not publish failing SDKs unless|publishing with missing[^.]*unle
 fi
 
 require_contains skills/booking-workflow-architecture/SKILL.md 'Do not use for standalone Scheduling work' "standalone Scheduling routing exclusion"
-require_contains skills/agentis-engineering-doctrine/SKILL.md '^## Proportional Design And Optimization$' "proportional-design doctrine section"
-require_contains skills/agentis-engineering-doctrine/SKILL.md 'premature optimization' "premature-optimization guard"
-require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not split reads and writes into separate microservices' "read/write microservice split guard"
+require_contains skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md '^## Proportional Design And Optimization$' "proportional-design doctrine section"
+require_contains skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md 'speculative scale' "premature-optimization guard"
+require_contains skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md 'Do not split reads and writes into separate microservices' "read/write microservice split guard"
 require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not trigger for ordinary implementation, planning, or' "doctrine implicit-routing exclusion"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.md' "canonical realtime compliance Markdown path"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.json' "canonical realtime compliance JSON path"
@@ -141,7 +208,7 @@ if grep -Eq 'For future booking realtime tools|Recommended phase order' skills/a
   error "realtime authority skill contains stale future-tool or fixed-phase guidance"
 fi
 
-for architecture_skill in skills/domain-event-architecture/SKILL.md skills/nodejs-service-structure/SKILL.md; do
+for architecture_skill in skills/domain-event-architecture/references/architecture-source-and-workflow.md skills/nodejs-service-structure/SKILL.md; do
   require_contains "$architecture_skill" 'untrusted until' "untrusted plan/design-note guard"
   if grep -Eq 'Treat documented target(-state)? architecture as canonical' "$architecture_skill"; then
     error "$architecture_skill gives unverified architecture documents canonical precedence"
@@ -174,11 +241,29 @@ if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then
   require_file "$AGGREGATOR_ROOT/AGENTS.md"
   require_file "$AGGREGATOR_ROOT/skills-routing.md"
   if [ -f "$AGGREGATOR_ROOT/AGENTS.md" ] && [ -f "$AGGREGATOR_ROOT/skills-routing.md" ]; then
+    require_contains "$AGGREGATOR_ROOT/AGENTS.md" '`skills-routing\.md`' "canonical skills-routing link"
+    root_agents_bytes=$(wc -c < "$AGGREGATOR_ROOT/AGENTS.md" | tr -d ' ')
+    [ "$root_agents_bytes" -le "$MAX_ROOT_AGENTS_BYTES" ] ||
+      error "$AGGREGATOR_ROOT/AGENTS.md is $root_agents_bytes bytes; exceeds $MAX_ROOT_AGENTS_BYTES"
+
+    for guidance in \
+      "$AGGREGATOR_ROOT"/.agents/AGENTS.md \
+      "$AGGREGATOR_ROOT"/agentis-*/AGENTS.md \
+      "$AGGREGATOR_ROOT"/docs/AGENTS.md \
+      "$AGGREGATOR_ROOT"/sdks/*/AGENTS.md \
+      "$AGGREGATOR_ROOT"/services/*/AGENTS.md \
+      "$AGGREGATOR_ROOT"/web/*/AGENTS.md; do
+      [ -f "$guidance" ] || continue
+      child_agents_bytes=$(wc -c < "$guidance" | tr -d ' ')
+      active_chain_bytes=$((root_agents_bytes + child_agents_bytes))
+      [ "$active_chain_bytes" -le "$MAX_ACTIVE_AGENTS_CHAIN_BYTES" ] ||
+        error "$guidance produces a $active_chain_bytes byte Agentis instruction chain; exceeds $MAX_ACTIVE_AGENTS_CHAIN_BYTES"
+    done
+
     for dir in skills/*; do
       [ -d "$dir" ] || continue
       skill=${dir##*/}
       token="\`$skill\`"
-      require_section_contains "$AGGREGATOR_ROOT/AGENTS.md" "## Skill Routing" "## CodeGraph Usage" "$token" "compact skill map"
       require_section_contains "$AGGREGATOR_ROOT/skills-routing.md" "## Primary Skill Map" "## Realtime Authority Handoffs" "$token" "primary skill map"
     done
   fi
@@ -203,7 +288,7 @@ require_contains docs/validation.md '\./scripts/validate-skills\.sh' "skill vali
 require_contains docs/rule-evidence-registry.md '\./scripts/validate-skills\.sh' "skill validation evidence"
 
 if [ -f ../ANTIGRAVITY.md ]; then
-  require_contains ../ANTIGRAVITY.md '`AGENTS\.md` is the canonical agent instruction source' "canonical AGENTS.md deferral"
+  require_contains ../ANTIGRAVITY.md '`AGENTS\.md` is canonical' "canonical AGENTS.md deferral"
   if grep -Eq 'ThePetitbonDoctrine|the-petitbon-doctrine|ddd-eda-architecture|nodejs-microservice-best-practices|nodejs-microservice-structure|sdk-release-and-consumer-bump' ../ANTIGRAVITY.md; then
     error "../ANTIGRAVITY.md contains stale skill mapping names"
   fi

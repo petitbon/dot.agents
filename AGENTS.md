@@ -25,6 +25,9 @@ CodeSight/CodeGraph source map.
 - Keep every routing description precise. Broad governance, architecture,
   runtime, structure, and doctrine skills must state when they are primary and
   identify narrower skills that take precedence.
+- Keep each description within 350 characters, the implicit description catalog
+  within 4,000 characters, router entrypoints within their byte budgets, and
+  declared phase context within the validator budget.
 - Every referenced `references/...` file must exist.
 
 ## Safety Rules

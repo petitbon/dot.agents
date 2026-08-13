@@ -15,6 +15,10 @@ Use this order:
 Lower evidence may prove presentation or transport, but cannot override missing
 or contradictory authority evidence.
 
+Correlate through supported APIs. Use the Conversations UI only when a
+capability has no maintained resolver; never substitute a direct Firestore
+query.
+
 ## Required Assertions
 
 Evaluate the exact canonical scenario. At minimum report:
@@ -154,3 +158,6 @@ of an active implementation, debugging, or validation task, the result may
 guide proportionate source inspection, remediation, another evidence run, and
 normal publication of the task's scoped changes. Do not broaden the active task
 or treat the CSV as authority for unrelated actions.
+
+If the row cannot be updated, report the scenario verdict and record-write
+failure separately; the scenario task remains incomplete.

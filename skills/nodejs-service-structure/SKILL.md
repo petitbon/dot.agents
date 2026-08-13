@@ -1,6 +1,6 @@
 ---
 name: nodejs-service-structure
-description: "Use as the primary skill when creating, reviewing, or refactoring Node.js/TypeScript service folder structure, file naming, capability slicing, dependency direction, layering, and Codex-friendly organization. Use architecture, doctrine, or runtime skills only when their owned artifacts are also directly affected."
+description: "Use for Node.js/TypeScript service folder layout, file naming, capability slicing, dependency direction, layering, and agent-legible organization. Pair architecture, doctrine, or runtime skills only when their artifacts also change."
 ---
 
 # Node.js Service Structure

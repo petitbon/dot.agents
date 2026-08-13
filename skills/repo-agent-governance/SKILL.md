@@ -1,6 +1,6 @@
 ---
 name: repo-agent-governance
-description: "Use as the primary skill for repository-local agent governance when those artifacts are directly affected: AGENTS.md as a map, docs as system of record, execution plans, validation registries, mechanical checks, custom lints, structural tests, local worktree bootability, repository-level observability access, quality scorecards, technical-debt ledgers, cleanup loops, skill inventory hygiene, and agent-legible repository design. Do not use as the primary skill for domain rules, product outcome behavior, Node runtime implementation, or booking workflow design."
+description: "Use for repository operating artifacts: AGENTS.md maps, docs topology, plans, validation registries, mechanical checks, worktree bootability, observability access, quality/debt tracking, cleanup, skill hygiene, and agent-legible structure. Excludes domain rules, runtime behavior, and booking workflows."
 ---
 
 # Repo Agent Governance
@@ -15,7 +15,7 @@ Use this skill when the repository operating layer is the primary artifact:
 mechanical check placement, observability access, quality/debt tracking,
 cleanup loops, or skill hygiene.
 
-Do not use it as the primary owner of domain rules, runtime implementation,
+Do not use as the primary skill for domain rules, runtime implementation,
 realtime behavior, SDK releases, booking workflows, or product outcome behavior.
 Use it to make an owning skill's rule discoverable, enforceable, and visible.
 
