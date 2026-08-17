@@ -144,7 +144,11 @@ Inspect each repo before editing. Do not assume sibling repos share commands.
 
 ## 7. Release Evidence Artifact
 
-For every SDK release, produce or update a release evidence note when the repository has a docs location for release records.
+For every SDK release, replace `docs/releases/current.md` when the repository
+has a docs location for release records. The release request authorizes this
+current-evidence rotation; it does not authorize changing numeric documentation
+limits. Do not create version-named release-note files. Git history and GitHub
+Releases own prior release evidence.
 
 Include:
 
