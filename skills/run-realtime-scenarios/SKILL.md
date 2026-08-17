@@ -66,7 +66,7 @@ fix or resolve a transient condition; never retry merely to seek a Pass.
 
 ## Non-Negotiable Rules
 
-- Never run `gcloud` or expose credentials/full phone numbers.
+- Never expose credentials or full phone numbers.
 - Use only current maintained tooling and configured credential sources.
 - Never substitute Firestore, ad hoc shell, mocks, direct domain writes, or a
   fabricated transcript for the runner and owner/debug APIs.
