@@ -129,6 +129,26 @@ missing_root_routing_link=$(make_fixture missing-root-routing-link)
 replace_file "$missing_root_routing_link/AGENTS.md" '/`skills-routing.md`/d'
 expect_failure "root routing link drift" "$missing_root_routing_link" 'canonical skills-routing link'
 
+missing_root_architecture_gate=$(make_fixture missing-root-architecture-gate)
+replace_file "$missing_root_architecture_gate/AGENTS.md" '/mandatory Architecture Conformance Gate/d'
+expect_failure "missing root architecture gate" "$missing_root_architecture_gate" 'mandatory Architecture Conformance Gate pointer; restore the root pre-plan requirement'
+
+missing_architecture_gate_field=$(make_fixture missing-architecture-gate-field)
+replace_file "$missing_architecture_gate_field/skills-routing.md" '/Canonical sources inspected\./d'
+expect_failure "missing architecture gate field" "$missing_architecture_gate_field" 'Architecture Conformance Gate missing required field: Canonical sources inspected\.; restore it before publishing any bug-fix or refactor plan'
+
+artifact_first_routing=$(make_fixture artifact-first-routing)
+replace_file "$artifact_first_routing/skills-routing.md" 's/Choose exactly one primary skill from the semantic owner/Choose exactly one primary skill based on the artifact being changed/'
+expect_failure "artifact-first routing" "$artifact_first_routing" 'classify the semantic owner before locating changed artifacts'
+
+weakened_architecture_block=$(make_fixture weakened-architecture-block)
+replace_file "$weakened_architecture_block/skills-routing.md" 's/Do not publish the bug-fix or refactor plan when canonical sources conflict/Publish the bug-fix or refactor plan with a declared delta when canonical sources conflict/'
+expect_failure "weakened architecture block" "$weakened_architecture_block" 'strict architecture conflict block; restore plan blocking and reclassification'
+
+missing_checkpoint_gate_field=$(make_fixture missing-checkpoint-gate-field)
+replace_file "$missing_checkpoint_gate_field/.agents/docs/task-checkpoint-template.md" '/Mechanical proof planned:/d'
+expect_failure "missing checkpoint gate field" "$missing_checkpoint_gate_field" 'Architecture Conformance Gate missing required field: Mechanical proof planned:; restore it before publishing any bug-fix or refactor plan'
+
 missing_primary_skill=$(make_fixture missing-primary-skill)
 replace_file "$missing_primary_skill/skills-routing.md" '/| `repo-agent-governance` |/d'
 expect_failure "root primary map drift" "$missing_primary_skill" 'primary skill map missing `repo-agent-governance`'

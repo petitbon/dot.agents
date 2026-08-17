@@ -87,6 +87,20 @@ require_section_contains() {
   fi
 }
 
+require_gate_field() {
+  file=$1
+  start_heading=$2
+  end_heading=$3
+  field=$4
+  if ! awk -v start="$start_heading" -v end="$end_heading" '
+    $0 == start { active = 1; next }
+    $0 == end { active = 0 }
+    active { print }
+  ' "$file" | grep -Fq "$field"; then
+    error "$file Architecture Conformance Gate missing required field: $field; restore it before publishing any bug-fix or refactor plan"
+  fi
+}
+
 for dir in skills/*; do
   [ -d "$dir" ] || continue
   skill=${dir##*/}
@@ -242,6 +256,9 @@ if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then
   require_file "$AGGREGATOR_ROOT/skills-routing.md"
   if [ -f "$AGGREGATOR_ROOT/AGENTS.md" ] && [ -f "$AGGREGATOR_ROOT/skills-routing.md" ]; then
     require_contains "$AGGREGATOR_ROOT/AGENTS.md" '`skills-routing\.md`' "canonical skills-routing link"
+    require_contains "$AGGREGATOR_ROOT/AGENTS.md" 'mandatory Architecture Conformance Gate' "mandatory Architecture Conformance Gate pointer; restore the root pre-plan requirement"
+    require_contains "$AGGREGATOR_ROOT/AGENTS.md" 'Map semantic ownership before primary-skill selection' "semantic-owner-first routing; restore owner classification before skill selection"
+    require_contains "$AGGREGATOR_ROOT/AGENTS.md" 'delta: None' "strict zero-delta bug-fix/refactor rule; restore Architecture delta: None"
     root_agents_bytes=$(wc -c < "$AGGREGATOR_ROOT/AGENTS.md" | tr -d ' ')
     [ "$root_agents_bytes" -le "$MAX_ROOT_AGENTS_BYTES" ] ||
       error "$AGGREGATOR_ROOT/AGENTS.md is $root_agents_bytes bytes; exceeds $MAX_ROOT_AGENTS_BYTES"
@@ -266,6 +283,27 @@ if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then
       token="\`$skill\`"
       require_section_contains "$AGGREGATOR_ROOT/skills-routing.md" "## Primary Skill Map" "## Realtime Authority Handoffs" "$token" "primary skill map"
     done
+
+    for field in \
+      'Canonical sources inspected.' \
+      'Semantic owner and responsibility map.' \
+      'Current code-to-architecture delta.' \
+      'Existing canonical seams to reuse.' \
+      'Proposed responsibility placement.' \
+      'Architecture delta: None.' \
+      'Forbidden duplicate or non-owner responsibilities.' \
+      'Mechanical proof planned.'; do
+      require_gate_field "$AGGREGATOR_ROOT/skills-routing.md" "## Architecture Conformance Gate" "## Primary Skill Map" "$field"
+    done
+    require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'Choose exactly one primary skill from the semantic owner' "semantic-owner-first routing; restore owner selection before artifact location"
+    require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'File location never grants semantic' "non-owner file boundary; restore the rule that edited files cannot acquire semantic ownership"
+    require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'does not transfer semantic' "runtime/structure authority boundary; restore non-owner implementation routing"
+    require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'Do not publish the bug-fix or refactor plan when canonical sources conflict' "strict architecture conflict block; restore plan blocking and reclassification"
+    require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'architecture-change task' "architecture-change reclassification; restore separate explicit scope"
+    require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'do not carry that delta in the same plan' "same-plan architecture-delta prohibition; restore strict reclassification"
+    if grep -Eq 'primary skill (based on|by) the (changed )?artifact|based on the artifact being changed' "$AGGREGATOR_ROOT/AGENTS.md" "$AGGREGATOR_ROOT/skills-routing.md"; then
+      error "$AGGREGATOR_ROOT/skills-routing.md restores artifact-first routing; classify the semantic owner before locating changed artifacts"
+    fi
   fi
 
   for guidance in "$AGGREGATOR_ROOT"/sdks/*/AGENTS.md "$AGGREGATOR_ROOT"/sdks/*/README.md; do
@@ -286,6 +324,17 @@ require_file docs/rule-evidence-registry.md
 require_file docs/task-checkpoint-template.md
 require_contains docs/validation.md '\./scripts/validate-skills\.sh' "skill validation command"
 require_contains docs/rule-evidence-registry.md '\./scripts/validate-skills\.sh' "skill validation evidence"
+for field in \
+  'Canonical sources inspected:' \
+  'Semantic owner and responsibility map:' \
+  'Current code-to-architecture delta:' \
+  'Existing canonical seams to reuse:' \
+  'Proposed responsibility placement:' \
+  'Architecture delta: None' \
+  'Forbidden duplicate or non-owner responsibilities:' \
+  'Mechanical proof planned:'; do
+  require_gate_field docs/task-checkpoint-template.md "## Architecture Conformance Gate" "## Decisions" "$field"
+done
 
 if [ -f ../ANTIGRAVITY.md ]; then
   require_contains ../ANTIGRAVITY.md '`AGENTS\.md` is canonical' "canonical AGENTS.md deferral"

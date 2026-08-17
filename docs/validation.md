@@ -31,6 +31,8 @@ The script verifies:
   local publishing; publishing stays owned by declared GitHub Actions workflows;
 - every Agentis skill opts into implicit invocation so all skill metadata is
   exposed in the default model context;
+- the Architecture Conformance Gate remains mandatory, semantic-owner-first,
+  zero-delta, strict on reclassification, and complete in checkpoint artifacts;
 - proportional-design, SDK release integrity, booking/Scheduling routing,
   implicit-routing boundaries, source-precedence, realtime current-state,
   explicit repeated-failure behavior, prompt-channel, and Mermaid-render rules
