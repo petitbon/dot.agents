@@ -28,7 +28,8 @@ must never include an end date.
    valid `channels.phone.provisionedNumber`.
 5. Confirm the requested display-name offers exist in the returned config.
 6. List Twilio Incoming Phone Numbers and choose a different owned number with
-   `capabilities.voice=true` as the caller.
+   `capabilities.voice=true` as the caller. A scenario that verifies contact
+   possession by SMS also requires `capabilities.sms=true` on that number.
 7. For writes, resolve that ANI through
    `POST /v1/clients/businesses/:businessId/clients/resolve` and apply the
    identity gates in `execution-gates.md`.
