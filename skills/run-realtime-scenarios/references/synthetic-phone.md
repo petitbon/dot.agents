@@ -31,6 +31,7 @@ must never include an end date.
 5. Confirm the requested display-name offers exist in the returned config.
 6. Resolve the exact configured Telnyx-owned caller number and require its
    active status, unique scenario role tag, and Voice application connection.
+   Require that application to be active with an Outbound Voice Profile.
 7. Require the caller to differ from the salon target. For writes, resolve the
    ANI through Clients and apply the identity gates in `execution-gates.md`.
 
