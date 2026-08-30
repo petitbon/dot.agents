@@ -27,7 +27,7 @@ Read this reference before any external phone call or browser-chat session.
 - Use the current environment loader in `agentis-scripts-local`; do not parse or
   echo secret files with broad shell searches.
 - Load the configured dev profile through the maintained environment loader.
-- Keep Twilio, Firebase, OpenAI, Gemini, and service tokens in memory.
+- Keep Telnyx, Firebase, OpenAI, Gemini, and service tokens in memory.
 - Print only sanitized counts, statuses, opaque call/session ids, and offer
   display names. Do not print auth headers or full E.164 numbers.
 - If a credential appears in command output, stop exposing it and instruct the
@@ -57,7 +57,7 @@ Fail closed on missing, null, ambiguous, stale, or contradictory facts.
 
 ## 4. Environment And Identity
 
-- Synthetic Twilio ANI is transport identity, not proof of a Client record.
+- Synthetic Telnyx ANI is transport identity, not proof of a Client record.
 - Resolve it through Clients before appointment mutation.
 - For a write, require either an identified dedicated test client or an
   unclaimed synthetic ANI that the scenario intentionally creates as a test

@@ -1,6 +1,6 @@
 ---
 name: run-realtime-scenarios
-description: "Use to execute and evidence deployed dev Agentis phone or browser-chat scenarios, including synthetic Twilio, proposals, governed mutations, Session Ledger correlation, recordings, exact fixture teardown, and latest-run CSV updates. Standing authorization covers reasonably necessary dev phone runs. Excludes unit tests and design-only work."
+description: "Use to execute and evidence deployed dev Agentis phone or browser-chat scenarios, including synthetic Telnyx calls, proposals, governed mutations, Session Ledger correlation, recordings, exact fixture teardown, and latest-run CSV updates. Standing authorization covers reasonably necessary dev phone runs. Excludes unit tests and design-only work."
 ---
 
 # Run Realtime Scenarios

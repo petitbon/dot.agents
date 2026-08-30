@@ -44,7 +44,7 @@ Use concrete rows such as:
 
 | Guarantee / Rule | Evidence | Command / File | Result |
 | --- | --- | --- | --- |
-| Deployed phone path executed | Twilio Call SID, timestamps, dual recording | Twilio REST response | Pass |
+| Deployed phone path executed | Telnyx call-leg id, timestamps, dual recording | Telnyx API response | Pass |
 | Scheduling supplied candidates | Debug bundle dependency/tool evidence | Session Ledger debug bundle | Pass/Fail/Skipped |
 | Proposal was heard before confirmation | Ordered recording/transcript evidence | Recording + Session Ledger | Pass/Fail |
 | One governed write occurred | Booking terminal evidence and Scheduling visit | Owner APIs | Pass/Fail/Skipped |

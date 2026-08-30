@@ -4,7 +4,7 @@ Load this reference immediately before invoking a deployed scenario.
 
 ## Required Runner
 
-Use `agentis-scripts-local`; do not recreate browser HTTP/SSE, Twilio requests,
+Use `agentis-scripts-local`; do not recreate browser HTTP/SSE, Telnyx requests,
 preflight, polling, evidence evaluation, correlation, or CSV updates with ad hoc
 shell or inline Node commands.
 
@@ -20,10 +20,11 @@ yarn cli run --env dev run-realtime-scenario -- \
 For phone, use the same scenario inputs with `--channel phone`. Standing
 authorization applies; do not request approval, count, or spending limits.
 
-The phone path resolves Twilio CallSid through Call Session's private scoped
-correlation API, waits for call/recording completion, reads the ended debug
-bundle, and evaluates evidence in the same run. Correlation or evidence timeout
-is `Blocked`; never use a manual correlation fallback.
+The phone path resolves the Telnyx inbound call-leg id through Call Session's
+private scoped correlation API, waits for call and dual-channel recording
+completion, reads the ended debug bundle, and evaluates evidence in the same
+run. Correlation or evidence timeout is `Blocked`; never use a manual
+correlation fallback.
 
 ## Inputs And Preconditions
 
