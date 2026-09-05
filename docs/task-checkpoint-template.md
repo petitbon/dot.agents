@@ -6,7 +6,11 @@ child repo has a more specific convention.
 
 For a solution investigation, bug fix, or refactor, complete the Architecture
 Conformance Gate before recording the plan. Small and medium plans may record
-the same gate inline instead of creating a checkpoint.
+the same gate inline instead of creating a checkpoint. Maintain only current
+resume facts: replace stale entries, link evidence instead of copying it, and
+omit transcripts. Aim for 500 words; expand when required facts need more space.
+On resume, verify repository state and changed inputs before repeating completed
+reads or checks. Small routine tasks need no checkpoint.
 
 ```markdown
 # <Task Title>
@@ -30,22 +34,20 @@ the same gate inline instead of creating a checkpoint.
 - Mechanical proof planned: <boundary, architecture, contract, behavior checks>
 
 ## Decisions
-| Date | Decision | Reason |
-| --- | --- | --- |
-| YYYY-MM-DD | <Decision> | <Reason> |
+- <Current decision and reason; omit superseded decisions>
 
-## Progress
-| Step | Status | Notes |
+## Repository State
+| Repository / Branch | Commit / Dirty files | Remaining work |
 | --- | --- | --- |
-| <Step> | Pending/In progress/Done/Blocked | <Notes> |
+| <Owner / branch> | <Commit and scoped dirty files> | <Next action> |
 
 ## Validation
-| Guarantee | Command / Artifact | Result |
+| Guarantee | Command / Artifact | Result / Validated inputs |
 | --- | --- | --- |
-| <Rule> | `<command>` or `<artifact>` | Pass/Fail/Skipped |
+| <Rule> | <Command or evidence link> | <Pass/Fail/Skipped; commit or changed files> |
 
 ## Resume Notes
-- <Where to continue>
-- <Known blockers>
-- <Files changed or intentionally left alone>
+- <Next authorized action and its exact owner/path>
+- <Blockers, pending user input, and existing approvals/limits>
+- <Unrelated changes to preserve; evidence to reopen only if inputs change>
 ```
