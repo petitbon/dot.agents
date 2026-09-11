@@ -1,6 +1,6 @@
 ---
 name: nodejs-service-runtime
-description: "Use for Node.js/TypeScript service runtime work: bootstrap, handlers, adapters, config, dependencies, validation, errors, logging, metrics, tracing, Cloud Run posture, package hygiene, agentic operations, and tests. Excludes architecture boundaries, folder structure, SDK releases, and cross-service outcome ownership."
+description: "Use for Node.js/TS runtime, handlers, config, errors, telemetry, dependencies, and tests. Architecture, folders, and SDK releases have separate owners."
 ---
 
 # Node.js Service Runtime

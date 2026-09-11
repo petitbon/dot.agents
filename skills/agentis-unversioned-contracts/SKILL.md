@@ -1,6 +1,6 @@
 ---
 name: agentis-unversioned-contracts
-description: "Use for Agentis current-only SDK types, DTOs, schemas, wire or persisted contracts, parsers, compatibility removal, and cutover entrypoints. Reject V1/V2 identifiers, selector fields, legacy aliases, compatibility branches, and retired-shape migrations. Excludes HTTP /v1 routes, package semver, revisions, and generated third-party contracts."
+description: "Use for current-only SDK/DTO/schema/parser contracts and compatibility removal. Reject versioned shapes; exclude HTTP routes, semver, and third-party types."
 ---
 
 # Agentis Unversioned Contracts

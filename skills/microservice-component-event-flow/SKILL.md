@@ -1,6 +1,6 @@
 ---
 name: microservice-component-event-flow
-description: "Use to create or update a Mermaid diagram of one microservice's internal APIs/events, handlers, use cases, rules, state machines, repositories, clients, persistence, emitted events, and ownership. Excludes broad system/deployment topology, sequence diagrams, and multi-service architecture."
+description: "Use for one microservice internal Mermaid flow: APIs/events, handlers, rules, storage, clients, and effects. Excludes sequences and system topology."
 ---
 
 # Microservice Component & Event Flow Diagram

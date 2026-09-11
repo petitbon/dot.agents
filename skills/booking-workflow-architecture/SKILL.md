@@ -1,6 +1,6 @@
 ---
 name: booking-workflow-architecture
-description: "Use for Agentis booking proposal state, active identity, confirmation readiness, conflict recovery, stale invalidation, retry/idempotency, duplicate-safe commit, terminal completion, and booking authority. Excludes standalone Scheduling; use realtime authority for cross-channel tool exposure, admission, and finalization."
+description: "Use for booking proposal/confirmation state, stale recovery, duplicate-safe commit, and completion. Excludes standalone Scheduling and tool exposure."
 ---
 
 # Booking Workflow Architecture

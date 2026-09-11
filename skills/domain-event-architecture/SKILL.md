@@ -1,6 +1,6 @@
 ---
 name: domain-event-architecture
-description: "Use for bounded contexts, data and write ownership, domain/event modeling, commands, APIs, contracts, workflows, coupling, and target-state architecture. Use realtime authority for live-tool ontology and booking workflow architecture for booking proposal/commit state."
+description: "Use for domain/event boundaries, ownership, commands, contracts, and cross-service flows. Live-tool authority and booking state use narrower skills."
 ---
 
 # Domain + Event Architecture

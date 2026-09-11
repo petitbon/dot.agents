@@ -1,6 +1,6 @@
 ---
 name: repo-agent-governance
-description: "Use for repository operating artifacts: AGENTS.md maps, docs topology, plans, validation registries, mechanical checks, worktree bootability, observability access, quality/debt tracking, cleanup, skill hygiene, and agent-legible structure. Excludes domain rules, runtime behavior, and booking workflows."
+description: "Use for AGENTS.md, docs, validation plumbing, checkpoints, observability access, and skill/repo hygiene. Excludes runtime, domain, and booking behavior."
 ---
 
 # Repo Agent Governance

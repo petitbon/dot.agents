@@ -1,6 +1,6 @@
 ---
 name: nodejs-service-structure
-description: "Use for Node.js/TypeScript service folder layout, file naming, capability slicing, dependency direction, layering, and agent-legible organization. Pair architecture, doctrine, or runtime skills only when their artifacts also change."
+description: "Use for Node.js/TS folders, naming, capability slices, layering, and dependency direction. Pair architecture or runtime only for changed owned artifacts."
 ---
 
 # Node.js Service Structure

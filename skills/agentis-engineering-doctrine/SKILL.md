@@ -1,6 +1,6 @@
 ---
 name: agentis-engineering-doctrine
-description: "Use only when a task explicitly establishes, changes, audits, or applies Agentis engineering doctrine: proportional target-state design, fail-close/fail-hard behavior, idempotency, statelessness, control-stack smells, delegated production, or maintenance-window cutovers. Use the narrower artifact owner for ordinary work."
+description: "Use for explicit Agentis doctrine work: target state, fail-close, idempotency, statelessness, or cutovers. Ordinary work uses the narrower owner."
 ---
 
 # Agentis Engineering Doctrine

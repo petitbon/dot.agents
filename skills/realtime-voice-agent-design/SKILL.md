@@ -1,6 +1,6 @@
 ---
 name: realtime-voice-agent-design
-description: "Use for realtime voice-agent model behavior: prompts, model-native tool selection, schemas, state exposure, confirmation, ambiguity, guarded execution, and replay/evals. Use realtime authority for tool registry, admission, and finalization; use booking workflow architecture for booking state."
+description: "Use for voice prompts, tool selection/schemas, state exposure, confirmation, ambiguity, and evals. Tool authority and booking state use narrower skills."
 ---
 
 # Realtime Voice Agent Design

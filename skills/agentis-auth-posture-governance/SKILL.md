@@ -1,6 +1,6 @@
 ---
 name: agentis-auth-posture-governance
-description: "Use for Agentis auth/authz posture audits or changes to API Gateway user auth, Cloud Run IAM authenticity, runtime service accounts, service allowlists, inbound tokens, x-serverless-authorization, Firebase claims, or authz SDK enforcement. Use repo-agent-governance only for validation plumbing."
+description: "Use for Agentis auth/authz: Gateway, Cloud Run IAM, service identities, tokens, Firebase claims, and SDK enforcement. Excludes validation plumbing."
 ---
 
 # Agentis Auth Posture Governance

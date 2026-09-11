@@ -1,6 +1,6 @@
 ---
 name: run-realtime-scenarios
-description: "Use to execute and evidence deployed dev Agentis phone or browser-chat scenarios, including synthetic Telnyx calls, proposals, governed mutations, Session Ledger correlation, recordings, exact fixture teardown, and latest-run CSV updates. Standing authorization covers reasonably necessary dev phone runs. Excludes unit tests and design-only work."
+description: "Use to run/evidence deployed dev phone or chat scenarios, Ledger correlation, recordings, fixture cleanup, and CSV updates. Excludes unit tests/design."
 ---
 
 # Run Realtime Scenarios
