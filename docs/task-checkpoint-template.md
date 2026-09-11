@@ -1,16 +1,11 @@
 # Task Checkpoint Template
 
-Use this template for large, interruptible, cross-repo, or high-risk work. Put
-the checkpoint in the owning repository, usually under `docs/plans/`, unless a
-child repo has a more specific convention.
-
-For a solution investigation, bug fix, or refactor, complete the Architecture
-Conformance Gate before recording the plan. Small and medium plans may record
-the same gate inline instead of creating a checkpoint. Maintain only current
-resume facts: replace stale entries, link evidence instead of copying it, and
-omit transcripts. Aim for 500 words; expand when required facts need more space.
-On resume, verify repository state and changed inputs before repeating completed
-reads or checks. Small routine tasks need no checkpoint.
+Use for large, interruptible, cross-repo, or high-risk work in the owner's
+`docs/plans/`, unless child instructions specify otherwise. Complete the gate
+before investigation/fix/refactor plans; small/medium plans may use it inline.
+Keep current facts, linked evidence, no transcripts; aim for 500 words, expanding
+as needed. On resume, verify changed inputs/repository state before repeating
+checks. Routine tasks need no checkpoint.
 
 ```markdown
 # <Task Title>
@@ -32,6 +27,9 @@ reads or checks. Small routine tasks need no checkpoint.
 - Architecture delta: None
 - Forbidden duplicate or non-owner responsibilities: <responsibilities>
 - Mechanical proof planned: <boundary, architecture, contract, behavior checks>
+- Completion criteria: <requested behavior, required checks, explicit exclusions>
+- Shared-contract impact: <necessity, owner, producers/consumers, test migrations, rollout dependencies; or None>
+- Scope-expansion evidence: <added work -> dependency/blocker evidence, owner, completion check; or None; link unrelated findings separately>
 
 ## Decisions
 - <Current decision and reason; omit superseded decisions>

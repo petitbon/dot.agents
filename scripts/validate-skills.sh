@@ -292,7 +292,10 @@ if [ -f "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" ]; then
       'Proposed responsibility placement.' \
       'Architecture delta: None.' \
       'Forbidden duplicate or non-owner responsibilities.' \
-      'Mechanical proof planned.'; do
+      'Mechanical proof planned.' \
+      'Completion criteria.' \
+      'Shared-contract impact.' \
+      'Scope-expansion evidence.'; do
       require_gate_field "$AGGREGATOR_ROOT/skills-routing.md" "## Architecture Conformance Gate" "## Primary Skill Map" "$field"
     done
     require_contains "$AGGREGATOR_ROOT/skills-routing.md" 'Choose exactly one primary skill from the semantic owner' "semantic-owner-first routing; restore owner selection before artifact location"
@@ -332,7 +335,10 @@ for field in \
   'Proposed responsibility placement:' \
   'Architecture delta: None' \
   'Forbidden duplicate or non-owner responsibilities:' \
-  'Mechanical proof planned:'; do
+  'Mechanical proof planned:' \
+  'Completion criteria:' \
+  'Shared-contract impact:' \
+  'Scope-expansion evidence:'; do
   require_gate_field docs/task-checkpoint-template.md "## Architecture Conformance Gate" "## Decisions" "$field"
 done
 

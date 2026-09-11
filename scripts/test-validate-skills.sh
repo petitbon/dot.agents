@@ -149,6 +149,16 @@ missing_checkpoint_gate_field=$(make_fixture missing-checkpoint-gate-field)
 replace_file "$missing_checkpoint_gate_field/.agents/docs/task-checkpoint-template.md" '/Mechanical proof planned:/d'
 expect_failure "missing checkpoint gate field" "$missing_checkpoint_gate_field" 'Architecture Conformance Gate missing required field: Mechanical proof planned:; restore it before publishing any bug-fix or refactor plan'
 
+for scope_field in 'Completion criteria' 'Shared-contract impact' 'Scope-expansion evidence'; do
+  missing_scope_field=$(make_fixture "missing-routing-$scope_field")
+  replace_file "$missing_scope_field/skills-routing.md" "/[*][*]$scope_field[.][*][*]/d"
+  expect_failure "missing routing $scope_field" "$missing_scope_field" "Architecture Conformance Gate missing required field: $scope_field"
+
+  missing_scope_field=$(make_fixture "missing-checkpoint-$scope_field")
+  replace_file "$missing_scope_field/.agents/docs/task-checkpoint-template.md" "/^- $scope_field:/d"
+  expect_failure "missing checkpoint $scope_field" "$missing_scope_field" "Architecture Conformance Gate missing required field: $scope_field"
+done
+
 missing_primary_skill=$(make_fixture missing-primary-skill)
 replace_file "$missing_primary_skill/skills-routing.md" '/| `repo-agent-governance` |/d'
 expect_failure "root primary map drift" "$missing_primary_skill" 'primary skill map missing `repo-agent-governance`'
