@@ -9,7 +9,7 @@ provisioned salon number follows its normal inbound webhook and deployed media
 path. This is a real provider canary, not proof that a human handset or every
 PSTN carrier path was exercised.
 
-The harness is interactive: it waits for Session Ledger evidence before each
+The harness is interactive: it uses Session Ledger native presentation observations before each
 caller turn, speaks the next canonical utterance through Call Control, and
 supports the declared interruption and recovery plans. Do not replace it with
 fixed pauses or prerecorded blanket confirmation.
@@ -51,10 +51,11 @@ It resolves the paired inbound call leg from scoped Telnyx call events, then
 resolves that provider call id through Call Session's private
 business/location-scoped API. After initial-greeting playback evidence, it
 delivers each short natural caller turn with Telnyx speak actions and advances
-only when the required transcript, tool, proposal, clarification, or playback
-evidence is present.
+only when the completed customer-visible response satisfies the declared semantic
+milestone. Tools and owner outcomes are verification evidence, not driver inputs.
 
-Proposal-only runs end after the grounded response. Mutation runs may confirm
+Proposal-only runs end after the requested customer-visible response; owner
+verification remains separate. Mutation runs may confirm
 only after the complete active proposal or cancellation prompt and all warnings
 have been heard in the same live call. The harness must not pre-schedule a
 future “yes.”
