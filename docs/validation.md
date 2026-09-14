@@ -23,7 +23,7 @@ The script verifies:
 - skill descriptions are long enough to route reliably but stay within the
   350-character per-skill and 4,000-character aggregate budgets;
 - general `SKILL.md` files stay within 8,000 bytes and the doctrine, domain
-  architecture, Node runtime, and scenario routers stay within 6,144 bytes;
+  architecture and Node runtime routers stay within 6,144 bytes;
 - declared phase-specific skill/reference bundles stay within 16,384 bytes;
 - bundled `references/...` paths mentioned by a skill exist;
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;

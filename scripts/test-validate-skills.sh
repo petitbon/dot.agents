@@ -210,11 +210,11 @@ expect_failure "oversized active instruction chain" "$oversized_active_chain" 'i
 
 oversized_phase_bundle=$(make_fixture oversized-phase-bundle)
 i=0
-while [ "$i" -lt 180 ]; do
-  printf 'Verdict detail belongs in a narrower evidence artifact.\n' >> "$oversized_phase_bundle/.agents/skills/run-realtime-scenarios/references/evidence-and-cleanup.md"
+while [ "$i" -lt 400 ]; do
+  printf 'Verdict detail belongs in a narrower evidence artifact.\n' >> "$oversized_phase_bundle/.agents/skills/nodejs-service-runtime/references/observability-and-cloud-run.md"
   i=$((i + 1))
 done
-expect_failure "oversized phase context" "$oversized_phase_bundle" 'realtime scenario verdict phase context bundle is [0-9]+ bytes; exceeds 16384'
+expect_failure "oversized phase context" "$oversized_phase_bundle" 'Node runtime observability phase context bundle is [0-9]+ bytes; exceeds 16384'
 
 missing_mermaid_validation=$(make_fixture missing-mermaid-validation)
 replace_file "$missing_mermaid_validation/.agents/skills/microservice-component-event-flow/references/mermaid-authoring-and-validation.md" '/mmdc -i/d'

@@ -128,7 +128,7 @@ for dir in skills/*; do
     skill_bytes=$(wc -c < "$skill_file" | tr -d ' ')
     skill_budget=$MAX_SKILL_BYTES
     case "$skill" in
-      agentis-engineering-doctrine|domain-event-architecture|nodejs-service-runtime|run-realtime-scenarios)
+      agentis-engineering-doctrine|domain-event-architecture|nodejs-service-runtime)
         skill_budget=$MAX_ROUTER_SKILL_BYTES
         ;;
     esac
@@ -182,20 +182,6 @@ check_context_bundle "Node runtime implementation phase" \
 check_context_bundle "Node runtime observability phase" \
   skills/nodejs-service-runtime/SKILL.md \
   skills/nodejs-service-runtime/references/observability-and-cloud-run.md
-check_context_bundle "realtime scenario preflight phase" \
-  skills/run-realtime-scenarios/SKILL.md \
-  skills/run-realtime-scenarios/references/execution-gates.md
-check_context_bundle "realtime scenario phone execution phase" \
-  skills/run-realtime-scenarios/SKILL.md \
-  skills/run-realtime-scenarios/references/runner-invocation.md \
-  skills/run-realtime-scenarios/references/synthetic-phone.md
-check_context_bundle "realtime scenario browser execution phase" \
-  skills/run-realtime-scenarios/SKILL.md \
-  skills/run-realtime-scenarios/references/runner-invocation.md \
-  skills/run-realtime-scenarios/references/browser-chat.md
-check_context_bundle "realtime scenario verdict phase" \
-  skills/run-realtime-scenarios/SKILL.md \
-  skills/run-realtime-scenarios/references/evidence-and-cleanup.md
 
 tracked_noise=$(git ls-files | grep -E '(^|/)\.DS_Store$|^\.codesight/|^\.codegraph/' || true)
 if [ -n "$tracked_noise" ]; then
