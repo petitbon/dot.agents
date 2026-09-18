@@ -84,6 +84,25 @@ When adding or changing a durable governance rule, update
 `docs/rule-evidence-registry.md` or the repository equivalent with owner,
 source, evidence command/artifact, and enforcement level.
 
+## Testing Boundary
+
+- Never create, extend, run, require, or delegate synthetic debugging fixtures,
+  fabricated session histories/evidence, conversation replays, or provider/model
+  evaluation harnesses. Do not recreate supplied bundles as synthetic sessions.
+- Use unit tests of owned code, lint, typecheck, build, static validators and
+  isolated service/contract checks that do not exercise a complete voice,
+  browser-chat or browser session. Ordinary unit-test inputs and test doubles
+  do not authorize synthetic session debugging.
+- The user performs all end-to-end voice and browser testing. Do not open live
+  provider sessions, drive browsers/chat widgets, place calls, run booking smoke
+  scenarios, or invoke session probes/replays for validation or debugging.
+- Inspect user-supplied real bundles, transcripts, logs and receipts read-only.
+  Report only evidence actually inspected; never manufacture runtime evidence.
+- Complete permitted implementation and verification without waiting for or
+  requesting permission to run user-owned end-to-end checks. Mark those checks
+  as not run by Codex, state that the user owns them, and provide a concise
+  handoff. Unit checks never prove a live conversation or booking succeeded.
+
 ## Boundary With Product Evidence
 
 Domain, runtime, and architecture skills own behavioral evidence requirements.

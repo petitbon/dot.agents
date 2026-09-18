@@ -6,7 +6,10 @@ execution plans, quality/debt visibility, or cleanup loops.
 ## Observability Access
 
 Document deterministic startup, health/readiness commands, log/trace access,
-correlation IDs, replay fixtures, and UI artifact expectations. Service
+correlation IDs and user-supplied real evidence. Never create synthetic
+debugging fixtures or require provider/model evals or session replays. The user
+owns end-to-end voice/browser testing; Codex uses unit/local non-end-to-end
+checks. Service
 implementation of logs, metrics, traces, and readiness belongs to
 `nodejs-service-runtime`.
 

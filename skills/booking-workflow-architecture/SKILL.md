@@ -122,16 +122,20 @@ Stop and redesign if a proposed change:
 
 ## Output
 
+Follow the `repo-agent-governance` Testing Boundary. Use unit and isolated
+code/contract checks; never create synthetic debugging fixtures or run
+provider/session replays. End-to-end voice/browser testing belongs to the user.
+
 For architecture work, produce the target workflow state model, authority for
 each fact/decision/command/side effect/state, active proposal lifecycle,
 confirmation readiness rules, recovery-to-stable-state rules, idempotency and
 duplicate-safety design, terminal-state handling, service-boundary implications,
-and deterministic integration evidence when relevant.
+and permitted unit or isolated contract evidence when relevant.
 
 For repair work, produce failure classification, causal chain, weakest correct
 layer to fix, forbidden fix shapes to avoid, normal-path loopback design,
-implementation steps by owner, and tests or evidence scenarios needed to prevent
-regression.
+implementation steps by owner, and unit tests or supplied real evidence needed
+to prevent regression. Hand end-to-end verification to the user.
 
 ## Summary
 

@@ -32,6 +32,11 @@ source map.
 
 ## Safety Rules
 
+- Every skill follows the Testing Boundary in
+  `skills/repo-agent-governance/SKILL.md`: no synthetic debugging fixtures,
+  provider/model evals or end-to-end voice/browser testing by Codex. The user
+  performs those end-to-end checks; skills must not require them for completion.
+
 - Never allow local SDK publishing. Agentis SDK publishing is owned by GitHub
   Actions.
 - Do not commit generated analysis output or local CodeGraph data.

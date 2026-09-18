@@ -23,7 +23,7 @@ operability.
   bootstrap/config, boundary handling, errors, concurrency, delegated
   operations, or data I/O.
 - Load `references/observability-and-cloud-run.md` for logs, metrics, traces,
-  readiness, replay evidence, or Cloud Run posture.
+  readiness, supplied real runtime evidence, or Cloud Run posture.
 - Load `references/testing-and-review.md` when adding tests, reviewing runtime
   quality, or preparing validation evidence.
 

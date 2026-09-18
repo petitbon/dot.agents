@@ -1,6 +1,6 @@
 # Observability And Cloud Run
 
-Load this reference for runtime logs, metrics, traces, readiness, replay
+Load this reference for runtime logs, metrics, traces, readiness, supplied real
 evidence, or Cloud Run posture.
 
 ## Logging, Metrics, And Tracing
@@ -12,14 +12,16 @@ evidence, or Cloud Run posture.
 - Make readiness prove real readiness rather than placeholder success.
 
 This skill owns service implementation of logs, metrics, traces, readiness,
-structured errors, correlation IDs, and service-owned replay fixtures.
+structured errors and correlation IDs.
 `repo-agent-governance` owns repository-level access docs, validation
 registries, scorecards, and cleanup tracking.
 
 Prefer deterministic startup, queryable local/dev evidence, cross-boundary
-correlation, replay fixtures for critical flows, and commands with explicit
-pass/fail output. For substantial runtime work, report startup, validation,
-observability inspected, failures, and remaining observability gaps.
+correlation, unit-test coverage for critical logic and commands with explicit
+pass/fail output. Never create synthetic debugging fixtures or invoke provider
+evals or session replays. The user performs end-to-end voice/browser testing.
+For substantial runtime work, report permitted validation, real observability
+inspected, failures and material evidence limits.
 
 ## Cloud Run Posture
 

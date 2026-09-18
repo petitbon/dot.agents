@@ -113,7 +113,8 @@ For architecture work, produce:
 - idempotency and duplicate-safety design;
 - terminal-state handling;
 - service-boundary implications;
-- deterministic integration evidence, when relevant.
+- unit or isolated contract evidence, when relevant; never synthetic debugging
+  fixtures or voice/browser session replays. The user owns end-to-end testing.
 
 For repair work, produce:
 

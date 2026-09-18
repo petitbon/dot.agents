@@ -44,7 +44,10 @@ deduplication.
 
 ## Evidence
 
-For behavior changes, define normalized intent, tool-call and guarded-execution
-evidence, confirmation and policy evidence, state transitions, Session Ledger
-evidence, and a replay fixture or eval. Transcript text is supporting evidence
-unless presentation itself is the outcome.
+For behavior changes, use unit and isolated contract checks for argument
+validation, confirmation, policy, state transitions and guarded execution.
+Inspect supplied real Session Ledger evidence read-only. Never create synthetic
+debugging fixtures, session replays or provider/model evals. The user owns
+end-to-end voice/browser verification; do not require it to complete permitted
+code work. Transcript text is supporting evidence unless presentation itself is
+the outcome.

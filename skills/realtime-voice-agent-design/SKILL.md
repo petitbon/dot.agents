@@ -1,6 +1,6 @@
 ---
 name: realtime-voice-agent-design
-description: "Use for voice prompts, tool selection/schemas, state exposure, confirmation, ambiguity, and evals. Tool authority and booking state use narrower skills."
+description: "Use for voice prompts, tool selection/schemas, state exposure, confirmation, ambiguity, and unit-test coverage. End-to-end voice/browser testing belongs to the user; tool authority and booking state use narrower skills."
 ---
 
 # Realtime Voice Agent Design
@@ -77,16 +77,21 @@ alternate path, or human escalation, never fabricated success.
 
 ## Required Validation
 
+Follow the `repo-agent-governance` Testing Boundary. Never create or run
+synthetic debugging fixtures, provider/model evals or conversation replays.
+The user owns end-to-end voice and browser testing.
+
 For behavior-changing prompt, tool, state, policy, or confirmation work:
 
-- run deterministic tool-call fixtures and relevant evals;
-- inspect available tool-call, policy, state, transcript, and Session Ledger
-  evidence;
-- prove governed writes cannot occur before server confirmation;
+- run unit tests and permitted local code/contract checks;
+- inspect supplied real tool-call, policy, state, transcript and Session Ledger
+  evidence read-only;
+- prove in unit or isolated contract tests that governed writes cannot occur
+  before server confirmation;
 - cover ambiguity, unclear audio, missing fields, tool failure, and policy
   rejection;
-- keep deterministic integration evidence at the owning service or contract
-  boundary.
+- keep permitted test evidence at the owning code or contract boundary; hand
+  live conversation verification to the user without blocking completed work.
 
 Report commands and evidence actually inspected.
 
@@ -98,12 +103,12 @@ Report commands and evidence actually inspected.
 4. Treat state as context and safety, not a dialogue script.
 5. Centralize tool metadata and server-enforced policy.
 6. Make writes impossible without confirmation, authority, and idempotency.
-7. Add observability and replay/eval coverage for changed behavior.
+7. Add observability and unit-test coverage for changed behavior.
 8. Expose ordinary product evidence that external proof harnesses can observe.
 
 ## Definition Of Done
 
 The realtime model requests capabilities naturally while the application
 enforces authority, policy, confirmation, current state, idempotency, and side
-effects. Behavior changes have replayable evidence, and model wording alone can
+effects. Behavior changes have unit-test evidence, and model wording alone can
 never perform or prove a governed write.

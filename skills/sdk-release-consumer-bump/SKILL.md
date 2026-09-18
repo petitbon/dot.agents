@@ -86,6 +86,9 @@ If publish fails because the version already exists, treat it as a metadata conf
 
 ## 3. Validate Before Publish
 
+Follow `repo-agent-governance` Testing Boundary: unit/local checks; no synthetic
+debugging fixtures or model/session replays. Voice/browser E2E is user-owned.
+
 Run repo-defined validation for build, lint, test, typecheck, generation, or packaging checks where declared.
 
 If a check is absent, say so.
