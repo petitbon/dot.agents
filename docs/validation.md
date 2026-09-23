@@ -35,7 +35,7 @@ The script verifies:
   zero-delta, strict on reclassification, and complete in checkpoint artifacts;
 - proportional-design, SDK release integrity, booking/Scheduling routing,
   implicit-routing boundaries, source-precedence, realtime current-state,
-  explicit repeated-failure behavior, prompt-channel, and Mermaid-render rules
+  explicit repeated-failure behavior and prompt-channel rules
   do not regress;
 - local README inventory is complete;
 - when the repository is inside the Agentis aggregator, root `AGENTS.md` stays

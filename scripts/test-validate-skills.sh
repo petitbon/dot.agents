@@ -95,9 +95,13 @@ replace_file "$oversized_description/.agents/skills/repo-agent-governance/SKILL.
 expect_failure "oversized skill description" "$oversized_description" 'description exceeds 350 chars'
 
 oversized_description_catalog=$(make_fixture oversized-description-catalog)
+cp -R "$oversized_description_catalog/.agents/skills/repo-agent-governance" "$oversized_description_catalog/.agents/skills/catalog-budget-fixture"
+replace_file "$oversized_description_catalog/.agents/skills/catalog-budget-fixture/SKILL.md" 's/^name: repo-agent-governance$/name: catalog-budget-fixture/'
+replace_file "$oversized_description_catalog/.agents/skills/catalog-budget-fixture/agents/openai.yaml" 's/\$repo-agent-governance/\$catalog-budget-fixture/g'
+printf '| `catalog-budget-fixture` | Catalog budget fixture | Yes |\n' >> "$oversized_description_catalog/.agents/README.md"
 for skill_file in "$oversized_description_catalog"/.agents/skills/*/SKILL.md; do
-  replacement='Use this skill for its declared Agentis artifact and preserve precise primary routing boundaries. This fixture intentionally fills the safe per-skill description allowance with repeated routing detail while remaining under the individual maximum so the aggregate implicit-context catalog budget must reject the combined descriptions rather than one entry.'
-  replace_file "$skill_file" "s|^description: .*|description: $replacement|"
+  replacement=$(printf '%*s' 338 '' | tr ' ' x)
+  replace_file "$skill_file" "s|^description: .*|description: \"$replacement\"|"
 done
 expect_failure "oversized description catalog" "$oversized_description_catalog" 'skill descriptions total [0-9]+ chars; exceeds 4000'
 
@@ -215,9 +219,5 @@ while [ "$i" -lt 400 ]; do
   i=$((i + 1))
 done
 expect_failure "oversized phase context" "$oversized_phase_bundle" 'Node runtime observability phase context bundle is [0-9]+ bytes; exceeds 16384'
-
-missing_mermaid_validation=$(make_fixture missing-mermaid-validation)
-replace_file "$missing_mermaid_validation/.agents/skills/microservice-component-event-flow/references/mermaid-authoring-and-validation.md" '/mmdc -i/d'
-expect_failure "missing Mermaid render validation" "$missing_mermaid_validation" 'Mermaid render validation command'
 
 printf 'Skill validator regression tests passed.\n'

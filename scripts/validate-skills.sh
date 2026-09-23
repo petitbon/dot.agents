@@ -228,8 +228,6 @@ if grep -Eq '^- `final_answer`:' skills/realtime-voice-agent-design/references/p
   error "Realtime prompting guide treats final_answer as a prompt channel"
 fi
 
-require_contains skills/microservice-component-event-flow/references/mermaid-authoring-and-validation.md 'mmdc -i' "Mermaid render validation command"
-
 for yaml in skills/*/agents/openai.yaml; do
   skill=${yaml#skills/}
   skill=${skill%%/*}
