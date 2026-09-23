@@ -16,13 +16,15 @@ admission, resolver routing, finalization, and evidence policy.
 
 ## First Reads
 
-Load these before making findings or edits:
+Load the sources relevant to the auth surface before findings or edits:
 
 - `docs/architecture/authentication-authorization-posture.md`
-- `docs/audit/codex-audit-brief.md` when the task is an audit or cross-repo review
+- `docs/audit/codex-audit-brief.md` for cross-service auth ownership or boundaries
 - `references/flat-internal-trust-posture.md` when details beyond the root doc are needed
-- the relevant service `README.md`, `AGENTS.md`, deploy workflow, and auth source files
-- `agentis-scripts-local/scripts/validate-service-auth-posture.ts`
+- the affected service `AGENTS.md` and README, then the deploy workflow or auth
+  source files relevant to the task
+- `agentis-scripts-local/scripts/validate-service-auth-posture.ts` when auditing
+  validator coverage or changing auth posture validation
 
 ## Core Thesis
 

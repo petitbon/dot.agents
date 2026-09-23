@@ -113,8 +113,8 @@ For architecture work, produce:
 - idempotency and duplicate-safety design;
 - terminal-state handling;
 - service-boundary implications;
-- unit or isolated contract evidence, when relevant; never synthetic debugging
-  fixtures or voice/browser session replays. The user owns end-to-end testing.
+- unit or isolated contract evidence, when relevant, under the Testing Boundary
+  in `repo-agent-governance`.
 
 For repair work, produce:
 

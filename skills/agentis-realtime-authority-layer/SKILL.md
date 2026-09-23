@@ -91,9 +91,8 @@ truth.
 
 ## Validation
 
-Follow the `repo-agent-governance` Testing Boundary: unit and isolated
-code/contract checks only; no synthetic debugging fixtures, provider/model
-evals or session replays. The user owns end-to-end voice/browser testing.
+Follow the `repo-agent-governance` Testing Boundary. Use unit and isolated
+code/contract checks.
 
 Validate registry/compliance consistency, channel exposure, resolver existence,
 schema closure, trusted-context rejection, preconditions, adapter purity,

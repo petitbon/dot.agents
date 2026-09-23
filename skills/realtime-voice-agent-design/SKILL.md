@@ -77,9 +77,7 @@ alternate path, or human escalation, never fabricated success.
 
 ## Required Validation
 
-Follow the `repo-agent-governance` Testing Boundary. Never create or run
-synthetic debugging fixtures, provider/model evals or conversation replays.
-The user owns end-to-end voice and browser testing.
+Follow the `repo-agent-governance` Testing Boundary.
 
 For behavior-changing prompt, tool, state, policy, or confirmation work:
 
@@ -90,8 +88,7 @@ For behavior-changing prompt, tool, state, policy, or confirmation work:
   before server confirmation;
 - cover ambiguity, unclear audio, missing fields, tool failure, and policy
   rejection;
-- keep permitted test evidence at the owning code or contract boundary; hand
-  live conversation verification to the user without blocking completed work.
+- keep permitted test evidence at the owning code or contract boundary.
 
 Report commands and evidence actually inspected.
 
