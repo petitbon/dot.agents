@@ -25,7 +25,7 @@ grounds for broad manuals.
 
 Large/frontier tasks require an explicit outcome, non-goals, touched areas,
 owners, validation, checkpoints, and reviewable evidence. Use
-`docs/task-checkpoint-template.md` or the nearest equivalent for interruptible
+`.agents/docs/task-checkpoint-template.md` or the nearest equivalent for interruptible
 work.
 
 ## Context And Handoffs

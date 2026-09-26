@@ -25,6 +25,18 @@ make_fixture() {
   cp "$AGGREGATOR_ROOT/AGENTS.md" "$fixture/AGENTS.md"
   cp "$AGGREGATOR_ROOT/WORKSPACE_CONTEXT.md" "$fixture/WORKSPACE_CONTEXT.md"
   cp "$AGGREGATOR_ROOT/skills-routing.md" "$fixture/skills-routing.md"
+  for source in \
+    docs/architecture/authentication-authorization-posture.md \
+    docs/architecture/current-state.md \
+    docs/architecture/realtime-capabilities.md \
+    docs/architecture/realtime-capability-compliance.json \
+    docs/audit/codex-audit-brief.md \
+    docs/rule-evidence-registry.md \
+    docs/sdk-consumers.json \
+    agentis-scripts-local/scripts/validate-service-auth-posture.ts; do
+    mkdir -p "$fixture/$(dirname "$source")"
+    cp "$AGGREGATOR_ROOT/$source" "$fixture/$source"
+  done
   mkdir -p "$fixture/sdks"
   for sdk_dir in "$AGGREGATOR_ROOT"/sdks/*; do
     [ -d "$sdk_dir" ] || continue
@@ -191,9 +203,22 @@ stale_realtime=$(make_fixture stale-realtime)
 printf '\nFor future booking realtime tools:\n' >> "$stale_realtime/.agents/skills/agentis-realtime-authority-layer/SKILL.md"
 expect_failure "stale realtime rollout guidance" "$stale_realtime" 'stale future-tool or fixed-phase guidance'
 
-stale_realtime_compliance=$(make_fixture stale-realtime-compliance)
-printf '\n- `docs/architecture/realtime-capability-compliance.md`;\n' >> "$stale_realtime_compliance/.agents/skills/agentis-realtime-authority-layer/SKILL.md"
-expect_failure "stale realtime compliance path" "$stale_realtime_compliance" 'retired compliance Markdown path'
+missing_bundled_reference=$(make_fixture missing-bundled-reference)
+rm "$missing_bundled_reference/.agents/skills/agentis-realtime-authority-layer/references/capability-runtime-rules.md"
+expect_failure "missing bundled reference" "$missing_bundled_reference" 'references missing file: references/capability-runtime-rules.md'
+
+missing_workspace_reference=$(make_fixture missing-workspace-reference)
+rm "$missing_workspace_reference/docs/architecture/realtime-capability-compliance.json"
+expect_failure "missing workspace reference" "$missing_workspace_reference" 'references missing file: docs/architecture/realtime-capability-compliance.json'
+
+missing_nested_reference=$(make_fixture missing-nested-reference)
+printf '\n[Missing source](missing-source.md)\n' >> "$missing_nested_reference/.agents/skills/agentis-realtime-authority-layer/references/capability-runtime-rules.md"
+expect_failure "missing link in supporting guide" "$missing_nested_reference" 'references/capability-runtime-rules.md:[0-9]+ references missing file: missing-source.md'
+
+missing_local_reference=$(make_fixture missing-local-reference)
+rm "$missing_local_reference/WORKSPACE_CONTEXT.md"
+printf '\n- `.agents/docs/missing-source.md`\n' >> "$missing_local_reference/.agents/skills/repo-agent-governance/SKILL.md"
+expect_failure "missing local reference in standalone checkout" "$missing_local_reference" 'references missing file: .agents/docs/missing-source.md'
 
 unsafe_source_precedence=$(make_fixture unsafe-source-precedence)
 replace_file "$unsafe_source_precedence/.agents/skills/domain-event-architecture/references/architecture-source-and-workflow.md" '/untrusted until/d'

@@ -35,7 +35,9 @@ require_contains() {
   file=$1
   pattern=$2
   label=$3
-  if [ -f "$file" ] && ! grep -Eq "$pattern" "$file"; then
+  if [ ! -f "$file" ]; then
+    error "missing required file: $file"
+  elif ! grep -Eq "$pattern" "$file"; then
     error "$file missing required reference: $label"
   fi
 }
@@ -139,11 +141,6 @@ for dir in skills/*; do
       error "$skill_file contains unresolved TODO/TBD/FIXME guidance"
     fi
 
-    refs=$(grep -Eo 'references/[A-Za-z0-9._/-]+' "$skill_file" | sort -u || true)
-    for ref in $refs; do
-      [ -e "$dir/$ref" ] || error "$skill_file references missing path: $ref"
-    done
-
     if [ -f README.md ] && ! grep -Fq "| \`$skill\`" README.md; then
       error "README.md inventory missing skill: $skill"
     fi
@@ -160,6 +157,11 @@ for dir in skills/*; do
     esac
   fi
 done
+
+require_file scripts/validate-skill-references.py
+if [ -f scripts/validate-skill-references.py ]; then
+  python3 scripts/validate-skill-references.py || fail=1
+fi
 
 [ "$description_total" -le "$MAX_TOTAL_DESCRIPTION_CHARS" ] ||
   error "skill descriptions total $description_total chars; exceeds $MAX_TOTAL_DESCRIPTION_CHARS"
@@ -203,9 +205,6 @@ require_contains skills/agentis-engineering-doctrine/references/proportional-des
 require_contains skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md 'Do not split reads and writes into separate microservices' "read/write microservice split guard"
 require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not trigger for ordinary implementation, planning, or' "doctrine implicit-routing exclusion"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.json' "canonical realtime compliance JSON path"
-if grep -Fq 'docs/architecture/realtime-capability-compliance.md' skills/agentis-realtime-authority-layer/SKILL.md; then
-  error "realtime authority skill references the retired compliance Markdown path"
-fi
 if grep -Eq 'For future booking realtime tools|Recommended phase order' skills/agentis-realtime-authority-layer/SKILL.md; then
   error "realtime authority skill contains stale future-tool or fixed-phase guidance"
 fi

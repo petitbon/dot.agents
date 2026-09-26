@@ -6,6 +6,9 @@ Run validation from the repository root:
 ./scripts/validate-skills.sh
 ```
 
+Requires Python 3.9 or newer; the file reference checker uses only its standard
+library.
+
 When changing the validator or a mechanically enforced semantic guard, run its
 temporary-fixture regression suite first:
 
@@ -25,7 +28,7 @@ The script verifies:
 - general `SKILL.md` files stay within 8,000 bytes and the doctrine, domain
   architecture and Node runtime routers stay within 6,144 bytes;
 - declared phase-specific skill/reference bundles stay within 16,384 bytes;
-- bundled `references/...` paths mentioned by a skill exist;
+- concrete file references in every skill entrypoint and supporting guide exist;
 - generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
 - the SDK release skill and SDK repository guidance do not allow or present
   local publishing; publishing stays owned by declared GitHub Actions workflows;
@@ -51,6 +54,20 @@ Manual review still matters for semantic changes outside the targeted hard
 guards. For skill content edits, confirm that routing remains precise, broad
 skills do not over-trigger, and domain-specific invariants still live in the
 owning skill or reference.
+
+`scripts/validate-skill-references.py` resolves inline `references/...` paths
+from the owning skill, `.agents/...` paths from this repository, and
+`docs/...`, `agentis-*/...`, `sdks/...`, `services/...`, and `web/...` paths
+from the Agentis workspace. Markdown links resolve relative to their source
+file. Other concrete inline paths resolve relative to their source file.
+URLs, package names, contextual filenames, commands, and paths containing
+placeholders or globs are not required files. Use a placeholder such as
+`<sdk-repo>/...` for a future output in an affected repository.
+
+A standalone checkout reports workspace references as skipped and still checks
+bundled and `.agents/...` references. Run inside the Agentis workspace to check
+all sources. The shell validator also fails when a required semantic-check
+input is missing.
 
 For durable agent-harness guarantees, update `rule-evidence-registry.md` so the
 rule has an owner, source, evidence path, and enforcement level. For large or

@@ -1,6 +1,6 @@
 # SDK Release Evidence
 
-For every SDK release, replace `docs/releases/current.md` when the repository
+For every SDK release, replace `<sdk-repo>/docs/releases/current.md` when the repository
 has a docs location for release records. The release request authorizes this
 current-evidence rotation, not a change to numeric documentation limits. Do
 not create version-named release-note files; Git history and GitHub Releases
