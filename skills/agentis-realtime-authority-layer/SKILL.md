@@ -37,7 +37,6 @@ Load only the relevant current sources:
 
 - `docs/architecture/current-state.md`;
 - `docs/architecture/realtime-capabilities.md`;
-- `docs/architecture/realtime-capability-compliance.md`;
 - `docs/architecture/realtime-capability-compliance.json`;
 - `docs/architecture/authentication-authorization-posture.md` when auth or
   trusted context changes;

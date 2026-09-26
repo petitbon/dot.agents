@@ -202,8 +202,10 @@ require_contains skills/agentis-engineering-doctrine/references/proportional-des
 require_contains skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md 'speculative scale' "premature-optimization guard"
 require_contains skills/agentis-engineering-doctrine/references/proportional-design-and-control-smells.md 'Do not split reads and writes into separate microservices' "read/write microservice split guard"
 require_contains skills/agentis-engineering-doctrine/SKILL.md 'Do not trigger for ordinary implementation, planning, or' "doctrine implicit-routing exclusion"
-require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.md' "canonical realtime compliance Markdown path"
 require_contains skills/agentis-realtime-authority-layer/SKILL.md 'docs/architecture/realtime-capability-compliance\.json' "canonical realtime compliance JSON path"
+if grep -Fq 'docs/architecture/realtime-capability-compliance.md' skills/agentis-realtime-authority-layer/SKILL.md; then
+  error "realtime authority skill references the retired compliance Markdown path"
+fi
 if grep -Eq 'For future booking realtime tools|Recommended phase order' skills/agentis-realtime-authority-layer/SKILL.md; then
   error "realtime authority skill contains stale future-tool or fixed-phase guidance"
 fi

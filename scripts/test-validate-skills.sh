@@ -191,6 +191,10 @@ stale_realtime=$(make_fixture stale-realtime)
 printf '\nFor future booking realtime tools:\n' >> "$stale_realtime/.agents/skills/agentis-realtime-authority-layer/SKILL.md"
 expect_failure "stale realtime rollout guidance" "$stale_realtime" 'stale future-tool or fixed-phase guidance'
 
+stale_realtime_compliance=$(make_fixture stale-realtime-compliance)
+printf '\n- `docs/architecture/realtime-capability-compliance.md`;\n' >> "$stale_realtime_compliance/.agents/skills/agentis-realtime-authority-layer/SKILL.md"
+expect_failure "stale realtime compliance path" "$stale_realtime_compliance" 'retired compliance Markdown path'
+
 unsafe_source_precedence=$(make_fixture unsafe-source-precedence)
 replace_file "$unsafe_source_precedence/.agents/skills/domain-event-architecture/references/architecture-source-and-workflow.md" '/untrusted until/d'
 expect_failure "unsafe architecture source precedence" "$unsafe_source_precedence" 'untrusted plan/design-note guard'
