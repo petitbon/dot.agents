@@ -5,28 +5,33 @@ evaluation, booking tools, currentness, finalization, or evidence.
 
 ## Rules Placement
 
-Booking Workflow supplies Scheduling candidates and owned facts to Rules. Rules
-may deterministically filter, rank, select, and explain using versioned policy.
-Return policy identity/version, evaluation and input hashes, candidate-set hash,
-selected/ranked options, and reason trace.
+Rules compiles and publishes immutable policy snapshots. Booking projects the
+activated snapshot, pins it to each proposal, and evaluates Scheduling candidates
+and owned facts locally with the shared pure policy kernel. Preserve snapshot
+provenance, evaluation and input hashes, candidate-set hash, selected/ranked
+options, and reason trace. Rules is not on the synchronous search or commit path.
 
 Rules must not create availability, mutate appointments, bypass Booking
 Workflow, infer facts from prose, or own Salon Config/Scheduling truth.
 
 ```text
 find_bookable_options -> Authority Runtime -> Booking Workflow
-  -> Scheduling candidates -> Clients facts -> Rules evaluation
+  -> Scheduling candidates -> Clients facts -> local pinned-policy evaluation
   -> Booking proposal -> grounded realtime result
 ```
 
-A Rules-selected option is a proposal decision, not a booking.
+A policy-selected option is a proposal decision, not a booking.
 
 ## Current Booking Tools
 
 - `find_bookable_options` may create or update a proposal, never an appointment.
-- `commit_booking` requires active proposal identity and revision, current
-  explicit confirmation, idempotency, fresh policy/candidate facts, Scheduling
-  write success, terminal operation state, and evidence.
+- `respond_to_proposal` discriminates ACCEPT, DECLINE, and SELECT. ACCEPT
+  requires current owner confirmation, complete bound delivery, fresh caller
+  acceptance, and authority-scoped idempotency. Booking commits the pinned plan;
+  it does not rerun search or policy evaluation/currentness. Scheduling validates
+  current write-time facts. Success requires terminal owner state and evidence.
+- DECLINE closes the exact owner confirmation without requiring delivered
+  readback. SELECT continues a scoped choice and cannot authorize a write.
 - Material constraint changes invalidate proposals and pending confirmation.
 - Stale, expired, conflicted, superseded, or transcript-only proposals fail
   closed.

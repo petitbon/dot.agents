@@ -81,7 +81,8 @@ truth.
 - Clients owns caller identity, profiles, and provider preference/continuity.
 - Scheduling owns availability, appointments, slot locks, and capacity metrics.
 - Salon Config owns location, catalog, provider, offer, and configured facts.
-- Rules owns compiled rule products and deterministic policy evaluation.
+- Rules owns compiled policy snapshots; Booking pins and evaluates them locally
+  through the shared pure policy kernel.
 - Booking Workflow owns proposals, confirmation, operations, commit
   orchestration, conflict recovery, and booking-local evidence.
 - Session Ledger owns lifecycle, transcripts, observations, dependency
@@ -96,7 +97,7 @@ code/contract checks.
 Validate registry/compliance consistency, channel exposure, resolver existence,
 schema closure, trusted-context rejection, preconditions, adapter purity,
 idempotency, stale-state handling, authority finalization, evidence, and docs
-freshness. For Rules, prove deterministic evaluation over supplied Scheduling
+freshness. For policy execution, prove deterministic evaluation over supplied Scheduling
 candidates without synthesized availability.
 
 Report commands actually run and results actually inspected.
