@@ -19,7 +19,7 @@ workflows.
 
 ## Discover And Update Consumers
 
-Use `docs/sdk-consumers.json` when present. If missing, stale, or incomplete,
+Use `docs/contracts/sdk-consumers.json` when present. If missing, stale, or incomplete,
 verify against dependency declarations and update the inventory in the same
 change. Inspect `dependencies`, `devDependencies`, `peerDependencies`, workspace
 manifests, and deployment/build manifests that directly declare the package.

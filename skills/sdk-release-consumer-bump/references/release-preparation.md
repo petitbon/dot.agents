@@ -4,7 +4,7 @@
 
 Inspect the smallest relevant set: SDK `package.json`, workspace manifests and
 lockfiles, publish workflows, README/runbooks, nested `AGENTS.md`, and
-`docs/sdk-consumers.json` when present. Determine package name and current
+`docs/contracts/sdk-consumers.json` when present. Determine package name and current
 version, registry, publish path, validation commands, standalone/workspace
 status, consumer inventory, and dependency ranges. Do not infer missing facts.
 

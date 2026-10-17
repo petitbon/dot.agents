@@ -30,9 +30,9 @@ make_fixture() {
     docs/architecture/current-state.md \
     docs/architecture/realtime-capabilities.md \
     docs/architecture/realtime-capability-compliance.json \
-    docs/audit/codex-audit-brief.md \
-    docs/rule-evidence-registry.md \
-    docs/sdk-consumers.json \
+    docs/governance/audit-brief.md \
+    docs/governance/rules.md \
+    docs/contracts/sdk-consumers.json \
     agentis-scripts-local/scripts/validate-service-auth-posture.ts; do
     mkdir -p "$fixture/$(dirname "$source")"
     cp "$AGGREGATOR_ROOT/$source" "$fixture/$source"

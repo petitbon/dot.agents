@@ -81,7 +81,7 @@ rules that should become repository checks. Prefer fewer, sharper skills.
 ## Rule Evidence Registry
 
 When adding or changing a durable governance rule, update
-`docs/rule-evidence-registry.md` or the repository equivalent with owner,
+`docs/governance/rules.md` or the repository equivalent with owner,
 source, evidence command/artifact, and enforcement level.
 
 ## Testing Boundary

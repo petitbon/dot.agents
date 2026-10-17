@@ -12,7 +12,7 @@ Record and report:
 - SDK validation commands/results and skipped checks with reasons;
 - publish trigger, exact commit SHA, GitHub Actions run, and registry check;
 - consumers and lockfiles updated, their validation commands/results, and any
-  change to `docs/sdk-consumers.json`;
+  change to `docs/contracts/sdk-consumers.json`;
 - release evidence note path, blocker classification, and remaining follow-up.
 
 Report unavailable evidence explicitly. Do not report a package as published

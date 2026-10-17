@@ -19,7 +19,7 @@ admission, resolver routing, finalization, and evidence policy.
 Load the sources relevant to the auth surface before findings or edits:
 
 - `docs/architecture/authentication-authorization-posture.md`
-- `docs/audit/codex-audit-brief.md` for cross-service auth ownership or boundaries
+- `docs/governance/audit-brief.md` for cross-service auth ownership or boundaries
 - `references/flat-internal-trust-posture.md` when details beyond the root doc are needed
 - the affected service `AGENTS.md` and README, then the deploy workflow or auth
   source files relevant to the task
