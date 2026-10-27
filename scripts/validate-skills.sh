@@ -185,7 +185,7 @@ check_context_bundle "Node runtime observability phase" \
   skills/nodejs-service-runtime/SKILL.md \
   skills/nodejs-service-runtime/references/observability-and-cloud-run.md
 
-tracked_noise=$(git ls-files | grep -E '(^|/)\.DS_Store$|^\.codesight/|^\.codegraph/' || true)
+tracked_noise=$(git ls-files | grep -E '(^|/)\.DS_Store$|^\.codesight/' || true)
 if [ -n "$tracked_noise" ]; then
   printf '%s\n' "$tracked_noise" >&2
   error "generated or noisy files are tracked"

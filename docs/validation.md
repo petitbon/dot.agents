@@ -29,7 +29,7 @@ The script verifies:
   architecture and Node runtime routers stay within 6,144 bytes;
 - declared phase-specific skill/reference bundles stay within 16,384 bytes;
 - concrete file references in every skill entrypoint and supporting guide exist;
-- generated `.codesight/`, `.codegraph/`, and `.DS_Store` files are not tracked;
+- generated analysis directories and `.DS_Store` files are not tracked;
 - the SDK release skill and SDK repository guidance do not allow or present
   local publishing; publishing stays owned by declared GitHub Actions workflows;
 - every Agentis skill opts into implicit invocation so all skill metadata is

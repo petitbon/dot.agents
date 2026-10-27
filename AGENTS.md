@@ -39,7 +39,7 @@ source map.
 
 - Never allow local SDK publishing. Agentis SDK publishing is owned by GitHub
   Actions.
-- Do not commit generated analysis output or local CodeGraph data.
+- Do not commit generated analysis output or local index data.
 - Do not commit `.DS_Store`, dependency folders, caches, or local secrets.
 - Model-specific prompt guidance must point to current official docs or owning
   runtime contracts when model behavior could have changed.
