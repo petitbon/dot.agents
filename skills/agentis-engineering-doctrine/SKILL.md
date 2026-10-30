@@ -43,9 +43,10 @@ side effects.
    policy, dependencies, or invariants are uncertain.
 4. Fail hard instead of returning degraded, guessed, swallowed, or fabricated
    success.
-5. Use a bounded maintenance-window cutover; do not add runtime migrations,
-   startup repair, rollback paths, feature flags, compatibility shims,
-   dual-read/write, bridges, or failover architecture unless requested.
+5. Use a bounded maintenance-window cutover with real traffic shut down. Do not
+   design for requests or messages in flight across deployment, or add runtime
+   migrations, startup repair, rollback paths, feature flags, compatibility
+   shims, dual-read/write, bridges, or failover architecture unless requested.
 6. Isolate domain logic from frameworks, transport, persistence, providers, and
    UI plumbing.
 7. Prefer deletion, direct control flow, narrow APIs, fewer moving parts, and

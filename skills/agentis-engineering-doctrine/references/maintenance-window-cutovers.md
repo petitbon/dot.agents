@@ -5,11 +5,15 @@ Use this reference when planning deployment of a code or architecture change.
 ## Cutover Plan
 
 Structure deployment as a maintenance-window cutover to the current target
-state. Identify:
+state. The environment is temporarily shut down from real traffic for code,
+infrastructure, architecture, contract, and other changes. Assume no real
+requests or messages are in flight across upgrades or deployments; do not add
+transition handling for them. Persisted data still requires owner-defined
+cutover and validation. Identify:
 
 - preconditions, required authority, and the exact deployment scope;
 - deployment and execution order;
-- any required write pause or traffic quiescence;
+- shutdown preconditions and any required write pause;
 - cutover actions and explicit failure boundaries;
 - validation and reopening criteria.
 

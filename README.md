@@ -3,6 +3,13 @@
 This repository stores Agentis-specific Codex skills. It is a governance and
 instruction repository, not a runtime service.
 
+## Change environment
+
+Agentis changes are made with the environment temporarily shut down from real
+traffic. Skills should not require handling requests or messages in flight
+across upgrades or deployments. Preserve owner-defined data safeguards and
+validate the target state before traffic resumes.
+
 ## Inventory
 
 | Skill | Primary ownership | Implicit invocation |

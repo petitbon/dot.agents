@@ -7,7 +7,8 @@ description: "Use for current-only SDK/DTO/schema/parser contracts and compatibi
 
 Keep one authoritative contract in code and on the wire. Change consumers with
 the contract instead of preserving retired names, selectors, adapters, readers,
-or migrations.
+or migrations. Environments are temporarily shut down from real traffic during
+changes, so contract upgrades do not need to handle requests or messages in flight.
 
 ## Classify Before Editing
 

@@ -59,8 +59,9 @@ Never recommend or implement:
 
 Transport resilience is valid only when it does not mask domain failure or
 invent facts. Deployed architecture changes use the doctrine-owned
-maintenance-window cutover; persisted-data work uses the owning
-`agentis-scripts-local` command and post-run validation.
+maintenance-window cutover with real traffic shut down; do not design for
+requests or messages in flight across deployment. Persisted-data work uses the
+owning `agentis-scripts-local` command and post-run validation.
 
 ## Required Outcome
 
