@@ -26,6 +26,14 @@ manifests, and deployment/build manifests that directly declare the package.
 Do not guess external repos or replace `workspace:*` or `workspace:^` with
 registry ranges.
 
+For the realtime runtime SDK, generate and check `sdks/agentis-realtime-sdk/docs/releases/current-impact.json`
+with its `sdks/agentis-realtime-sdk/scripts/release-impact.mjs`. The registry's `IMPORTED_SUBPATHS` policy
+computes required consumers from imported exports and cumulative release history;
+computed module loading conservatively requires all exports. Run the existing
+consumer validator; do not choose required consumers by release-time judgment.
+Exact pins and impact-based semver remain. The separate realtime evidence SDK
+retains all-consumers-equal because it owns the wire contract.
+
 For each in-scope consumer, inspect its local instructions, update its manifest
 while preserving range style, refresh its lockfile with its package manager,
 and run its declared validation. Do not change import sites for a manifest-only

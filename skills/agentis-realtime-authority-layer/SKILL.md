@@ -87,7 +87,13 @@ truth.
   orchestration, conflict recovery, and booking-local evidence.
 - Session Ledger owns lifecycle, transcripts, observations, dependency
   evidence, debug bundles, and audit events—not business authorization.
-- Realtime adapters own transport and provider session mechanics only.
+- SDK runtime-core owns instance-scoped worker, lease, effect and observation
+  outbox coordination through explicit clock, scheduler, identifier and IO ports.
+  No module-level mutable state, provider handles, transport or concrete storage.
+  The core lease uses the chat seam; phone Live lifecycle composes over it.
+- Realtime adapters own transport, provider session mechanics and concrete IO.
+- The independent evidence SDK owns tolerant diagnostic ingestion and strict
+  identity/correlation; Human Follow-up reference codecs carry no command authority.
 
 ## Validation
 
